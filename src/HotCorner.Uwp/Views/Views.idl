@@ -1,0 +1,6 @@
+namespace HotCorner.Uwp.Views {
+	[default_interface]
+	runtimeclass MainPage : Windows.UI.Xaml.Controls.UserControl {
+		MainPage();
+	}
+}
