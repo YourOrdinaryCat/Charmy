@@ -5,7 +5,7 @@ export module server;
 
 namespace server {
 	export template<typename T>
-		struct class_factory final : winrt::implements<class_factory<T>, IClassFactory>
+		struct class_factory : winrt::implements<class_factory<T>, IClassFactory>
 	{
 		class_factory() = default;
 
@@ -18,7 +18,7 @@ namespace server {
 			if (pUnkOuter)
 				return CLASS_E_NOAGGREGATION;
 
-			return winrt::make<T>.as(iid, ppvObject);
+			return winrt::make<T>().as(iid, ppvObject);
 		}
 
 		HRESULT __stdcall LockServer(int) noexcept final {
@@ -70,7 +70,7 @@ namespace server {
 			DWORD* cookie) noexcept
 	{
 		return CoRegisterClassObject(
-			T::CoClassId(),
+			__uuidof(T),
 			winrt::make<class_factory<T>>().get(),
 			context,
 			flags,
