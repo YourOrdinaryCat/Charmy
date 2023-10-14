@@ -8,6 +8,9 @@
     <ClCompile Include="server.ixx">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="instance_info.ixx">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
