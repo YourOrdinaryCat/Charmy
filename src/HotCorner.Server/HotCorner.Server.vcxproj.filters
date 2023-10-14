@@ -8,22 +8,35 @@
     <ClCompile Include="server.ixx">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="Tray\TrayIcon.cpp">
+      <Filter>Tray</Filter>
+    </ClCompile>
     <ClCompile Include="instance_info.ixx">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Tray\TrayIcon.h">
+      <Filter>Tray</Filter>
+    </ClInclude>
     <ClInclude Include="Tray\WindowClass.h">
+      <Filter>Tray</Filter>
+    </ClInclude>
+    <ClInclude Include="Tray\WindowBase.h">
       <Filter>Tray</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
       <UniqueIdentifier>{79499d47-aa9a-4c64-837d-f984be185b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tray">
+      <UniqueIdentifier>{df42bb69-009b-4e3e-9942-496831c3fbfc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

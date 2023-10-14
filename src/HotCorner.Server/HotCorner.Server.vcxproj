@@ -120,6 +120,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Tray\TrayIcon.h" />
+    <ClInclude Include="Tray\WindowBase.h" />
     <ClInclude Include="Tray\WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +131,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="server.ixx" />
+    <ClCompile Include="Tray\TrayIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
