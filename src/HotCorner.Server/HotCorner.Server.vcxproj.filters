@@ -11,7 +11,7 @@
     <ClCompile Include="Tray\TrayIcon.cpp">
       <Filter>Tray</Filter>
     </ClCompile>
-    <ClCompile Include="instance_info.ixx">
+    <ClCompile Include="LifetimeManager.cpp">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
@@ -25,6 +25,9 @@
     </ClInclude>
     <ClInclude Include="Tray\WindowBase.h">
       <Filter>Tray</Filter>
+    </ClInclude>
+    <ClInclude Include="LifetimeManager.h">
+      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Server</Filter>
@@ -41,5 +44,10 @@
     <Filter Include="Tray">
       <UniqueIdentifier>{df42bb69-009b-4e3e-9942-496831c3fbfc}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Server.idl">
+      <Filter>Server</Filter>
+    </Midl>
   </ItemGroup>
 </Project>

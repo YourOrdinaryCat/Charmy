@@ -1,0 +1,10 @@
+namespace HotCorner.Server{
+	[default_interface]
+	runtimeclass LifetimeManager {
+		void TrackHotCorners();
+		void StopTracking();
+
+		void ShowTrayIcon();
+		void HideTrayIcon();
+	}
+}

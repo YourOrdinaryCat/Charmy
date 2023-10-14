@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package
 	xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+	xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
 	xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
 	xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
 	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
@@ -39,6 +40,32 @@
 				<uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
 				<uap:SplashScreen Image="Images\SplashScreen.png" uap5:Optional="true" />
 			</uap:VisualElements>
+		</Application>
+
+		<Application
+			Id="HotCorner.Server"
+			Executable="HotCorner.Server\HotCorner.Server.exe"
+			EntryPoint="Windows.FullTrustApplication">
+			<uap:VisualElements
+				DisplayName="Charmy's FullTrust Server"
+				Description="The FullTrust component used by Charmy"
+				BackgroundColor="transparent"
+				Square150x150Logo="Images\Square150x150Logo.png"
+				Square44x44Logo="Images\Square44x44Logo.png"
+				AppListEntry="none" />
+
+			<Extensions>
+				<com:Extension Category="windows.comServer">
+					<com:ComServer>
+						<com:ExeServer
+							Executable="HotCorner.Server\HotCorner.Server.exe"
+							DisplayName="Charmy's FullTrust Server"
+							LaunchAndActivationPermission="O:SYG:SYD:(A;;11;;;WD)(A;;11;;;RC)(A;;11;;;AC)(A;;11;;;AN)S:P(ML;;NX;;;S-1-16-0)">
+							<com:Class Id="898F12B7-4BB0-4279-B3B1-126440D7CB7A" DisplayName="LifetimeManager" />
+						</com:ExeServer>
+					</com:ComServer>
+				</com:Extension>
+			</Extensions>
 		</Application>
 	</Applications>
 
