@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Tray\WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="instance_info.ixx" />

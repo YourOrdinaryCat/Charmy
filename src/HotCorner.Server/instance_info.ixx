@@ -5,7 +5,7 @@ export module instance_info;
 
 namespace instance_info {
 	namespace {
-		HINSTANCE m_curr;
+		static HINSTANCE m_curr{};
 	}
 
 	export inline void set(HINSTANCE instance) noexcept {
