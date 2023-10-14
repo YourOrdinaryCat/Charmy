@@ -26,6 +26,9 @@
     <ClInclude Include="Tray\WindowBase.h">
       <Filter>Tray</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />

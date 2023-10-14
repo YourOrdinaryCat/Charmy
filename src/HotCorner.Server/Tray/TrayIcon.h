@@ -26,7 +26,7 @@ namespace winrt::HotCorner::Server {
 			LPARAM lParam) noexcept override final;
 
 	public:
-		TrayIcon(const guid id) noexcept;
+		TrayIcon(HINSTANCE instance, const guid id) noexcept;
 		~TrayIcon() noexcept;
 
 		/**

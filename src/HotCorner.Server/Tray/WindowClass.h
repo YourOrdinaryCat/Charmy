@@ -1,7 +1,5 @@
 #pragma once
 
-import instance_info;
-
 namespace winrt::HotCorner::Server {
 	/**
 	 * @brief A light wrapper for a Win32 window class.
@@ -12,12 +10,12 @@ namespace winrt::HotCorner::Server {
 		ATOM cookie;
 
 	public:
-		WindowClass(std::wstring_view name, WNDPROC procedure, int extra = 0) noexcept :
+		WindowClass(HINSTANCE instance, std::wstring_view name, WNDPROC procedure, int extra = 0) noexcept :
 			cls({
 				.cbSize = sizeof(WNDCLASSEX),
 				.lpfnWndProc = procedure,
 				.cbWndExtra = extra,
-				.hInstance = instance_info::current_instance(),
+				.hInstance = instance,
 				.lpszClassName = name.data()
 				}
 			),

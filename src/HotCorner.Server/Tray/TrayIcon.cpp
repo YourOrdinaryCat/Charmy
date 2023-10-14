@@ -4,8 +4,8 @@
 #pragma comment(lib, "Shell32.lib")
 
 namespace winrt::HotCorner::Server {
-	TrayIcon::TrayIcon(const guid id) noexcept :
-		WindowBase(winrt::to_hstring(id), L"NotifyIconHost"),
+	TrayIcon::TrayIcon(HINSTANCE instance, const guid id) noexcept :
+		WindowBase(instance, winrt::to_hstring(id), L"NotifyIconHost"),
 		m_id(id),
 		m_data{
 			.cbSize = sizeof(m_data),

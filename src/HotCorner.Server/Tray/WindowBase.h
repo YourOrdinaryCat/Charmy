@@ -1,8 +1,6 @@
 #pragma once
 #include "WindowClass.h"
 
-#include <future>
-
 namespace winrt::HotCorner::Server {
 	/**
 	 * @brief A light wrapper for a Win32 window with a message handler.
@@ -54,8 +52,8 @@ namespace winrt::HotCorner::Server {
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
 
-		WindowBase(std::wstring_view windowClass, std::wstring_view windowName) noexcept :
-			m_windowClass(windowClass, &WindowBase::BaseProtocol, sizeof(this)),
+		WindowBase(HINSTANCE instance, std::wstring_view windowClass, std::wstring_view windowName) noexcept :
+			m_windowClass(instance, windowClass, &WindowBase::BaseProtocol, sizeof(this)),
 			m_window(CreateWindow(
 				m_windowClass.ClassAtom(),
 				windowName.data(),
