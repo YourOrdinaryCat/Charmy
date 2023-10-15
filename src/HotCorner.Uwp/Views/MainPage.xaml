@@ -12,9 +12,14 @@
         Spacing="8">
         <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Welcome to Charmy!" />
         <Button
-            x:Name="MyButton"
+            x:Name="StartButton"
             HorizontalAlignment="Center"
-            Click="ClickHandler"
-            Content="Click Me" />
+            Click="StartHandler"
+            Content="Start" />
+        <Button
+            x:Name="StopButton"
+            HorizontalAlignment="Center"
+            Click="StopHandler"
+            Content="Stop" />
     </StackPanel>
 </UserControl>

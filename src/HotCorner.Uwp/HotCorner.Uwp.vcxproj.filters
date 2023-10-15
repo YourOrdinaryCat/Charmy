@@ -6,9 +6,15 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Server\Lifetime.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Server\Lifetime.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -42,6 +48,9 @@
     </Filter>
     <Filter Include="Views">
       <UniqueIdentifier>{1b3d3152-68ee-45ff-aedd-fcf101422473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{0179526b-5991-4242-b76f-4ebd145321e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

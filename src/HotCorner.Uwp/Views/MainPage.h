@@ -13,7 +13,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			// See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
 		}
 
-		void ClickHandler(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void StartHandler(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void StopHandler(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 	};
 }
 
