@@ -34,6 +34,8 @@ namespace winrt::HotCorner::Server {
 
 	protected:
 		const WindowClass m_windowClass;
+
+		bool m_closed = false;
 		HWND m_window;
 
 		/**
@@ -75,7 +77,8 @@ namespace winrt::HotCorner::Server {
 		}
 
 		virtual ~WindowBase() noexcept {
-			Close();
+			if (!m_closed)
+				Close();
 		}
 
 	public:
@@ -86,11 +89,11 @@ namespace winrt::HotCorner::Server {
 			MSG msg;
 			BOOL state;
 
-			while ((state = GetMessage(&msg, m_window, 0, 0)) != 0) {
+			while ((state = GetMessage(&msg, nullptr, 0, 0)) != 0) {
 				if (state == -1) [[unlikely]] {
 					//TODO: Handle failure
 					OutputDebugString(L"Unspecified failure in window message loop\n");
-					continue;
+					break;
 				}
 				else {
 					TranslateMessage(&msg);
@@ -105,10 +108,16 @@ namespace winrt::HotCorner::Server {
 		 * @brief Closes the window by sending WM_CLOSE. Usually, this results
 		 *        in destruction of the window.
 		*/
-		void Close() const noexcept {
-			if (!PostMessage(m_window, WM_CLOSE, 0, 0)) {
+		void Close() noexcept {
+			const BOOL result = PostMessage(m_window, WM_CLOSE, 0, 0);
+
+			// If posting WM_CLOSE is successful, the window did not actually close
+			if (result) {
 				//TODO: Handle failure
-				OutputDebugString(L"Failed to destroy window\n");
+				OutputDebugString(L"Failed to close window\n");
+			}
+			else {
+				m_closed = true;
 			}
 		}
 	};
