@@ -22,7 +22,7 @@ namespace winrt::HotCorner::Uwp::implementation {
 #endif
 	}
 
-	void App::OnLaunched(const wama::LaunchActivatedEventArgs& args) const {
+	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
 		const auto window = wux::Window::Current();
 		if (!window.Content())
 			window.Content(winrt::make<views::MainPage>());
