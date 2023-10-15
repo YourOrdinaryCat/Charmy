@@ -22,7 +22,9 @@ namespace winrt::HotCorner::Server::implementation {
 	void LifetimeManager::StopTracking() noexcept {
 		if (m_tracking) {
 			m_tracking = false;
-			server::release_ref();
+			if (server::release_ref() == 0) {
+				Current::Notification().Close();
+			}
 
 			//TODO: Actually implement hot corners
 		}

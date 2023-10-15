@@ -28,8 +28,6 @@ namespace server {
 
 	namespace {
 		std::atomic_uint64_t clients;
-		std::condition_variable shutdown_condition;
-		std::mutex shutdown_mutex;
 
 		template<auto Start, auto End, auto Inc, class F>
 		constexpr void constexpr_for(F&& f) {
@@ -115,18 +113,13 @@ namespace server {
 		return clients;
 	}
 
-	export void add_ref() noexcept {
+	export uint64_t add_ref() noexcept {
 		clients = CoAddRefServerProcess();
+		return clients;
 	}
 
-	export void release_ref() noexcept {
+	export uint64_t release_ref() noexcept {
 		clients = CoReleaseServerProcess();
-		if (clients == 0)
-			shutdown_condition.notify_all();
-	}
-
-	export void wait() noexcept {
-		std::unique_lock<std::mutex> lock(shutdown_mutex);
-		shutdown_condition.wait(lock);
+		return clients;
 	}
 }
