@@ -10,18 +10,26 @@ namespace impl = winrt::HotCorner::Server::implementation;
 namespace inst = winrt::HotCorner::Server::Current;
 
 namespace winrt::HotCorner::Server::Current {
+	namespace {
+		HINSTANCE m_instance{};
+	}
+
+	void SetModule(HINSTANCE instance) {
+		m_instance = instance;
+	}
+
 	HINSTANCE Module() noexcept {
-		static auto m_curr = GetModuleHandle(NULL);
-		return m_curr;
+		return m_instance;
 	}
 
 	srv::TrayIcon& Notification() noexcept {
-		static auto m_trayIcon = srv::TrayIcon(Module(), __uuidof(IUnknown));
+		static auto m_trayIcon = srv::TrayIcon(m_instance, __uuidof(IUnknown));
 		return m_trayIcon;
 	}
 }
 
-int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
+int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
+	inst::SetModule(instance);
 	winrt::init_apartment();
 
 	const auto cookies = server::register_classes<impl::LifetimeManager>();
