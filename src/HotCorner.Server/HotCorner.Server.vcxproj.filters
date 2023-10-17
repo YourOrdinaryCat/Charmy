@@ -32,6 +32,9 @@
     <ClInclude Include="main.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="Resources\resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -44,10 +47,21 @@
     <Filter Include="Tray">
       <UniqueIdentifier>{df42bb69-009b-4e3e-9942-496831c3fbfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{d42e33d6-4aa6-43e8-8f6f-132cf0906223}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Server.idl">
       <Filter>Server</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\HotCorner.rc2">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="Resources\language\HotCorner.en-US.rc2">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -2,12 +2,14 @@
 #include "LifetimeManager.h"
 
 #include "main.h"
+#include "Resources/resource.h"
 
 import server;
 
 namespace winrt::HotCorner::Server::implementation {
 	LifetimeManager::LifetimeManager() noexcept {
-		Current::Notification().UpdateToolTip(L"HotCorner");
+		const auto tip = Resources::GetString<128>(Current::Module(), IDS_TRAY_TOOLTIP);
+		Current::Notification().UpdateToolTip(tip.data());
 	}
 
 	void LifetimeManager::TrackHotCorners() noexcept {

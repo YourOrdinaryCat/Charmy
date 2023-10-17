@@ -122,6 +122,7 @@
     <ClInclude Include="LifetimeManager.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Resources\resource.h" />
     <ClInclude Include="Tray\TrayIcon.h" />
     <ClInclude Include="Tray\WindowBase.h" />
     <ClInclude Include="Tray\WindowClass.h" />
@@ -138,6 +139,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="PropertySheet.props" />
+    <ResourceCompile Include="Resources\language\HotCorner.en-US.rc2">
+      <FileType>RC</FileType>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\HotCorner.rc2" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Server.idl" />
