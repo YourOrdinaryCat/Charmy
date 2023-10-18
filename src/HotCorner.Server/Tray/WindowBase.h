@@ -26,8 +26,9 @@ namespace winrt::HotCorner::Server {
 				pThis = reinterpret_cast<Derived*>(GetWindowLongPtr(hwnd, 0));
 			}
 
-			if (pThis) [[likely]]
+			if (pThis) [[likely]] {
 				return pThis->HandleMessage(message, wParam, lParam);
+			}
 
 			return DefWindowProc(hwnd, message, wParam, lParam);
 		}
@@ -48,8 +49,9 @@ namespace winrt::HotCorner::Server {
 			WPARAM wParam,
 			LPARAM lParam) noexcept
 		{
-			if (message == WM_DESTROY) [[unlikely]]
+			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
+			}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
@@ -77,11 +79,20 @@ namespace winrt::HotCorner::Server {
 		}
 
 		virtual ~WindowBase() noexcept {
-			if (!m_closed)
+			if (!m_closed) {
 				Close();
+			}
 		}
 
 	public:
+		/**
+		 * @brief Posts a message in this window's message queue. This method returns
+		 *        without waiting for the message to be processed.
+		*/
+		inline bool Post(UINT message) noexcept {
+			return PostMessage(m_window, message, 0, 0);
+		}
+
 		/**
 		 * @brief Runs the window's message loop until the window is destroyed.
 		*/
@@ -109,7 +120,7 @@ namespace winrt::HotCorner::Server {
 		 *        in destruction of the window.
 		*/
 		void Close() noexcept {
-			const BOOL result = PostMessage(m_window, WM_CLOSE, 0, 0);
+			const bool result = Post(WM_CLOSE);
 
 			// If posting WM_CLOSE is successful, the window did not actually close
 			if (result) {
