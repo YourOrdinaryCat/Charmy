@@ -8,7 +8,7 @@ namespace winrt::HotCorner::Server {
 	/**
 	 * @brief A light wrapper for a Win32 notification icon.
 	*/
-	class TrayIcon final : public WindowBase<TrayIcon> {
+	class TrayIcon : public WindowBase<TrayIcon> {
 		friend class WindowBase<TrayIcon>;
 
 		static constexpr uint32_t TrayIconCallback = 0xCA7;
@@ -23,11 +23,11 @@ namespace winrt::HotCorner::Server {
 		LRESULT HandleMessage(
 			UINT message,
 			WPARAM wParam,
-			LPARAM lParam) noexcept override final;
+			LPARAM lParam) noexcept override;
 
 	public:
 		TrayIcon(HINSTANCE instance, const guid& id) noexcept;
-		~TrayIcon() noexcept;
+		virtual ~TrayIcon() noexcept;
 
 		/**
 		 * @brief Updates the icon's tooltip.
