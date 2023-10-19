@@ -145,7 +145,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 		m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, NULL, 0);
 		if (m_mouseHook != NULL) {
-			SetThreadPriority(GetCurrentThread(), REALTIME_PRIORITY_CLASS);
+			SetPriorityClass(Current::Module(), REALTIME_PRIORITY_CLASS);
 			return StartupResult::Started;
 		}
 
@@ -158,7 +158,9 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 
 		if (UnhookWindowsHookEx(m_mouseHook)) {
-			SetThreadPriority(GetCurrentThread(), NORMAL_PRIORITY_CLASS);
+			m_mouseHook = NULL;
+			SetPriorityClass(Current::Module(), NORMAL_PRIORITY_CLASS);
+
 			return StopResult::Stopped;
 		}
 
