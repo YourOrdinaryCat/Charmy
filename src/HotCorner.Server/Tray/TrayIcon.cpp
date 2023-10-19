@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "TrayIcon.h"
 
-#pragma comment(lib, "Shell32.lib")
-
 namespace winrt::HotCorner::Server {
 	//TODO: Code signing, so that we can identify the icon by its GUID
 	TrayIcon::TrayIcon(HINSTANCE instance, const guid& id) noexcept :

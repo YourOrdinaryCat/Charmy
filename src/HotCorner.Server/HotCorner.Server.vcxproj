@@ -93,6 +93,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+      <AdditionalDependencies>Comctl32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
@@ -143,15 +144,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="PropertySheet.props" />
-    <ResourceCompile Include="Resources\language\HotCorner.en-US.rc2">
-      <FileType>RC</FileType>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ResourceCompile Include="Resources\language\HotCorner.en-US.rc2" />
     <ResourceCompile Include="Resources\HotCorner.rc2" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Server.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\HotCorner.Tray.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

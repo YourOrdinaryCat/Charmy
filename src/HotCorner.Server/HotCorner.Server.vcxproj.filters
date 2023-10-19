@@ -79,4 +79,9 @@
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\HotCorner.Tray.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
