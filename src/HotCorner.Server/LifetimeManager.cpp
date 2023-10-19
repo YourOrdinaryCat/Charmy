@@ -1,14 +1,9 @@
 #include "pch.h"
 #include "LifetimeManager.h"
-#include "Resources/resource.h"
 
 namespace winrt::HotCorner::Server::implementation {
 	LifetimeManager::LifetimeManager() noexcept :
-		m_icon(Tracking::TrayCornerTracker::Current())
-	{
-		const auto tip = Resources::GetString<128>(Current::Module(), IDS_TRAY_TOOLTIP);
-		m_icon.UpdateToolTip(tip.data());
-	}
+		m_icon(Tracking::TrayCornerTracker::Current()) { }
 
 	void LifetimeManager::OnWaited(PVOID param, BOOLEAN) {
 		static_cast<LifetimeManager*>(param)->Unregister();

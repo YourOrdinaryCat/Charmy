@@ -8,8 +8,7 @@ namespace winrt::HotCorner::Server::Tracking {
 		static constexpr uint32_t TrackMessage = 0x421;
 		static constexpr uint32_t UntrackMessage = 0x406;
 
-		TrayCornerTracker() noexcept :
-			TrayIcon(Current::Module(), __uuidof(IUnknown)) { }
+		TrayCornerTracker() noexcept;
 
 	protected:
 		LRESULT HandleMessage(
