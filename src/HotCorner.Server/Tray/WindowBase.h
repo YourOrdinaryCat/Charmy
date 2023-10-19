@@ -89,8 +89,17 @@ namespace winrt::HotCorner::Server {
 		 * @brief Posts a message in this window's message queue. This method returns
 		 *        without waiting for the message to be processed.
 		*/
-		inline bool Post(UINT message) noexcept {
+		inline bool Post(UINT message) const noexcept {
 			return PostMessage(m_window, message, 0, 0);
+		}
+
+		/**
+		 * @brief Sends a message in this window's message queue.
+		 *
+		 * @returns The result after the message has been processed.
+		*/
+		inline LRESULT Send(UINT message) const noexcept {
+			return SendMessage(m_window, message, 0, 0);
 		}
 
 		/**
