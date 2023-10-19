@@ -1,7 +1,8 @@
 #pragma once
 #include "LifetimeManager.g.h"
+#include "Tracking/TrayCornerTracker.h"
 
-#include "Tray/TrayIcon.h"
+import server;
 
 namespace winrt::HotCorner::Server::implementation {
 	struct
@@ -17,6 +18,16 @@ namespace winrt::HotCorner::Server::implementation {
 		void HideTrayIcon() noexcept;
 
 	private:
-		bool m_tracking = false;
+		Tracking::TrayCornerTracker& m_icon;
+
+		inline void BumpServer() noexcept {
+			server::add_ref();
+		}
+
+		inline void ReleaseServer() noexcept {
+			if (server::release_ref() == 0) {
+				m_icon.Close();
+			}
+		}
 	};
 }

@@ -119,15 +119,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Tracking\CornerTracker.h" />
     <ClInclude Include="LifetimeManager.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resources\resource.h" />
+    <ClInclude Include="Tracking\TrayCornerTracker.h" />
     <ClInclude Include="Tray\TrayIcon.h" />
     <ClInclude Include="Tray\WindowBase.h" />
     <ClInclude Include="Tray\WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Tracking\CornerTracker.cpp" />
     <ClCompile Include="LifetimeManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -135,6 +138,7 @@
     </ClCompile>
     <ClCompile Include="server.ixx" />
     <ClCompile Include="Tray\TrayIcon.cpp" />
+    <ClCompile Include="Tracking\TrayCornerTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
