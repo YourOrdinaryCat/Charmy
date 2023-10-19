@@ -1,8 +1,6 @@
 #pragma once
-#include "WindowBase.h"
-#include <Unknwn.h>
 #include <shellapi.h>
-#include <winrt/base.h>
+#include "WindowBase.h"
 
 namespace winrt::HotCorner::Server {
 	/**
