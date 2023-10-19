@@ -131,13 +131,12 @@ namespace winrt::HotCorner::Server {
 		void Close() noexcept {
 			const bool result = Post(WM_CLOSE);
 
-			// If posting WM_CLOSE is successful, the window did not actually close
 			if (result) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to close window\n");
+				m_closed = true;
 			}
 			else {
-				m_closed = true;
+				//TODO: Handle failure
+				OutputDebugString(L"Failed to close window\n");
 			}
 		}
 	};
