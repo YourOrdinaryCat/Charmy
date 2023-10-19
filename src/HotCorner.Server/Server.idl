@@ -1,10 +1,16 @@
 namespace HotCorner.Server{
 	[default_interface]
 	runtimeclass LifetimeManager {
+		void LockServer(UInt32 pid);
+
+		[noexcept]
 		void TrackHotCorners();
+		[noexcept]
 		void StopTracking();
 
+		[noexcept]
 		void ShowTrayIcon();
+		[noexcept]
 		void HideTrayIcon();
 	}
 }
