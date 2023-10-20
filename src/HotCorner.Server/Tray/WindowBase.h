@@ -21,14 +21,14 @@ namespace winrt::HotCorner::Server {
 
 				SetWindowLongPtr(hwnd, 0, reinterpret_cast<LONG_PTR>(pThis));
 				pThis->m_window = hwnd;
-			}
+				}
 			else {
 				pThis = reinterpret_cast<Derived*>(GetWindowLongPtr(hwnd, 0));
 			}
 
 			if (pThis) [[likely]] {
 				return pThis->HandleMessage(message, wParam, lParam);
-			}
+				}
 
 			return DefWindowProc(hwnd, message, wParam, lParam);
 		}
@@ -38,6 +38,22 @@ namespace winrt::HotCorner::Server {
 
 		bool m_closed = false;
 		HWND m_window;
+
+		/**
+		 * @brief Defines a window message guaranteed to be unique throughout the system.
+		 *        Tends to be used for communication between different applications.
+		*/
+		std::optional<UINT> RegisterMessage(std::wstring_view message) const noexcept {
+			const UINT msg = RegisterWindowMessage(message.data());
+			if (msg) {
+				return msg;
+			}
+			else {
+				//TODO: Handle failure
+				OutputDebugString(L"Failed to register window message\n");
+				return std::nullopt;
+			}
+		}
 
 		/**
 		 * @brief The window's message handler. Override this in a derived
@@ -51,7 +67,7 @@ namespace winrt::HotCorner::Server {
 		{
 			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
-			}
+				}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
@@ -114,7 +130,7 @@ namespace winrt::HotCorner::Server {
 					//TODO: Handle failure
 					OutputDebugString(L"Unspecified failure in window message loop\n");
 					break;
-				}
+					}
 				else {
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
