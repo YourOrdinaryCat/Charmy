@@ -94,6 +94,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
       <AdditionalDependencies>Comctl32.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*';%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
@@ -120,11 +121,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Tracking\CornerTracker.h" />
     <ClInclude Include="LifetimeManager.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Resources\resource.h" />
+    <ClInclude Include="Resources\ids.h" />
     <ClInclude Include="Tracking\TrayCornerTracker.h" />
     <ClInclude Include="Tray\TrayIcon.h" />
     <ClInclude Include="Tray\WindowBase.h" />
@@ -153,7 +155,8 @@
     <Midl Include="Server.idl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\HotCorner.Tray.ico" />
+    <Image Include="Resources\HotCorner.Tray-dark.ico" />
+    <Image Include="Resources\HotCorner.Tray-light.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

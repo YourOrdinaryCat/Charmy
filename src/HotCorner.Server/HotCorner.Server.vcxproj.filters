@@ -41,7 +41,7 @@
     <ClInclude Include="main.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\resource.h">
+    <ClInclude Include="Resources\ids.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="Tracking\CornerTracker.h">
@@ -52,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Undocumented\UxTheme.h">
       <Filter>Undocumented</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,7 +92,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\HotCorner.Tray.ico">
+    <Image Include="Resources\HotCorner.Tray-dark.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\HotCorner.Tray-light.ico">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>

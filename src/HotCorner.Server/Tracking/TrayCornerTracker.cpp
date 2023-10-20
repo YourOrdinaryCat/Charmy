@@ -1,17 +1,15 @@
 #include "pch.h"
 #include "TrayCornerTracker.h"
-
-#include "../Resources/resource.h"
+#include "../Resources.h"
 
 namespace winrt::HotCorner::Server::Tracking {
 	TrayCornerTracker::TrayCornerTracker() noexcept :
 		TrayIcon(Current::Module(), __uuidof(IUnknown))
 	{
-		const auto tip = Resources::GetString<128>(Current::Module(), IDS_TRAY_TOOLTIP);
-		UpdateToolTip(tip.data());
+		const auto tip = Resources::GetString<128>(IDS_TRAY_TOOLTIP);
 
-		const auto icon = Resources::GetSmallIcon(Current::Module(), IDI_TRAYICON);
-		UpdateIcon(NULL, icon);
+		UpdateToolTip(tip.data());
+		UpdateIcon(IDI_TRAYICONDARK, IDI_TRAYICONLIGHT);
 	}
 
 	LRESULT TrayCornerTracker::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) noexcept {

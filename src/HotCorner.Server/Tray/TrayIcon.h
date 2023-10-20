@@ -1,6 +1,7 @@
 #pragma once
 #include <shellapi.h>
 #include "WindowBase.h"
+#include <wil/resource.h>
 
 namespace winrt::HotCorner::Server {
 	/**
@@ -14,8 +15,16 @@ namespace winrt::HotCorner::Server {
 		const guid m_id;
 		NOTIFYICONDATAW m_data;
 
+		const std::optional<UINT> m_taskbarCreated;
+
 		bool m_canAdd = false;
 		bool m_visible = false;
+
+		const wchar_t* m_darkIcon;
+		const wchar_t* m_lightIcon;
+
+		wil::unique_hicon m_currentIcon;
+		void ReloadIcon() noexcept;
 
 	protected:
 		LRESULT HandleMessage(
@@ -38,10 +47,10 @@ namespace winrt::HotCorner::Server {
 		/**
 		 * @brief Updates the icon shown to the user.
 		 *
-		 * @param darkIcon A dark version of the icon, for use in light mode.
-		 * @param lightIcon A light version of the icon, for use in dark mode.
+		 * @param darkModeIcon The resource ID of a version of the icon for use in dark mode.
+		 * @param lightModeIcon The resource ID of a version of the icon for use in light mode.
 		*/
-		void UpdateIcon(HICON darkIcon, HICON lightIcon) noexcept;
+		void UpdateIcon(UINT darkModeIcon, UINT lightModeIcon) noexcept;
 
 		/**
 		 * @brief Whether the icon is being shown in the notification area.

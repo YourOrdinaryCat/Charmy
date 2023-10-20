@@ -1,0 +1,6 @@
+#pragma once
+
+#define IDI_TRAYICONDARK 101
+#define IDI_TRAYICONLIGHT 102
+
+#define IDS_TRAY_TOOLTIP 60001

@@ -1,6 +1,5 @@
 #pragma once
 #include "CornerTracker.h"
-#include "../main.h"
 #include "../Tray/TrayIcon.h"
 
 namespace winrt::HotCorner::Server::Tracking {
