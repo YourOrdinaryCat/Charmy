@@ -129,6 +129,7 @@
     <ClInclude Include="Tray\TrayIcon.h" />
     <ClInclude Include="Tray\WindowBase.h" />
     <ClInclude Include="Tray\WindowClass.h" />
+    <ClInclude Include="Undocumented\UxTheme.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tracking\CornerTracker.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="server.ixx" />
     <ClCompile Include="Tray\TrayIcon.cpp" />
     <ClCompile Include="Tracking\TrayCornerTracker.cpp" />
+    <ClCompile Include="Undocumented\UxTheme.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

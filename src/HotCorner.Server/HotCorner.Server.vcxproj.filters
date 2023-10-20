@@ -20,6 +20,9 @@
     <ClCompile Include="Tracking\TrayCornerTracker.cpp">
       <Filter>Tracking</Filter>
     </ClCompile>
+    <ClCompile Include="Undocumented\UxTheme.cpp">
+      <Filter>Undocumented</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -47,6 +50,9 @@
     <ClInclude Include="Tracking\TrayCornerTracker.h">
       <Filter>Tracking</Filter>
     </ClInclude>
+    <ClInclude Include="Undocumented\UxTheme.h">
+      <Filter>Undocumented</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -64,6 +70,9 @@
     </Filter>
     <Filter Include="Tracking">
       <UniqueIdentifier>{554e067a-d84f-482c-bfc5-682e0c460769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Undocumented">
+      <UniqueIdentifier>{78b32a51-b56a-4eb0-9ee6-bcfced271f2f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
