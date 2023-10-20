@@ -26,7 +26,7 @@ namespace winrt::HotCorner::Server::implementation {
 		HANDLE m_waitHandle{};
 
 		static void OnWaited(PVOID, BOOLEAN);
-		winrt::fire_and_forget Unregister() const noexcept;
+		winrt::fire_and_forget Unregister() noexcept;
 
 		inline void BumpServer() const noexcept {
 			server::add_ref();

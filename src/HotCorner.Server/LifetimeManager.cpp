@@ -9,11 +9,11 @@ namespace winrt::HotCorner::Server::implementation {
 		static_cast<LifetimeManager*>(param)->Unregister();
 	}
 
-	winrt::fire_and_forget LifetimeManager::Unregister() const noexcept {
+	winrt::fire_and_forget LifetimeManager::Unregister() noexcept {
 		co_await std::chrono::seconds(0);
 		ReleaseServer();
 
-		this->find_inspectable()->Release();
+		Release();
 	}
 
 	void LifetimeManager::LockServer(uint32_t pid) {
