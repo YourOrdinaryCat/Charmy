@@ -99,4 +99,7 @@
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="HotCorner.Server.manifest" />
+  </ItemGroup>
 </Project>
