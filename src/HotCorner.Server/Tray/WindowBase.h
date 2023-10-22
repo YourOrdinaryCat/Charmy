@@ -15,20 +15,20 @@ namespace winrt::HotCorner::Server {
 		{
 			Derived* pThis = NULL;
 
-			if (message == WM_NCCREATE) [[unlikely]] {
+			if (message != WM_NCCREATE) {
+				pThis = reinterpret_cast<Derived*>(GetWindowLongPtr(hwnd, 0));
+			}
+			else {
 				const auto pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
 				pThis = static_cast<Derived*>(pCreate->lpCreateParams);
 
 				SetWindowLongPtr(hwnd, 0, reinterpret_cast<LONG_PTR>(pThis));
 				pThis->m_window = hwnd;
-				}
-			else {
-				pThis = reinterpret_cast<Derived*>(GetWindowLongPtr(hwnd, 0));
 			}
 
-			if (pThis) [[likely]] {
+			if (pThis) {
 				return pThis->HandleMessage(message, wParam, lParam);
-				}
+			}
 
 			return DefWindowProc(hwnd, message, wParam, lParam);
 		}
@@ -67,7 +67,7 @@ namespace winrt::HotCorner::Server {
 		{
 			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
-				}
+			}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
@@ -126,14 +126,14 @@ namespace winrt::HotCorner::Server {
 			BOOL state;
 
 			while ((state = GetMessage(&msg, nullptr, 0, 0)) != 0) {
-				if (state == -1) [[unlikely]] {
+				if (state != -1) {
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+				else {
 					//TODO: Handle failure
 					OutputDebugString(L"Unspecified failure in window message loop\n");
 					break;
-					}
-				else {
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
 				}
 			}
 
