@@ -79,6 +79,9 @@
     <Import Project="PropertySheet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -147,6 +150,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="PropertySheet.props" />
+    <None Include="vcpkg.json" />
     <ResourceCompile Include="Resources\language\HotCorner.en-US.rc2" />
     <ResourceCompile Include="Resources\HotCorner.rc2" />
   </ItemGroup>

@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# vcpkg's Manifest Mode
+vcpkg-manifest-install.log
+vcpkg_installed/
