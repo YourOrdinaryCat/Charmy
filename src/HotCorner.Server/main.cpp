@@ -8,11 +8,7 @@ import server;
 
 namespace winrt::HotCorner::Server::Current {
 	namespace {
-		HINSTANCE m_instance{};
-	}
-
-	void SetModule(HINSTANCE instance) {
-		m_instance = instance;
+		HINSTANCE m_instance = nullptr;
 	}
 
 	HINSTANCE Module() noexcept {
@@ -20,7 +16,10 @@ namespace winrt::HotCorner::Server::Current {
 	}
 
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
-		SetModule(instance);
+		if (!m_instance) {
+			m_instance = instance;
+		}
+
 		winrt::init_apartment();
 
 		const auto cookies = server::register_classes<implementation::LifetimeManager>();
