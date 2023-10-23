@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
@@ -13,8 +12,13 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			// See https://github.com/microsoft/cppwinrt/tree/master/nuget#initializecomponent
 		}
 
-		void StartHandler(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
-		void StopHandler(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		//TODO: On click, the button should transform into a start/stop button
+		void OnStartStopButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		//TODO: On click, save user preferences and exit
+		winrt::fire_and_forget OnOKButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		winrt::fire_and_forget OnCancelButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 	};
 }
 

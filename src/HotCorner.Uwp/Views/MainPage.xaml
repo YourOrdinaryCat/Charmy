@@ -4,22 +4,75 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Spacing="8">
-        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Welcome to Charmy!" />
-        <Button
-            x:Name="StartButton"
-            HorizontalAlignment="Center"
-            Click="StartHandler"
-            Content="Start" />
-        <Button
-            x:Name="StopButton"
-            HorizontalAlignment="Center"
-            Click="StopHandler"
-            Content="Stop" />
-    </StackPanel>
+    <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <CommandBar Margin="2" DefaultLabelPosition="Right">
+            <AppBarButton Click="OnStartStopButtonClick" Label="Start">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE768;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+
+        <!--  TODO: Show actual monitors here  -->
+        <ComboBox
+            Grid.Column="2"
+            Margin="8"
+            VerticalAlignment="Center"
+            SelectedIndex="0">
+            <ComboBoxItem Content="Monitor 1" />
+            <ComboBoxItem Content="Monitor 2" />
+            <ComboBoxItem Content="Monitor 3" />
+        </ComboBox>
+
+        <!--  TODO: Per-monitor settings  -->
+        <ContentPresenter
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Margin="8,0"
+            HorizontalAlignment="Stretch"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}" />
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            Margin="8"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="8"
+            XYFocusKeyboardNavigation="Enabled">
+            <Button
+                Width="72"
+                Click="OnOKButtonClick"
+                Content="OK" />
+            <Button
+                Width="72"
+                Click="OnCancelButtonClick"
+                Content="Cancel" />
+
+            <Button
+                Width="72"
+                Content="Apply"
+                IsEnabled="False"
+                Style="{StaticResource AccentButtonStyle}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

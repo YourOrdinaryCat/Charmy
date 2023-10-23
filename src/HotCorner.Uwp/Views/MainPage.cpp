@@ -4,16 +4,26 @@
 
 #include "../Server/Lifetime.h"
 
+namespace wuvm = winrt::Windows::UI::ViewManagement;
 namespace wux = winrt::Windows::UI::Xaml;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	void MainPage::StartHandler(const IInspectable&, const wux::RoutedEventArgs&) {
+	void MainPage::OnStartStopButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
 		Lifetime::Current().TrackHotCorners();
 		Lifetime::Current().ShowTrayIcon();
 	}
 
-	void MainPage::StopHandler(const IInspectable&, const wux::RoutedEventArgs&) {
+	winrt::fire_and_forget MainPage::OnOKButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
 		Lifetime::Current().HideTrayIcon();
 		Lifetime::Current().StopTracking();
+
+		co_await wuvm::ApplicationView::GetForCurrentView().TryConsolidateAsync();
+	}
+
+	winrt::fire_and_forget MainPage::OnCancelButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		Lifetime::Current().HideTrayIcon();
+		Lifetime::Current().StopTracking();
+
+		co_await wuvm::ApplicationView::GetForCurrentView().TryConsolidateAsync();
 	}
 }
