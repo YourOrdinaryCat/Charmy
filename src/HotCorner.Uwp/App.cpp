@@ -2,7 +2,6 @@
 #include "App.h"
 #include "Views/MainPage.h"
 
-namespace views = winrt::HotCorner::Uwp::Views::implementation;
 namespace wama = winrt::Windows::ApplicationModel::Activation;
 namespace wamc = winrt::Windows::ApplicationModel::Core;
 namespace wf = winrt::Windows::Foundation;
@@ -31,8 +30,9 @@ namespace winrt::HotCorner::Uwp::implementation {
 		view.TryResizeView(size);
 
 		const auto window = wux::Window::Current();
-		if (!window.Content())
-			window.Content(winrt::make<views::MainPage>());
+		if (!window.Content()) {
+			window.Content(Views::MainPage());
+		}
 
 		window.Activate();
 	}
