@@ -9,11 +9,17 @@
     <ClCompile Include="Server\Lifetime.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="Devices\MonitorInfo.cpp">
+      <Filter>Devices</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server\Lifetime.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices\MonitorInfo.h">
+      <Filter>Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     <Filter Include="Server">
       <UniqueIdentifier>{0179526b-5991-4242-b76f-4ebd145321e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Devices">
+      <UniqueIdentifier>{c3a1e41e-ca77-4d7f-abba-6a73cc48ff7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -66,6 +75,9 @@
   <ItemGroup>
     <Midl Include="Views\Views.idl">
       <Filter>Views</Filter>
+    </Midl>
+    <Midl Include="Devices\Devices.idl">
+      <Filter>Devices</Filter>
     </Midl>
   </ItemGroup>
 </Project>

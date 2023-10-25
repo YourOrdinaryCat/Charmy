@@ -1,0 +1,13 @@
+namespace HotCorner.Uwp.Devices{
+	[default_interface]
+	runtimeclass MonitorInfo : Windows.UI.Xaml.Data.INotifyPropertyChanged {
+		[noexcept]
+		MonitorInfo(String id, String name, Boolean connected);
+
+		[noexcept]
+		String Id{ get; };
+
+		String DisplayName{ get; set; };
+		Boolean Connected{ get; set; };
+	}
+}
