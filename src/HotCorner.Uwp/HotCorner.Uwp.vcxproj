@@ -134,6 +134,8 @@
       <DependentUpon>Views\MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Views\MidlUtils.h" />
+    <ClInclude Include="Views\PropertyUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

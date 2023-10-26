@@ -21,6 +21,12 @@
     <ClInclude Include="Devices\MonitorInfo.h">
       <Filter>Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Views\PropertyUtils.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\MidlUtils.h">
+      <Filter>Views</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
