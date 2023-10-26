@@ -57,9 +57,7 @@
     <ClInclude Include="Resources.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Project Files</Filter>
-    </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">
@@ -114,8 +112,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="HotCorner.Server.manifest">
-      <Filter>Project Files</Filter>
-    </Manifest>
+    <Manifest Include="HotCorner.Server.manifest" />
   </ItemGroup>
 </Project>
