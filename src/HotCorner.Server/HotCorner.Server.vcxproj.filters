@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="main.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -23,9 +22,11 @@
     <ClCompile Include="Undocumented\UxTheme.cpp">
       <Filter>Undocumented</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Tray\TrayIcon.h">
       <Filter>Tray</Filter>
     </ClInclude>
@@ -56,11 +57,20 @@
     <ClInclude Include="Resources.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Project Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PropertySheet.props" />
-    <None Include="packages.config" />
-    <None Include="vcpkg.json" />
+    <None Include="vcpkg.json">
+      <Filter>Project Files</Filter>
+    </None>
+    <None Include="PropertySheet.props">
+      <Filter>Project Files</Filter>
+    </None>
+    <None Include="packages.config">
+      <Filter>Project Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Server">
@@ -77,6 +87,9 @@
     </Filter>
     <Filter Include="Undocumented">
       <UniqueIdentifier>{78b32a51-b56a-4eb0-9ee6-bcfced271f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files">
+      <UniqueIdentifier>{7f28ff92-db39-4965-8240-9c18049db232}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +114,8 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="HotCorner.Server.manifest" />
+    <Manifest Include="HotCorner.Server.manifest">
+      <Filter>Project Files</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>

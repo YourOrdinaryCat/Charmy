@@ -4,13 +4,17 @@
     <ApplicationDefinition Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Server\Lifetime.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="Devices\MonitorInfo.cpp">
       <Filter>Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp">
+      <Filter>Project Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,11 +71,20 @@
     <Filter Include="Devices">
       <UniqueIdentifier>{c3a1e41e-ca77-4d7f-abba-6a73cc48ff7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project Files">
+      <UniqueIdentifier>{f8b63b30-35e9-46be-8771-a17f300a10ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PropertySheet.props" />
-    <None Include="packages.config" />
-    <None Include="vcpkg.json" />
+    <None Include="vcpkg.json">
+      <Filter>Project Files</Filter>
+    </None>
+    <None Include="PropertySheet.props">
+      <Filter>Project Files</Filter>
+    </None>
+    <None Include="packages.config">
+      <Filter>Project Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\MainPage.xaml">
