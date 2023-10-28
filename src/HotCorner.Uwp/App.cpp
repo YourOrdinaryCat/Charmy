@@ -24,7 +24,7 @@ namespace winrt::HotCorner::Uwp::implementation {
 
 	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
 		const auto view = wuvm::ApplicationView::GetForCurrentView();
-		const auto size = wf::Size{ 360, 480 };
+		const auto size = wf::Size{ 480, 420 };
 
 		view.SetPreferredMinSize(size);
 		view.TryResizeView(size);
