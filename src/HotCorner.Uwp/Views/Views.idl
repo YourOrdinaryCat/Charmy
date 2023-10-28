@@ -1,9 +1,18 @@
 #include "../Utils/Midl.h"
+import "Devices/Devices.idl";
 
 namespace HotCorner.Uwp.Views {
 	[default_interface]
 	[webhosthidden]
 	runtimeclass MainPage : XAML.Controls.UserControl {
 		MainPage();
+	}
+
+	[default_interface]
+	[webhosthidden]
+	runtimeclass MonitorSettingsPage : XAML.Controls.UserControl {
+		MonitorSettingsPage();
+
+		DEPENDENCY_PROPERTY(Monitor, HotCorner.Uwp.Devices.MonitorInfo);
 	}
 }

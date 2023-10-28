@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hcud="using:HotCorner.Uwp.Devices"
+    xmlns:hcuv="using:HotCorner.Uwp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
@@ -35,7 +36,8 @@
             Grid.Column="2"
             Margin="8"
             VerticalAlignment="Center"
-            SelectedIndex="0">
+            SelectedIndex="0"
+            SelectionChanged="OnMonitorSelected">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="hcud:MonitorInfo">
                     <TextBlock Text="{x:Bind DisplayName}" />
@@ -43,8 +45,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <!--  TODO: Per-monitor settings  -->
-        <ContentPresenter
+        <Border
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Margin="8,0"
@@ -52,7 +53,9 @@
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
-            CornerRadius="{ThemeResource ControlCornerRadius}" />
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+            <hcuv:MonitorSettingsPage x:Name="SettingsView" />
+        </Border>
 
         <StackPanel
             Grid.Row="2"

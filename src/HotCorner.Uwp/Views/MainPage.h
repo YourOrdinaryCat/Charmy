@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "Views/MainPage.g.h"
+#include "MonitorSettingsPage.h"
+#include <Devices/MonitorInfo.h>
 
-#include "../Devices/MonitorInfo.h"
+#include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	/**
@@ -17,12 +18,14 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		const Windows::System::DispatcherQueue DispatcherQueue;
 
 		//TODO: On click, the button should transform into a start/stop button
-		void OnStartStopButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnStartStopButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
 		//TODO: On click, save user preferences and exit
-		winrt::fire_and_forget OnOKButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		winrt::fire_and_forget OnOKButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
-		winrt::fire_and_forget OnCancelButtonClick(const Windows::Foundation::IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		winrt::fire_and_forget OnCancelButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		void OnMonitorSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
 
 	private:
 		/**
@@ -58,7 +61,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		//TODO: Notify the user when the watcher stops, they'll want to restart it
 		void OnDeviceEnumerationStopped(
 			const Windows::Devices::Enumeration::DeviceWatcher&,
-			const Windows::Foundation::IInspectable&
+			const IInspectable&
 		);
 	};
 }

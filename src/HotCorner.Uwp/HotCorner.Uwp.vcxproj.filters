@@ -93,6 +93,9 @@
     <Page Include="Views\MainPage.xaml">
       <Filter>Views</Filter>
     </Page>
+    <Page Include="Views\MonitorSettingsPage.xaml">
+      <Filter>Views</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Views\Views.idl">

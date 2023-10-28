@@ -136,6 +136,10 @@
     </ClInclude>
     <ClInclude Include="Utils\Midl.h" />
     <ClInclude Include="Utils\Property.h" />
+    <ClInclude Include="Views\MonitorSettingsPage.h">
+      <DependentUpon>Views\MonitorSettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -170,6 +174,10 @@
       <DependentUpon>Views\MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Views\MonitorSettingsPage.cpp">
+      <DependentUpon>Views\MonitorSettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -178,6 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MonitorSettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
