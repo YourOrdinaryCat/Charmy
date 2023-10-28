@@ -1,6 +1,9 @@
+#include "../Utils/Midl.h"
+
 namespace HotCorner.Uwp.Views {
 	[default_interface]
-	runtimeclass MainPage : Windows.UI.Xaml.Controls.UserControl {
+	[webhosthidden]
+	runtimeclass MainPage : XAML.Controls.UserControl {
 		MainPage();
 	}
 }
