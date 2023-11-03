@@ -1,11 +1,17 @@
 #pragma once
 #include "CornerAction.h"
+#include "JsonReaderHelper.h"
 #include "JsonWriterHelper.h"
 #include <string_view>
 
 namespace winrt::HotCorner::Settings {
 	struct MonitorSettings final {
 		constexpr MonitorSettings() noexcept = default;
+		constexpr MonitorSettings(std::wstring_view id, std::wstring_view name) noexcept :
+			Id(id),
+			DisplayName(name)
+		{ }
+
 		constexpr MonitorSettings(std::wstring_view id, std::wstring_view name, bool enabled, CornerAction tla, CornerAction tra, CornerAction bla, CornerAction bra, uint32_t tld, uint32_t trd, uint32_t bld, uint32_t brd) noexcept :
 			Id(id),
 			DisplayName(name),
@@ -57,6 +63,47 @@ namespace winrt::HotCorner::Settings {
 			Json::KeyValuePair(writer, TopRightDelayKey, TopRightDelay);
 			Json::KeyValuePair(writer, BottomLeftDelayKey, BottomLeftDelay);
 			Json::KeyValuePair(writer, BottomRightDelayKey, BottomRightDelay);
+		}
+
+		inline void Deserialize(const Json::value_t& obj) {
+			Json::AssertMatch(Json::type::kObjectType, obj.GetType());
+			for (auto member = obj.MemberBegin(); member != obj.MemberEnd(); ++member) {
+				const auto key = Json::GetStringView(member->name);
+
+				if (key == IdKey) {
+					Id = Json::GetStringView(member->value);
+				}
+				else if (key == DisplayNameKey) {
+					DisplayName = Json::GetStringView(member->value);
+				}
+				else if (key == EnabledKey) {
+					Json::ReadValue(member->value, Enabled);
+				}
+				else if (key == TopLeftActionKey) {
+					Json::ReadMappedValue(member->value, CornerActionMapping, TopLeftAction);
+				}
+				else if (key == TopRightActionKey) {
+					Json::ReadMappedValue(member->value, CornerActionMapping, TopRightAction);
+				}
+				else if (key == BottomLeftActionKey) {
+					Json::ReadMappedValue(member->value, CornerActionMapping, BottomLeftAction);
+				}
+				else if (key == BottomRightActionKey) {
+					Json::ReadMappedValue(member->value, CornerActionMapping, BottomRightAction);
+				}
+				else if (key == TopLeftDelayKey) {
+					Json::ReadValue(member->value, TopLeftDelay);
+				}
+				else if (key == TopRightDelayKey) {
+					Json::ReadValue(member->value, TopRightDelay);
+				}
+				else if (key == BottomLeftDelayKey) {
+					Json::ReadValue(member->value, BottomLeftDelay);
+				}
+				else if (key == BottomRightDelayKey) {
+					Json::ReadValue(member->value, BottomRightDelay);
+				}
+			}
 		}
 
 	private:
