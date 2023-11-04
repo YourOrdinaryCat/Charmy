@@ -4,45 +4,37 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <RelativePanel MaxHeight="400" Padding="16">
         <ComboBox
             x:Name="TopLeftCorner"
             Width="160"
-            PlaceholderText="Top Left" />
+            PlaceholderText="Top Left"
+            SelectionChanged="OnTopLeftActionSelected" />
+
         <ComboBox
             x:Name="TopRightCorner"
             Width="160"
             PlaceholderText="Top Right"
-            RelativePanel.AlignRightWithPanel="True" />
+            RelativePanel.AlignRightWithPanel="True"
+            SelectionChanged="OnTopRightActionSelected" />
 
-        <StackPanel
-            RelativePanel.AlignHorizontalCenterWithPanel="True"
-            RelativePanel.AlignVerticalCenterWithPanel="True"
-            Spacing="8">
-            <CheckBox Content="Enable Charmy on this monitor" />
+        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+            <CheckBox
+                x:Name="GlobalCheck"
+                Click="OnGlobalCheckClick"
+                Content="Enable Charmy on this monitor" />
 
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock VerticalAlignment="Center" Text="Delay (in ms)" />
-                <muxc:NumberBox
-                    Width="168"
-                    LargeChange="100"
-                    Minimum="0"
-                    SmallChange="10"
-                    SpinButtonPlacementMode="Inline"
-                    Value="0" />
+                <CheckBox x:Name="DelayCheck" Content="Delayed response" />
 
-                <Button Padding="4" ToolTipService.ToolTip="More info">
-                    <FontIcon FontSize="14" Glyph="&#xE897;" />
+                <Button Padding="4" ToolTipService.ToolTip="Configure">
+                    <FontIcon FontSize="14" Glyph="&#xE713;" />
 
                     <Button.Flyout>
                         <Flyout Placement="Top">
-                            <TextBlock
-                                MaxWidth="160"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="The amount of time the cursor must stay within the hot corner to activate, in milliseconds." />
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="TODO: UI to configure delay here, or maybe a dialog?" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -53,12 +45,14 @@
             x:Name="BottomLeftCorner"
             Width="160"
             PlaceholderText="Bottom Left"
-            RelativePanel.AlignBottomWithPanel="True" />
+            RelativePanel.AlignBottomWithPanel="True"
+            SelectionChanged="OnBottomLeftActionSelected" />
         <ComboBox
             x:Name="BottomRightCorner"
             Width="160"
             PlaceholderText="Bottom Right"
             RelativePanel.AlignBottomWithPanel="True"
-            RelativePanel.AlignRightWithPanel="True" />
+            RelativePanel.AlignRightWithPanel="True"
+            SelectionChanged="OnBottomRightActionSelected" />
     </RelativePanel>
 </UserControl>
