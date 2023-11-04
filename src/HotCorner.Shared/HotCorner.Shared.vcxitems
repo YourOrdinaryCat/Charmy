@@ -15,9 +15,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CornerAction.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)JsonReaderHelper.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriterHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MonitorSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingsManager.h" />
   </ItemGroup>
   <ItemGroup>

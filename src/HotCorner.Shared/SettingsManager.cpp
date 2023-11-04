@@ -15,6 +15,7 @@
 #include <wil/resource.h>
 
 namespace json = rapidjson;
+namespace jh = winrt::HotCorner::Json;
 using namespace std::string_view_literals;
 
 using SettingsInputStream = json::EncodedInputStream<json::UTF16LE<>, json::FileReadStream>;
@@ -101,21 +102,17 @@ namespace winrt::HotCorner::Settings {
 
 		if (result) {
 			// Remove the schema key to avoid a false unknown key warning
-			doc.RemoveMember(Json::value_t
-				{
-					SchemaKey.data(), static_cast<json::SizeType>(SchemaKey.length())
-				}
-			);
+			doc.RemoveMember(jh::GetValue(SchemaKey));
 
 			const auto start = doc.MemberBegin();
-			if (MonitorsKey != Json::GetStringView(start->name)) {
+			if (MonitorsKey != jh::GetStringView(start->name)) {
 				//TODO: Handle failure
 				OutputDebugString(L"Failed to find monitors array\n");
 				return;
 			}
 
 			for (auto& elm : start->value.GetArray()) {
-				Json::AssertMatch(elm.GetType(), json::kObjectType);
+				jh::AssertMatch(elm.GetType(), json::kObjectType);
 
 				MonitorSettings setting{};
 				setting.Deserialize(elm.GetObject());
@@ -146,8 +143,8 @@ namespace winrt::HotCorner::Settings {
 		writer.SetIndent(' ', 2);
 
 		writer.StartObject();
-		Json::KeyValuePair(writer, SchemaKey, schema);
-		Json::Key(writer, MonitorsKey);
+		jh::KeyValuePair(writer, SchemaKey, schema);
+		jh::Key(writer, MonitorsKey);
 
 		writer.StartArray();
 		for (const auto& setting : Monitors) {

@@ -1,7 +1,6 @@
 #pragma once
 #include "CornerAction.h"
-#include "JsonReaderHelper.h"
-#include "JsonWriterHelper.h"
+#include "JsonHelper.h"
 #include <string_view>
 
 namespace winrt::HotCorner::Settings {
