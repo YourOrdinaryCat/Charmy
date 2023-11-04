@@ -2,6 +2,7 @@
 #include "MainPage.h"
 #include "Views/MainPage.g.cpp"
 
+#include <App.h>
 #include <Server/Lifetime.h>
 
 namespace wdd = winrt::Windows::Devices::Display;
@@ -12,6 +13,7 @@ namespace wux = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
+using App = winrt::HotCorner::Uwp::implementation::App;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	MainPage::MainPage() :
@@ -46,6 +48,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	}
 
 	winrt::fire_and_forget MainPage::OnOKButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		App::Settings().Save();
+
 		Lifetime::Current().HideTrayIcon();
 		Lifetime::Current().StopTracking();
 
@@ -133,7 +137,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			const wdd::DisplayMonitor monitor =
 				co_await wdd::DisplayMonitor::FromInterfaceIdAsync(id);
 
-			const MonitorInfo info{ id, GetMonitorName(monitor), true};
+			const MonitorInfo info{ id, GetMonitorName(monitor), true };
 
 			co_await wil::resume_foreground(DispatcherQueue);
 			m_monitors.Append(info);
