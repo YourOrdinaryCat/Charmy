@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "App.xaml.g.h"
+#include <SettingsManager.h>
 
 namespace winrt::HotCorner::Uwp::implementation {
 	struct App : AppT<App> {
@@ -14,5 +15,10 @@ namespace winrt::HotCorner::Uwp::implementation {
 		 * @param args Details about the launch request and process.
 		*/
 		void OnLaunched(const Windows::ApplicationModel::Activation::LaunchActivatedEventArgs&) const;
+
+		/**
+		 * @brief Gets the singleton instance of the app's settings manager.
+		*/
+		static Settings::SettingsManager& Settings();
 	};
 }
