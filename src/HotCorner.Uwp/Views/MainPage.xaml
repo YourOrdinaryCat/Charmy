@@ -23,7 +23,10 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <CommandBar Margin="2" DefaultLabelPosition="Right">
+        <CommandBar
+            Margin="2"
+            DefaultLabelPosition="Right"
+            OverflowButtonVisibility="Collapsed">
             <AppBarButton Click="OnStartStopButtonClick" Label="Start">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE768;" />
