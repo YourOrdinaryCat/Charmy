@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
+#include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.Storage.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;

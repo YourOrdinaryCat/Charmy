@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "App.xaml.g.h"
 #include <SettingsManager.h>
+#include <winrt/Windows.ApplicationModel.Activation.h>
 
 namespace winrt::HotCorner::Uwp::implementation {
 	struct App : AppT<App> {
