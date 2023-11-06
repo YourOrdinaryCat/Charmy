@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "MonitorSettingsPage.h"
 #include <Devices/MonitorInfo.h>
+#include <Devices/Watcher.h>
+#include <winrt/Windows.Devices.Display.h>
 
 #include "Views/MainPage.g.h"
 
@@ -11,11 +13,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	*/
 	struct MainPage : MainPageT<MainPage> {
 		MainPage();
-		~MainPage() noexcept;
 
 		void InitializeComponent();
-
-		const Windows::System::DispatcherQueue DispatcherQueue;
 
 		//TODO: On click, the button should transform into a start/stop button
 		void OnStartStopButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
@@ -28,41 +27,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnMonitorSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
 
 	private:
-		/**
-		 * @brief Gets the index of a monitor in m_monitors based on the provided monitor ID.
-		 *
-		 * @returns The index if the monitor was found, nullopt otherwise.
-		*/
-		std::optional<uint32_t> TryGetMonitorIndex(const hstring& id) const noexcept;
-
-		const Windows::Devices::Enumeration::DeviceWatcher m_watcher;
-		const Windows::Foundation::Collections::IObservableVector<Devices::MonitorInfo> m_monitors;
-
-		const winrt::event_token m_addToken;
-		const winrt::event_token m_removeToken;
-		const winrt::event_token m_updateToken;
-		const winrt::event_token m_stoppedToken;
-
-		winrt::fire_and_forget OnDeviceAdded(
-			const Windows::Devices::Enumeration::DeviceWatcher&,
-			const Windows::Devices::Enumeration::DeviceInformation&
-		);
-
-		winrt::fire_and_forget OnDeviceRemoved(
-			const Windows::Devices::Enumeration::DeviceWatcher&,
-			const Windows::Devices::Enumeration::DeviceInformationUpdate&
-		);
-
-		winrt::fire_and_forget OnDeviceUpdated(
-			const Windows::Devices::Enumeration::DeviceWatcher&,
-			const Windows::Devices::Enumeration::DeviceInformationUpdate&
-		);
-
-		//TODO: Notify the user when the watcher stops, they'll want to restart it
-		void OnDeviceEnumerationStopped(
-			const Windows::Devices::Enumeration::DeviceWatcher&,
-			const IInspectable&
-		);
+		Devices::Watcher<Windows::Devices::Display::DisplayMonitor, Devices::MonitorInfo> m_watcher{};
 	};
 }
 

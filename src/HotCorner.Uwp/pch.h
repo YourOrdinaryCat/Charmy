@@ -8,10 +8,6 @@
 #include <winrt/Microsoft.UI.Xaml.XamlTypeInfo.h>
 
 #include <winrt/Windows.ApplicationModel.Core.h>
-
-#include <winrt/Windows.Devices.Display.h>
-#include <winrt/Windows.Devices.Enumeration.h>
-
 #include <winrt/Windows.System.h>
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Controls.h>

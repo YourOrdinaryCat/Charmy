@@ -31,6 +31,9 @@
     <ClInclude Include="Utils\Property.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Devices\Watcher.h">
+      <Filter>Devices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">

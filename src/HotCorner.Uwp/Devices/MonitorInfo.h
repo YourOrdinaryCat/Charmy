@@ -1,17 +1,33 @@
 #pragma once
 #include "Devices/MonitorInfo.g.h"
+#include <winrt/Windows.Devices.Enumeration.h>
 
 namespace winrt::HotCorner::Uwp::Devices::implementation {
 	struct MonitorInfo : MonitorInfoT<MonitorInfo> {
 	private:
-		hstring m_id;
+		const hstring m_id;
 		hstring m_name;
 		bool m_connected;
 
 		winrt::event<Windows::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChanged;
+		void Refresh(const hstring& id);
 
 	public:
 		MonitorInfo(const hstring& id, const hstring& name, bool connected) noexcept;
+		MonitorInfo(const Windows::Devices::Enumeration::DeviceInformation& device);
+
+		inline bool Disconnect(const Windows::Devices::Enumeration::DeviceInformationUpdate&) {
+			Connected(false);
+			return false;
+		}
+
+		inline void Refresh(const Windows::Devices::Enumeration::DeviceInformationUpdate& update) {
+			Refresh(update.Id());
+		}
+
+		inline void Refresh(const Windows::Devices::Enumeration::DeviceInformation& info) {
+			Refresh(info.Id());
+		}
 
 		inline hstring Id() const noexcept {
 			return m_id;
