@@ -6,6 +6,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	class TrayCornerTracker final : public TrayIcon {
 		static constexpr uint32_t TrackMessage = 0x421;
 		static constexpr uint32_t UntrackMessage = 0x406;
+		static constexpr uint32_t DisplayChangeMessage = WM_DISPLAYCHANGE;
 
 		TrayCornerTracker() noexcept;
 

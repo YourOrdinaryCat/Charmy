@@ -20,6 +20,12 @@ namespace winrt::HotCorner::Server::Tracking {
 		case UntrackMessage:
 			return static_cast<LRESULT>(CornerTracker::Stop());
 
+		case DisplayChangeMessage:
+			OutputDebugString(L"Requesting refresh\n");
+
+			CornerTracker::RequestRefresh();
+			return 0;
+
 		default:
 			break;
 		}

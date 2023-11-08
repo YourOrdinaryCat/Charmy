@@ -1,6 +1,13 @@
 #pragma once
 
 namespace winrt::HotCorner::Server::CornerTracker {
+	enum class ActiveCorner {
+		TopLeft = 0,
+		TopRight = 1,
+		BottomLeft = 2,
+		BottomRight = 3,
+	};
+
 	enum class StartupResult {
 		Started = 0,
 		AlreadyStarted = 1,
@@ -15,4 +22,6 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 	StartupResult Start() noexcept;
 	StopResult Stop() noexcept;
+
+	void RequestRefresh() noexcept;
 }
