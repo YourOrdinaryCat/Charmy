@@ -1,8 +1,8 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
-#include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.Storage.h>
+#include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
 namespace wamc = winrt::Windows::ApplicationModel::Core;
