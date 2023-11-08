@@ -115,7 +115,7 @@ namespace winrt::HotCorner::Settings {
 				jh::AssertMatch(elm.GetType(), json::kObjectType);
 
 				MonitorSettings setting{};
-				setting.Deserialize(elm.GetObject());
+				setting.Deserialize(elm.GetObj());
 
 				Monitors.push_back(setting);
 			}
