@@ -3,6 +3,7 @@
 
 #include "LifetimeManager.h"
 #include "Tracking/TrayCornerTracker.h"
+#include <winrt/Windows.Storage.h>
 
 import server;
 
@@ -15,9 +16,17 @@ namespace winrt::HotCorner::Server::Current {
 		return m_instance;
 	}
 
+	Settings::SettingsManager& Settings() noexcept {
+		static Settings::SettingsManager m_settings{
+			Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
+		};
+		return m_settings;
+	}
+
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
 		if (!m_instance) {
 			m_instance = instance;
+			Settings().Load();
 		}
 
 		winrt::init_apartment();
