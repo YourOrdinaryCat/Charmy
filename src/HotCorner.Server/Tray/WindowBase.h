@@ -67,7 +67,7 @@ namespace winrt::HotCorner::Server {
 		{
 			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
-			}
+				}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
@@ -105,8 +105,8 @@ namespace winrt::HotCorner::Server {
 		 * @brief Posts a message in this window's message queue. This method returns
 		 *        without waiting for the message to be processed.
 		*/
-		inline bool Post(UINT message) const noexcept {
-			return PostMessage(m_window, message, 0, 0);
+		inline bool Post(UINT message, WPARAM wParam = 0, LPARAM lParam = 0) const noexcept {
+			return PostMessage(m_window, message, wParam, lParam);
 		}
 
 		/**
@@ -114,8 +114,8 @@ namespace winrt::HotCorner::Server {
 		 *
 		 * @returns The result after the message has been processed.
 		*/
-		inline LRESULT Send(UINT message) const noexcept {
-			return SendMessage(m_window, message, 0, 0);
+		inline LRESULT Send(UINT message, WPARAM wParam = 0, LPARAM lParam = 0) const noexcept {
+			return SendMessage(m_window, message, wParam, lParam);
 		}
 
 		/**
