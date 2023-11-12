@@ -29,6 +29,7 @@ namespace winrt::HotCorner::Settings {
 		std::wstring DisplayName{};
 
 		bool Enabled = true;
+		bool DelayEnabled = false;
 
 		CornerAction TopLeftAction = CornerAction::TaskView;
 		CornerAction TopRightAction = CornerAction::None;
@@ -52,6 +53,7 @@ namespace winrt::HotCorner::Settings {
 			Json::KeyValuePair(writer, IdKey, Id);
 			Json::KeyValuePair(writer, DisplayNameKey, DisplayName);
 			Json::KeyValuePair(writer, EnabledKey, Enabled);
+			Json::KeyValuePair(writer, DelayEnabledKey, DelayEnabled);
 
 			Json::MappedKVP(writer, TopLeftActionKey, CornerActionMapping, TopLeftAction);
 			Json::MappedKVP(writer, TopRightActionKey, CornerActionMapping, TopRightAction);
@@ -77,6 +79,9 @@ namespace winrt::HotCorner::Settings {
 				}
 				else if (key == EnabledKey) {
 					Json::ReadValue(member->value, Enabled);
+				}
+				else if (key == DelayEnabledKey) {
+					Json::ReadValue(member->value, DelayEnabled);
 				}
 				else if (key == TopLeftActionKey) {
 					Json::ReadMappedValue(member->value, CornerActionMapping, TopLeftAction);
@@ -109,6 +114,7 @@ namespace winrt::HotCorner::Settings {
 		static constexpr std::wstring_view IdKey = L"id";
 		static constexpr std::wstring_view DisplayNameKey = L"display_name";
 		static constexpr std::wstring_view EnabledKey = L"enabled";
+		static constexpr std::wstring_view DelayEnabledKey = L"delay_enabled";
 
 		static constexpr std::wstring_view TopLeftActionKey = L"top_left_action";
 		static constexpr std::wstring_view TopRightActionKey = L"top_right_action";
