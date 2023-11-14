@@ -25,6 +25,9 @@
     <ClCompile Include="pch.cpp">
       <Filter>Project Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tracking\CornerActions.cpp">
+      <Filter>Tracking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tray\TrayIcon.h">
@@ -58,6 +61,9 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Tracking\CornerActions.h">
+      <Filter>Tracking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">

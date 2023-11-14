@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Tracking\CornerActions.h" />
     <ClInclude Include="Tracking\CornerTracker.h" />
     <ClInclude Include="LifetimeManager.h" />
     <ClInclude Include="main.h" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Undocumented\UxTheme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Tracking\CornerActions.cpp" />
     <ClCompile Include="Tracking\CornerTracker.cpp" />
     <ClCompile Include="LifetimeManager.cpp" />
     <ClCompile Include="main.cpp" />
