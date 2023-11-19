@@ -29,11 +29,11 @@ namespace winrt::HotCorner::Settings {
 	SettingsManager::SettingsManager(const std::filesystem::path& folder) noexcept :
 		m_path(folder / SettingsFileName) { }
 
-	FILE* FileFromHandle(HANDLE handle) noexcept {
+	FILE* FileFromHandle(HANDLE handle, int flags, const char* mode) noexcept {
 		if (handle != INVALID_HANDLE_VALUE) {
-			int fileDescriptor = _open_osfhandle(reinterpret_cast<intptr_t>(handle), _O_RDWR);
+			int fileDescriptor = _open_osfhandle(reinterpret_cast<intptr_t>(handle), flags);
 			if (fileDescriptor != -1) {
-				const auto file = _fdopen(fileDescriptor, "r+");
+				const auto file = _fdopen(fileDescriptor, mode);
 
 				if (file != NULL) {
 					return file;
@@ -69,7 +69,7 @@ namespace winrt::HotCorner::Settings {
 			NULL
 		);
 
-		const unique_cfile file{ FileFromHandle(hFile) };
+		const unique_cfile file{ FileFromHandle(hFile, _O_RDONLY, "r") };
 		if (file.is_valid()) {
 			LoadFrom(file.get());
 		}
@@ -78,15 +78,15 @@ namespace winrt::HotCorner::Settings {
 	void SettingsManager::Save() const {
 		const auto hFile = CreateFileFromAppW(
 			m_path.c_str(),
-			GENERIC_READ | GENERIC_WRITE,
+			GENERIC_WRITE,
 			0,
 			NULL,
-			OPEN_ALWAYS,
+			CREATE_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL,
 			NULL
 		);
 
-		const unique_cfile file{ FileFromHandle(hFile) };
+		const unique_cfile file{ FileFromHandle(hFile, _O_WRONLY, "w") };
 		if (file.is_valid()) {
 			SaveTo(file.get());
 		}
@@ -111,7 +111,8 @@ namespace winrt::HotCorner::Settings {
 				return;
 			}
 
-			for (auto& elm : start->value.GetArray()) {
+			Monitors.clear();
+			for (const auto& elm : start->value.GetArray()) {
 				jh::AssertMatch(elm.GetType(), json::kObjectType);
 
 				MonitorSettings setting{};
