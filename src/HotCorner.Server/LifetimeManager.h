@@ -12,6 +12,7 @@ namespace winrt::HotCorner::Server::implementation {
 		LifetimeManager() noexcept;
 
 		void LockServer(uint32_t pid);
+		void ReloadSettings();
 
 		void TrackHotCorners() const noexcept;
 		void StopTracking() const noexcept;

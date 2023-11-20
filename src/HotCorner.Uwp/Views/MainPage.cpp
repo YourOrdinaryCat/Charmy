@@ -29,19 +29,23 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		Lifetime::Current().ShowTrayIcon();
 	}
 
-	winrt::fire_and_forget MainPage::OnOKButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+	static void Save() {
 		App::Settings().Save();
+		if (Lifetime::Started()) {
+			Lifetime::Current().ReloadSettings();
+		}
+	}
 
-		Lifetime::Current().HideTrayIcon();
-		Lifetime::Current().StopTracking();
+	void MainPage::OnApplyButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		Save();
+	}
 
+	winrt::fire_and_forget MainPage::OnOKButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		Save();
 		co_await wuvm::ApplicationView::GetForCurrentView().TryConsolidateAsync();
 	}
 
 	winrt::fire_and_forget MainPage::OnCancelButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
-		Lifetime::Current().HideTrayIcon();
-		Lifetime::Current().StopTracking();
-
 		co_await wuvm::ApplicationView::GetForCurrentView().TryConsolidateAsync();
 	}
 

@@ -79,8 +79,8 @@
 
             <Button
                 Width="72"
+                Click="OnApplyButtonClick"
                 Content="Apply"
-                IsEnabled="False"
                 Style="{StaticResource AccentButtonStyle}" />
         </StackPanel>
     </Grid>

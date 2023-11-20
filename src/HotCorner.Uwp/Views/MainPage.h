@@ -19,9 +19,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		//TODO: On click, the button should transform into a start/stop button
 		void OnStartStopButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
-		//TODO: On click, save user preferences and exit
+		void OnApplyButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		winrt::fire_and_forget OnOKButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
-
 		winrt::fire_and_forget OnCancelButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
 		void OnMonitorSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);

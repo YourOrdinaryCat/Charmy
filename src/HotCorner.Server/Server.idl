@@ -1,7 +1,8 @@
-namespace HotCorner.Server{
+namespace HotCorner.Server {
 	[default_interface]
 	runtimeclass LifetimeManager {
 		void LockServer(UInt32 pid);
+		void ReloadSettings();
 
 		[noexcept]
 		void TrackHotCorners();

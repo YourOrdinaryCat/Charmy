@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "LifetimeManager.h"
+#include "main.h"
 
 namespace winrt::HotCorner::Server::implementation {
 	LifetimeManager::LifetimeManager() noexcept :
@@ -34,6 +35,19 @@ namespace winrt::HotCorner::Server::implementation {
 
 		winrt::check_bool(registered);
 		BumpServer();
+	}
+
+	void LifetimeManager::ReloadSettings() {
+		const auto result = m_icon.StopTracking();
+		Current::Settings().Load();
+
+		if (result == CornerTracker::StopResult::Stopped) {
+			m_icon.BeginTracking();
+		}
+		else if (result == CornerTracker::StopResult::Failed) {
+			//TODO: Handle failure
+			OutputDebugString(L"Failed to stop corner tracking\n");
+		}
 	}
 
 	void LifetimeManager::TrackHotCorners() const noexcept {
