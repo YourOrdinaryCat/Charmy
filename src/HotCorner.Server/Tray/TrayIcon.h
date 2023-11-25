@@ -24,7 +24,7 @@ namespace winrt::HotCorner::Server {
 		const wchar_t* m_lightIcon;
 
 		wil::unique_hicon m_currentIcon;
-		void ReloadIcon() noexcept;
+		void ReloadIcon(bool callModify) noexcept;
 
 	protected:
 		LRESULT HandleMessage(

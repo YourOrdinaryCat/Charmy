@@ -35,7 +35,7 @@ namespace winrt::HotCorner::Server {
 		m_darkIcon = MAKEINTRESOURCE(darkModeIcon);
 		m_lightIcon = MAKEINTRESOURCE(lightModeIcon);
 
-		ReloadIcon();
+		ReloadIcon(m_canAdd);
 	}
 
 	void TrayIcon::Show() noexcept {
@@ -53,7 +53,7 @@ namespace winrt::HotCorner::Server {
 		}
 	}
 
-	void TrayIcon::ReloadIcon() noexcept {
+	void TrayIcon::ReloadIcon(bool callModify) noexcept {
 		if (Undocumented::GetCurrentShellTheme() == Undocumented::ShellTheme::Dark) {
 			Resources::GetSmallIcon(m_darkIcon, m_currentIcon.put());
 		}
@@ -63,6 +63,10 @@ namespace winrt::HotCorner::Server {
 
 		m_data.hIcon = m_currentIcon.get();
 		m_data.uFlags |= NIF_ICON;
+
+		if (callModify) {
+			Shell_NotifyIcon(NIM_MODIFY, &m_data);
+		}
 	}
 
 	LRESULT TrayIcon::HandleMessage(
@@ -75,15 +79,12 @@ namespace winrt::HotCorner::Server {
 		case WM_SETTINGCHANGE:
 		case WM_THEMECHANGED:
 		case WM_DISPLAYCHANGE:
-			ReloadIcon();
-			if (m_canAdd) {
-				Shell_NotifyIcon(NIM_MODIFY, &m_data);
-			}
+			ReloadIcon(m_canAdd);
 			break;
 
 		default:
 			if (message == m_taskbarCreated) {
-				ReloadIcon();
+				ReloadIcon(false);
 				m_visible = Shell_NotifyIcon(NIM_MODIFY, &m_data);
 
 				if (m_canAdd) {
