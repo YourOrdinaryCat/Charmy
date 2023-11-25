@@ -161,8 +161,12 @@
     <Midl Include="Server.idl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\HotCorner.Tray-dark.ico" />
-    <Image Include="Resources\HotCorner.Tray-light.ico" />
+    <Image Include="Resources\HotCorner.Tray-hc-dark.ico" />
+    <Image Include="Resources\HotCorner.Tray-hc-light.ico" />
+    <Image Include="Resources\HotCorner.Tray-off-dark.ico" />
+    <Image Include="Resources\HotCorner.Tray-off-light.ico" />
+    <Image Include="Resources\HotCorner.Tray-on-dark.ico" />
+    <Image Include="Resources\HotCorner.Tray-on-light.ico" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="HotCorner.Server.manifest" />

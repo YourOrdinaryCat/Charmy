@@ -110,10 +110,22 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\HotCorner.Tray-dark.ico">
+    <Image Include="Resources\HotCorner.Tray-on-dark.ico">
       <Filter>Resources</Filter>
     </Image>
-    <Image Include="Resources\HotCorner.Tray-light.ico">
+    <Image Include="Resources\HotCorner.Tray-on-light.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\HotCorner.Tray-hc-dark.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\HotCorner.Tray-hc-light.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\HotCorner.Tray-off-dark.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\HotCorner.Tray-off-light.ico">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>

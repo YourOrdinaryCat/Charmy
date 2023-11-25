@@ -7,24 +7,26 @@ namespace winrt::HotCorner::Server::Tracking {
 		TrayIcon(Current::Module(), __uuidof(IUnknown))
 	{
 		const auto tip = Resources::GetString<128>(IDS_TRAY_TOOLTIP);
-
 		UpdateToolTip(tip.data());
-		UpdateIcon(IDI_TRAYICONDARK, IDI_TRAYICONLIGHT);
+
+		SetHighContrastIcon(IDI_TRAYICON_HC_DARK, IDI_TRAYICON_HC_LIGHT);
+		UpdateIcon(IDI_TRAYICON_OFF_DARK, IDI_TRAYICON_OFF_LIGHT);
 	}
 
 	LRESULT TrayCornerTracker::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) noexcept {
 		switch (message) {
 		case TrackMessage:
+			UpdateIcon(IDI_TRAYICON_ON_DARK, IDI_TRAYICON_ON_LIGHT);
 			return static_cast<LRESULT>(CornerTracker::Start());
 
 		case UntrackMessage:
+			UpdateIcon(IDI_TRAYICON_OFF_DARK, IDI_TRAYICON_OFF_LIGHT);
 			return static_cast<LRESULT>(CornerTracker::Stop());
 
 		case DisplayChangeMessage:
 			OutputDebugString(L"Requesting refresh\n");
-
 			CornerTracker::RequestRefresh();
-			return 0;
+			break;
 
 		default:
 			break;
