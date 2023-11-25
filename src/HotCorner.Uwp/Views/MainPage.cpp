@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "MainPage.h"
 #include "Views/MainPage.g.cpp"
-#include <App.h>
 #include <Server/Lifetime.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
@@ -10,7 +9,6 @@ namespace wux = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
-using App = winrt::HotCorner::Uwp::implementation::App;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	MainPage::MainPage() {
@@ -20,17 +18,33 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
+		GlobalCheck().IsChecked(m_settings.TrackingEnabled);
+		TrayIconCheck().IsChecked(m_settings.TrayIconEnabled);
+
 		MonitorPicker().ItemsSource(m_watcher.ConnectedDevices());
 		m_watcher.Start();
 	}
 
-	void MainPage::OnStartStopButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
+	void MainPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		m_settings.TrackingEnabled = true;
 		Lifetime::Current().TrackHotCorners();
-		Lifetime::Current().ShowTrayIcon();
+	}
+	void MainPage::OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		m_settings.TrackingEnabled = false;
+		Lifetime::Current().StopTracking();
 	}
 
-	static void Save() {
-		App::Settings().Save();
+	void MainPage::OnTrayIconToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		m_settings.TrayIconEnabled = true;
+		Lifetime::Current().ShowTrayIcon();
+	}
+	void MainPage::OnTrayIconToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		m_settings.TrayIconEnabled = false;
+		Lifetime::Current().HideTrayIcon();
+	}
+
+	void MainPage::Save() const {
+		m_settings.Save();
 		if (Lifetime::Started()) {
 			Lifetime::Current().ReloadSettings();
 		}

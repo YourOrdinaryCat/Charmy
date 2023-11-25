@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "MonitorSettingsPage.h"
+#include <App.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <winrt/Windows.Devices.Display.h>
@@ -16,8 +17,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void InitializeComponent();
 
-		//TODO: On click, the button should transform into a start/stop button
-		void OnStartStopButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnGlobalToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnGlobalToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		void OnTrayIconToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnTrayIconToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
 		void OnApplyButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		winrt::fire_and_forget OnOKButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
@@ -26,7 +30,10 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnMonitorSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
 
 	private:
+		void Save() const;
+
 		Devices::Watcher<Windows::Devices::Display::DisplayMonitor, Devices::MonitorInfo> m_watcher{};
+		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
 	};
 }
 

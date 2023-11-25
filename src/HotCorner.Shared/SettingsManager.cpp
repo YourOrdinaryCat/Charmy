@@ -104,21 +104,25 @@ namespace winrt::HotCorner::Settings {
 			// Remove the schema key to avoid a false unknown key warning
 			doc.RemoveMember(jh::GetValue(SchemaKey));
 
-			const auto start = doc.MemberBegin();
-			if (MonitorsKey != jh::GetStringView(start->name)) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to find monitors array\n");
-				return;
-			}
+			for (auto member = doc.MemberBegin(); member != doc.MemberEnd(); ++member) {
+				const auto key = jh::GetStringView(member->name);
+				if (key == TrackingEnabledKey) {
+					jh::ReadValue(member->value, TrackingEnabled);
+				}
+				else if (key == TrayIconEnabledKey) {
+					jh::ReadValue(member->value, TrayIconEnabled);
+				}
+				else if (key == MonitorsKey) {
+					Monitors.clear();
+					for (const auto& elm : member->value.GetArray()) {
+						jh::AssertMatch(elm.GetType(), json::kObjectType);
 
-			Monitors.clear();
-			for (const auto& elm : start->value.GetArray()) {
-				jh::AssertMatch(elm.GetType(), json::kObjectType);
+						MonitorSettings setting{};
+						setting.Deserialize(elm.GetObj());
 
-				MonitorSettings setting{};
-				setting.Deserialize(elm.GetObj());
-
-				Monitors.push_back(setting);
+						Monitors.push_back(setting);
+					}
+				}
 			}
 		}
 		else if (result.Code() != json::kParseErrorDocumentEmpty) {
@@ -145,6 +149,9 @@ namespace winrt::HotCorner::Settings {
 
 		writer.StartObject();
 		jh::KeyValuePair(writer, SchemaKey, schema);
+		jh::KeyValuePair(writer, TrackingEnabledKey, TrackingEnabled);
+		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
+
 		jh::Key(writer, MonitorsKey);
 
 		writer.StartArray();

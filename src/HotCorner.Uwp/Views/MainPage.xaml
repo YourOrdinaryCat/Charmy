@@ -7,7 +7,8 @@
     xmlns:hcuv="using:HotCorner.Uwp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    d:DesignHeight="420"
+    d:DesignWidth="480"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
@@ -23,16 +24,76 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <CommandBar
-            Margin="2"
-            DefaultLabelPosition="Right"
-            OverflowButtonVisibility="Collapsed">
-            <AppBarButton Click="OnStartStopButtonClick" Label="Start">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE768;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </CommandBar>
+        <StackPanel
+            Margin="8"
+            VerticalAlignment="Stretch"
+            Orientation="Horizontal"
+            Spacing="8"
+            XYFocusKeyboardNavigation="Enabled">
+            <muxc:DropDownButton>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE713;" />
+                    <TextBlock Text="General" />
+                </StackPanel>
+
+                <muxc:DropDownButton.Flyout>
+                    <Flyout>
+                        <StackPanel XYFocusKeyboardNavigation="Enabled">
+                            <CheckBox
+                                x:Name="GlobalCheck"
+                                Checked="OnGlobalToggleChecked"
+                                Content="Enable Charmy"
+                                Unchecked="OnGlobalToggleUnchecked" />
+                            <CheckBox
+                                x:Name="TrayIconCheck"
+                                Checked="OnTrayIconToggleChecked"
+                                Content="Enable tray icon"
+                                Unchecked="OnTrayIconToggleUnchecked" />
+
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <CheckBox
+                                    x:Name="AutoStartCheck"
+                                    Content="Run at startup"
+                                    IsEnabled="False" />
+
+                                <Button Padding="4" ToolTipService.ToolTip="More info">
+                                    <FontIcon FontSize="14" Glyph="&#xE897;" />
+
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="TODO: Show this if the startup task cannot be toggled" />
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+
+                            <TextBlock
+                                MaxWidth="300"
+                                Margin="0,8,0,0"
+                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="These settings take effect right away - however, you still need to hit the Apply button to save them" />
+                        </StackPanel>
+                    </Flyout>
+                </muxc:DropDownButton.Flyout>
+            </muxc:DropDownButton>
+
+            <muxc:DropDownButton>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <FontIcon FontSize="16" Glyph="&#xE946;" />
+                    <TextBlock Text="About" />
+                </StackPanel>
+
+                <muxc:DropDownButton.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <TextBlock Text="TODO: About section" />
+                            <TextBlock Text="TODO: Licensing" />
+                        </StackPanel>
+                    </Flyout>
+                </muxc:DropDownButton.Flyout>
+            </muxc:DropDownButton>
+        </StackPanel>
 
         <ComboBox
             x:Name="MonitorPicker"
@@ -46,6 +107,10 @@
                     <TextBlock Text="{x:Bind DisplayName}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
+
+            <d:ComboBox.Items>
+                <d:ComboBoxItem>Internal Display</d:ComboBoxItem>
+            </d:ComboBox.Items>
         </ComboBox>
 
         <Border
@@ -69,16 +134,16 @@
             Spacing="8"
             XYFocusKeyboardNavigation="Enabled">
             <Button
-                Width="72"
+                MinWidth="72"
                 Click="OnOKButtonClick"
                 Content="OK" />
             <Button
-                Width="72"
+                MinWidth="72"
                 Click="OnCancelButtonClick"
                 Content="Cancel" />
 
             <Button
-                Width="72"
+                MinWidth="72"
                 Click="OnApplyButtonClick"
                 Content="Apply"
                 Style="{StaticResource AccentButtonStyle}" />
