@@ -23,6 +23,9 @@ namespace winrt::HotCorner::Server {
 		const wchar_t* m_darkIcon;
 		const wchar_t* m_lightIcon;
 
+		const wchar_t* m_darkHcIcon;
+		const wchar_t* m_lightHcIcon;
+
 		wil::unique_hicon m_currentIcon;
 		void ReloadIcon(bool callModify) noexcept;
 
@@ -43,6 +46,14 @@ namespace winrt::HotCorner::Server {
 		 *             to a maximum of 128 characters.
 		*/
 		void UpdateToolTip(std::wstring_view text) noexcept;
+
+		/**
+		 * @brief Sets the icon to be shown to users using high contrast mode.
+		 *
+		 * @param darkIcon The resource ID of a version of the icon for use in dark backgrounds.
+		 * @param lightIcon The resource ID of a version of the icon for use in light backgrounds.
+		*/
+		void SetHighContrastIcon(UINT darkIcon, UINT lightIcon) noexcept;
 
 		/**
 		 * @brief Updates the icon shown to the user.

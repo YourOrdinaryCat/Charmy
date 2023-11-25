@@ -31,6 +31,13 @@ namespace winrt::HotCorner::Server {
 		m_data.uFlags |= NIF_SHOWTIP | NIF_TIP;
 	}
 
+	void TrayIcon::SetHighContrastIcon(UINT darkIcon, UINT lightIcon) noexcept {
+		m_darkHcIcon = MAKEINTRESOURCE(darkIcon);
+		m_lightHcIcon = MAKEINTRESOURCE(lightIcon);
+
+		ReloadIcon(m_canAdd);
+	}
+
 	void TrayIcon::UpdateIcon(UINT darkModeIcon, UINT lightModeIcon) noexcept {
 		m_darkIcon = MAKEINTRESOURCE(darkModeIcon);
 		m_lightIcon = MAKEINTRESOURCE(lightModeIcon);
@@ -53,8 +60,49 @@ namespace winrt::HotCorner::Server {
 		}
 	}
 
+	// https://stackoverflow.com/a/56678483
+	static double sRGBToLinear(double colorChannel) noexcept {
+		if (colorChannel <= 0.04045) {
+			return colorChannel / 12.92;
+		}
+		else {
+			return std::pow(((colorChannel + 0.055) / 1.055), 2.4);
+		}
+	}
+
+	static double GetColorLuminance(uint8_t r, uint8_t g, uint8_t b) noexcept {
+		const double vR = r / 255.0;
+		const double vG = g / 255.0;
+		const double vB = b / 255.0;
+
+		return (0.2126 * sRGBToLinear(vR) + 0.7152 * sRGBToLinear(vG) + 0.0722 * sRGBToLinear(vB));
+	}
+
+	//TODO: Refactor this whole thing
+	static bool IsDark(uint8_t r, uint8_t g, uint8_t b) noexcept {
+		return GetColorLuminance(r, g, b) <= 0.5;
+	}
+
 	void TrayIcon::ReloadIcon(bool callModify) noexcept {
-		if (Undocumented::GetCurrentShellTheme() == Undocumented::ShellTheme::Dark) {
+		HIGHCONTRAST info = { .cbSize = sizeof(info) };
+
+		// If High Contrast is enabled, use special icons
+		if (SystemParametersInfo(SPI_GETHIGHCONTRAST, 0, &info, 0) && info.dwFlags & HCF_HIGHCONTRASTON) {
+			const auto textColor = GetSysColor(COLOR_WINDOWTEXT);
+			const bool isDark = IsDark(
+				GetRValue(textColor),
+				GetGValue(textColor),
+				GetBValue(textColor)
+			);
+
+			if (isDark) {
+				Resources::GetSmallIcon(m_lightHcIcon, m_currentIcon.put());
+			}
+			else {
+				Resources::GetSmallIcon(m_darkHcIcon, m_currentIcon.put());
+			}
+		}
+		else if (Undocumented::GetCurrentShellTheme() == Undocumented::ShellTheme::Dark) {
 			Resources::GetSmallIcon(m_darkIcon, m_currentIcon.put());
 		}
 		else {
