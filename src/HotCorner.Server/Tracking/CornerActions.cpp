@@ -1,29 +1,9 @@
 #include "pch.h"
 #include "CornerActions.h"
-#include <ShlDisp.h>
 #include "TrayCornerTracker.h"
 
 namespace winrt::HotCorner::Server::Tracking {
 	namespace {
-		IShellDispatch5* ShellDispatch() noexcept {
-			static IShellDispatch5* m_shellDispatch = nullptr;
-			if (m_shellDispatch == nullptr) {
-				const auto hr = CoCreateInstance(
-					CLSID_Shell,
-					NULL,
-					CLSCTX_INPROC_SERVER,
-					IID_IShellDispatch5,
-					reinterpret_cast<void**>(&m_shellDispatch)
-				);
-
-				if (hr != S_OK) {
-					//TODO: Something is very wrong
-					OutputDebugString(L"Unable to create instance of IShellDispatch5\n");
-				}
-			}
-			return m_shellDispatch;
-		}
-
 		constexpr INPUT VirtualKeyInput(const WORD virtualKeyCode, const DWORD flags = 0) {
 			return INPUT{
 				.type = INPUT_KEYBOARD,
@@ -34,13 +14,16 @@ namespace winrt::HotCorner::Server::Tracking {
 			};
 		}
 
-		constexpr INPUT LWinDown{ VirtualKeyInput(VK_LWIN) };
-		constexpr INPUT LWinUp{ VirtualKeyInput(VK_LWIN, KEYEVENTF_KEYUP) };
+#define KEYBOARD_INPUT(NAME, VKCODE) constexpr INPUT NAME##Down{ VirtualKeyInput(VKCODE) }; constexpr INPUT NAME##Up{ VirtualKeyInput(VKCODE, KEYEVENTF_KEYUP) }
 
-		constexpr INPUT SKeyDown{ VirtualKeyInput(0x53) };
-		constexpr INPUT SKeyUp{ VirtualKeyInput(0x53, KEYEVENTF_KEYUP) };
+		KEYBOARD_INPUT(LWin, VK_LWIN);
+		KEYBOARD_INPUT(Tab, VK_TAB);
+		KEYBOARD_INPUT(DKey, 0x44);
+		KEYBOARD_INPUT(SKey, 0x53);
 
 		std::array<INPUT, 4> SearchInput = { LWinDown, SKeyDown, SKeyUp, LWinUp, };
+		std::array<INPUT, 4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
+		std::array<INPUT, 4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
 	}
 
 	std::optional<std::function<bool()>> GetDelegate(Settings::CornerAction action) noexcept {
@@ -61,8 +44,8 @@ namespace winrt::HotCorner::Server::Tracking {
 	}
 
 	bool OpenTaskView() noexcept {
-		const auto hr = ShellDispatch()->WindowSwitcher();
-		return SUCCEEDED(hr);
+		const auto inputs = static_cast<UINT>(TaskViewInput.size());
+		return SendInput(inputs, TaskViewInput.data(), sizeof(INPUT)) == inputs;
 	}
 
 	bool OpenStart() noexcept {
@@ -75,6 +58,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	}
 
 	bool ToggleDesktop() noexcept {
-		return ShellDispatch()->MinimizeAll() >= 0;
+		const auto inputs = static_cast<UINT>(ShowDesktopInput.size());
+		return SendInput(inputs, ShowDesktopInput.data(), sizeof(INPUT)) == inputs;
 	}
 }
