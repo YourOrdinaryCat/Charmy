@@ -208,7 +208,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	}
 
 	StopResult Stop() noexcept {
-		if (m_running) {
+		if (!m_running) {
 			return StopResult::NotRunning;
 		}
 
