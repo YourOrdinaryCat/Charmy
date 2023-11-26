@@ -2,9 +2,52 @@
 #include "LifetimeManager.h"
 #include "main.h"
 
+namespace winrt::HotCorner::Server {
+	using TCT = Tracking::TrayCornerTracker;
+
+	void TrackHotCorners() noexcept {
+		const auto result = TCT::Current().BeginTracking();
+
+		if (result == CornerTracker::StartupResult::Started) {
+			BumpServer();
+		}
+		else if (result == CornerTracker::StartupResult::Failed) {
+			//TODO: Handle failure
+			OutputDebugString(L"Failed to start corner tracking\n");
+		}
+	}
+
+	void StopTracking() noexcept {
+		const auto result = TCT::Current().StopTracking();
+
+		if (result == CornerTracker::StopResult::Stopped) {
+			ReleaseServer();
+		}
+		else if (result == CornerTracker::StopResult::Failed) {
+			//TODO: Handle failure
+			OutputDebugString(L"Failed to stop corner tracking\n");
+		}
+	}
+
+	void ShowTrayIcon() noexcept {
+		auto& icon = TCT::Current();
+		if (!icon.Visible()) {
+			icon.Show();
+			BumpServer();
+		}
+	}
+
+	void HideTrayIcon() noexcept {
+		auto& icon = TCT::Current();
+		if (icon.Visible()) {
+			icon.Hide();
+			ReleaseServer();
+		}
+	}
+}
+
 namespace winrt::HotCorner::Server::implementation {
-	LifetimeManager::LifetimeManager() noexcept :
-		m_icon(Tracking::TrayCornerTracker::Current()) { }
+	LifetimeManager::LifetimeManager() noexcept { }
 
 	void LifetimeManager::OnWaited(PVOID param, BOOLEAN) {
 		static_cast<LifetimeManager*>(param)->Unregister();
@@ -38,11 +81,11 @@ namespace winrt::HotCorner::Server::implementation {
 	}
 
 	void LifetimeManager::ReloadSettings() {
-		const auto result = m_icon.StopTracking();
+		const auto result = TCT::Current().StopTracking();
 		Current::Settings().Load();
 
 		if (result == CornerTracker::StopResult::Stopped) {
-			m_icon.BeginTracking();
+			TCT::Current().BeginTracking();
 		}
 		else if (result == CornerTracker::StopResult::Failed) {
 			//TODO: Handle failure
@@ -51,41 +94,16 @@ namespace winrt::HotCorner::Server::implementation {
 	}
 
 	void LifetimeManager::TrackHotCorners() const noexcept {
-		const auto result = m_icon.BeginTracking();
-
-		if (result == CornerTracker::StartupResult::Started) {
-			BumpServer();
-		}
-		else if (result == CornerTracker::StartupResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to start corner tracking\n");
-		}
+		Server::TrackHotCorners();
 	}
-
 	void LifetimeManager::StopTracking() const noexcept {
-		const auto result = m_icon.StopTracking();
-
-		if (result == CornerTracker::StopResult::Stopped) {
-			ReleaseServer();
-		}
-		else if (result == CornerTracker::StopResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to stop corner tracking\n");
-		}
+		Server::StopTracking();
 	}
-
 	void LifetimeManager::ShowTrayIcon() const noexcept {
-		if (!m_icon.Visible()) {
-			m_icon.Show();
-			BumpServer();
-		}
+		Server::ShowTrayIcon();
 	}
-
 	void LifetimeManager::HideTrayIcon() const noexcept {
-		if (m_icon.Visible()) {
-			m_icon.Hide();
-			ReleaseServer();
-		}
+		Server::HideTrayIcon();
 	}
 
 	LifetimeManager::~LifetimeManager() noexcept {

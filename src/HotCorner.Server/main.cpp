@@ -23,7 +23,7 @@ namespace winrt::HotCorner::Server::Current {
 		return m_settings;
 	}
 
-	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
+	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
 		if (!m_instance) {
 			m_instance = instance;
 			Settings().Load();
@@ -33,6 +33,18 @@ namespace winrt::HotCorner::Server::Current {
 
 		const auto cookies = server::register_classes<implementation::LifetimeManager>();
 		CoResumeClassObjects();
+
+		// If auto startup is enabled, we won't get this argument, which means
+		// we have to initialize tracking right away
+		if (wcscmp(pCmdLine, L"-Embedding") != 0) {
+			if (Settings().TrackingEnabled) {
+				TrackHotCorners();
+			}
+
+			if (Settings().TrayIconEnabled) {
+				ShowTrayIcon();
+			}
+		}
 
 		const auto result = Tracking::TrayCornerTracker::Current().RunMessageLoop();
 		server::unregister_classes(cookies);
