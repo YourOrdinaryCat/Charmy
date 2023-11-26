@@ -42,11 +42,11 @@
 					Wide310x150Logo="Images\Wide310x150Logo.png"
 					Square310x310Logo="Images\LargeTile.png">
 					<uap:ShowNameOnTiles>
-						<uap:ShowOn Tile="square310x310Logo"/>
-						<uap:ShowOn Tile="square150x150Logo"/>
-						<uap:ShowOn Tile="wide310x150Logo"/>
+						<uap:ShowOn Tile="square310x310Logo" />
+						<uap:ShowOn Tile="square150x150Logo" />
+						<uap:ShowOn Tile="wide310x150Logo" />
 					</uap:ShowNameOnTiles>
-				</uap:DefaultTile >
+				</uap:DefaultTile>
 				<uap:SplashScreen Image="Images\SplashScreen.png" uap5:Optional="true" />
 			</uap:VisualElements>
 		</Application>
