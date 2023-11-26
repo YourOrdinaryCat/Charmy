@@ -1,15 +1,15 @@
 #include "pch.h"
 #include "CornerTracker.h"
 #include "CornerActions.h"
+#include "hidusage.h"
 #include "../main.h"
 
 namespace winrt::HotCorner::Server::CornerTracker {
 	namespace {
 		std::thread m_actionThread{};
-
 		HANDLE m_cornerEvent = INVALID_HANDLE_VALUE;
-		HHOOK m_mouseHook = NULL;
 
+		bool m_running = false;
 		bool m_shouldRefresh = true;
 
 		std::unordered_map<std::wstring, std::array<RECT, 4>> m_displayCorners{};
@@ -185,75 +185,22 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 			return std::numeric_limits<uint32_t>::max();
 		}
-
-		LRESULT CALLBACK MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam) {
-			// If the mouse hasn't moved, we're done
-			if (wParam != WM_MOUSEMOVE) {
-				goto next_hook;
-			}
-
-			// If no hot corner is active, and refreshing has been requested,
-			// update monitors positions
-			if (m_shouldRefresh && !m_actionThread.joinable()) {
-				m_shouldRefresh = false;
-				OutputDebugString(L"Refreshing displays\n");
-				RefreshDisplays();
-			}
-
-			POINT pt;
-			if (GetCursorPos(&pt) == FALSE) {
-				goto next_hook;
-			}
-
-			if (const auto corner = GetActiveHotCorner(pt)) {
-				// The corner is hot, check if it was already hot
-				if (m_actionThread.joinable()) {
-					goto next_hook;
-				}
-
-				// The corner is hot, and was previously cold
-				// If there's an associated action, start a tracking thread
-				if (const auto monitor = GetSettingsById(corner->first)) {
-					const auto active = corner->second;
-					if (const auto action = GetAction(*monitor, active)) {
-						m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-						m_actionThread = std::thread(
-							OnHotCornerEntry,
-							std::pair{ *action, GetDelay(*monitor, active) }
-						);
-					}
-				}
-			}
-			else {
-				// The corner is cold, and was cold before
-				if (!m_actionThread.joinable()) {
-					goto next_hook;
-				}
-
-				// The corner is cold, but was previously hot
-				SetEvent(m_cornerEvent);
-				CloseHandle(m_cornerEvent);
-
-				// We have to reset state here
-				m_actionThread.join();
-
-				m_actionThread = {};
-				m_cornerEvent = INVALID_HANDLE_VALUE;
-			}
-
-		next_hook:
-			return CallNextHookEx(NULL, nCode, wParam, lParam);
-		}
 	}
 
-	StartupResult Start() noexcept {
-		if (m_mouseHook != NULL) {
+	StartupResult Start(HWND window) noexcept {
+		if (m_running) {
 			return StartupResult::AlreadyStarted;
 		}
 
-		m_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, NULL, 0);
-		if (m_mouseHook != NULL) {
-			SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
+		RAWINPUTDEVICE rid{
+			.usUsagePage = HID_USAGE_PAGE_GENERIC,
+			.usUsage = HID_USAGE_GENERIC_MOUSE,
+			.dwFlags = RIDEV_INPUTSINK,
+			.hwndTarget = window
+		};
+
+		m_running = RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE));
+		if (m_running) {
 			return StartupResult::Started;
 		}
 
@@ -261,13 +208,19 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	}
 
 	StopResult Stop() noexcept {
-		if (m_mouseHook == NULL) {
+		if (m_running) {
 			return StopResult::NotRunning;
 		}
 
-		if (UnhookWindowsHookEx(m_mouseHook)) {
-			m_mouseHook = NULL;
-			SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_NORMAL);
+		RAWINPUTDEVICE rid{
+			.usUsagePage = HID_USAGE_PAGE_GENERIC,
+			.usUsage = HID_USAGE_GENERIC_MOUSE,
+			.dwFlags = RIDEV_REMOVE,
+			.hwndTarget = nullptr
+		};
+
+		if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE))) {
+			m_running = false;
 			return StopResult::Stopped;
 		}
 
@@ -276,5 +229,56 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 	void RequestRefresh() noexcept {
 		m_shouldRefresh = true;
+	}
+
+	void ProcessCurrentPosition() {
+		// If no hot corner is active, and refreshing has been requested,
+		// update monitors positions
+		if (m_shouldRefresh && !m_actionThread.joinable()) {
+			m_shouldRefresh = false;
+			OutputDebugString(L"Refreshing displays\n");
+			RefreshDisplays();
+		}
+
+		POINT pt;
+		if (GetCursorPos(&pt) == FALSE) {
+			return;
+		}
+
+		if (const auto corner = GetActiveHotCorner(pt)) {
+			// The corner is hot, check if it was already hot
+			if (m_actionThread.joinable()) {
+				return;
+			}
+
+			// The corner is hot, and was previously cold
+			// If there's an associated action, start a tracking thread
+			if (const auto monitor = GetSettingsById(corner->first)) {
+				const auto active = corner->second;
+				if (const auto action = GetAction(*monitor, active)) {
+					m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+					m_actionThread = std::thread(
+						OnHotCornerEntry,
+						std::pair{ *action, GetDelay(*monitor, active) }
+					);
+				}
+			}
+		}
+		else {
+			// The corner is cold, and was cold before
+			if (!m_actionThread.joinable()) {
+				return;
+			}
+
+			// The corner is cold, but was previously hot
+			SetEvent(m_cornerEvent);
+			CloseHandle(m_cornerEvent);
+
+			// We have to reset state here
+			m_actionThread.join();
+
+			m_actionThread = {};
+			m_cornerEvent = INVALID_HANDLE_VALUE;
+		}
 	}
 }

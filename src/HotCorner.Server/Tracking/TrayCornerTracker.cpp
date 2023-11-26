@@ -10,14 +10,13 @@ namespace winrt::HotCorner::Server::Tracking {
 		UpdateToolTip(tip.data());
 
 		SetHighContrastIcon(IDI_TRAYICON_HC_DARK, IDI_TRAYICON_HC_LIGHT);
-		UpdateIcon(IDI_TRAYICON_OFF_DARK, IDI_TRAYICON_OFF_LIGHT);
 	}
 
 	LRESULT TrayCornerTracker::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) noexcept {
 		switch (message) {
 		case TrackMessage:
 			UpdateIcon(IDI_TRAYICON_ON_DARK, IDI_TRAYICON_ON_LIGHT);
-			return static_cast<LRESULT>(CornerTracker::Start());
+			return static_cast<LRESULT>(CornerTracker::Start(m_window));
 
 		case UntrackMessage:
 			UpdateIcon(IDI_TRAYICON_OFF_DARK, IDI_TRAYICON_OFF_LIGHT);
@@ -27,6 +26,38 @@ namespace winrt::HotCorner::Server::Tracking {
 			OutputDebugString(L"Requesting refresh\n");
 			CornerTracker::RequestRefresh();
 			break;
+
+		case WM_INPUT: {
+			const auto ri = reinterpret_cast<HRAWINPUT>(lParam);
+
+			UINT dataSize{};
+			GetRawInputData(
+				ri,
+				RID_INPUT,
+				nullptr,
+				&dataSize,
+				sizeof(RAWINPUTHEADER)
+			);
+
+			if (dataSize > 0) {
+				std::vector<BYTE> rawData(dataSize);
+				const auto size = GetRawInputData(
+					ri,
+					RID_INPUT,
+					rawData.data(),
+					&dataSize,
+					sizeof(RAWINPUTHEADER)
+				);
+
+				if (size == dataSize) {
+					RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawData.data());
+					if (raw->header.dwType == RIM_TYPEMOUSE) {
+						CornerTracker::ProcessCurrentPosition();
+					}
+				}
+			}
+			return 0;
+		}
 
 		default:
 			break;

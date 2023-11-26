@@ -20,8 +20,9 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		Failed = 2
 	};
 
-	StartupResult Start() noexcept;
+	StartupResult Start(HWND window) noexcept;
 	StopResult Stop() noexcept;
 
 	void RequestRefresh() noexcept;
+	void ProcessCurrentPosition();
 }
