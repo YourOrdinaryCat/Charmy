@@ -14,6 +14,12 @@ namespace winrt::HotCorner::Server::Tracking {
 			};
 		}
 
+		template<size_t InputSize>
+		constexpr bool Inject(std::array<INPUT, InputSize>& input) {
+			const auto inSize = static_cast<UINT>(InputSize);
+			return SendInput(inSize, input.data(), sizeof(INPUT)) == inSize;
+		}
+
 #define KEYBOARD_INPUT(NAME, VKCODE) constexpr INPUT NAME##Down{ VirtualKeyInput(VKCODE) }; constexpr INPUT NAME##Up{ VirtualKeyInput(VKCODE, KEYEVENTF_KEYUP) }
 
 		KEYBOARD_INPUT(LWin, VK_LWIN);
@@ -44,8 +50,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	}
 
 	bool OpenTaskView() noexcept {
-		const auto inputs = static_cast<UINT>(TaskViewInput.size());
-		return SendInput(inputs, TaskViewInput.data(), sizeof(INPUT)) == inputs;
+		return Inject(TaskViewInput);
 	}
 
 	bool OpenStart() noexcept {
@@ -53,12 +58,10 @@ namespace winrt::HotCorner::Server::Tracking {
 	}
 
 	bool OpenSearch() noexcept {
-		const auto inputs = static_cast<UINT>(SearchInput.size());
-		return SendInput(inputs, SearchInput.data(), sizeof(INPUT)) == inputs;
+		return Inject(SearchInput);
 	}
 
 	bool ToggleDesktop() noexcept {
-		const auto inputs = static_cast<UINT>(ShowDesktopInput.size());
-		return SendInput(inputs, ShowDesktopInput.data(), sizeof(INPUT)) == inputs;
+		return Inject(ShowDesktopInput);
 	}
 }
