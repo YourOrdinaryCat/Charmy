@@ -12,6 +12,10 @@ namespace winrt::HotCorner::Server::Tracking {
 		SetHighContrastIcon(IDI_TRAYICON_HC_DARK, IDI_TRAYICON_HC_LIGHT);
 	}
 
+	TrayCornerTracker::~TrayCornerTracker() noexcept {
+		StopTracking();
+	}
+
 	LRESULT TrayCornerTracker::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) noexcept {
 		switch (message) {
 		case TrackMessage:

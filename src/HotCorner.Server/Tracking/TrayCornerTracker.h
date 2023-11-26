@@ -9,6 +9,7 @@ namespace winrt::HotCorner::Server::Tracking {
 		static constexpr uint32_t DisplayChangeMessage = WM_DISPLAYCHANGE;
 
 		TrayCornerTracker() noexcept;
+		~TrayCornerTracker() noexcept;
 
 	protected:
 		LRESULT HandleMessage(
