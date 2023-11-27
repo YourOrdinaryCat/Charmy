@@ -31,15 +31,15 @@ namespace winrt::HotCorner::Settings {
 		bool Enabled = true;
 		bool DelayEnabled = false;
 
-		CornerAction TopLeftAction = CornerAction::TaskView;
+		CornerAction TopLeftAction = CornerAction::None;
 		CornerAction TopRightAction = CornerAction::None;
 		CornerAction BottomLeftAction = CornerAction::None;
 		CornerAction BottomRightAction = CornerAction::None;
 
-		uint32_t TopLeftDelay = 0;
-		uint32_t TopRightDelay = 0;
-		uint32_t BottomLeftDelay = 0;
-		uint32_t BottomRightDelay = 0;
+		uint32_t TopLeftDelay = 300;
+		uint32_t TopRightDelay = 300;
+		uint32_t BottomLeftDelay = 300;
+		uint32_t BottomRightDelay = 300;
 
 		inline void SetDelay(uint32_t delay) noexcept {
 			TopLeftDelay = delay;
