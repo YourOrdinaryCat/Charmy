@@ -23,11 +23,16 @@
         <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
             <CheckBox
                 x:Name="GlobalCheck"
-                Click="OnGlobalCheckClick"
-                Content="Enable Charmy on this monitor" />
+                Checked="OnGlobalToggleChecked"
+                Content="Enable Charmy on this monitor"
+                Unchecked="OnGlobalToggleUnchecked" />
 
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <CheckBox x:Name="DelayCheck" Content="Delayed response" />
+                <CheckBox
+                    x:Name="DelayCheck"
+                    Checked="OnDelayToggleChecked"
+                    Content="Delayed response"
+                    Unchecked="OnDelayToggleUnchecked" />
 
                 <Button Padding="4" ToolTipService.ToolTip="Configure">
                     <FontIcon FontSize="14" Glyph="&#xE713;" />

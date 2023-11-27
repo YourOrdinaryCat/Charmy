@@ -67,6 +67,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		UpdateSelection(BottomRightCorner(), curr.BottomRightAction);
 
 		GlobalCheck().IsChecked(curr.Enabled);
+		DelayCheck().IsChecked(curr.DelayEnabled);
 	}
 
 	void MonitorSettingsPage::InitializeComponent() {
@@ -79,8 +80,18 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		BottomRightCorner().ItemsSource(items);
 	}
 
-	void MonitorSettingsPage::OnGlobalCheckClick(const IInspectable&, const wux::RoutedEventArgs&) {
-		CurrentSettings().Enabled = GlobalCheck().IsChecked().GetBoolean();
+	void MonitorSettingsPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		CurrentSettings().Enabled = true;
+	}
+	void MonitorSettingsPage::OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		CurrentSettings().Enabled = false;
+	}
+
+	void MonitorSettingsPage::OnDelayToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		CurrentSettings().DelayEnabled = true;
+	}
+	void MonitorSettingsPage::OnDelayToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
+		CurrentSettings().DelayEnabled = false;
 	}
 
 	void MonitorSettingsPage::OnActionSelected(const wuxc::ComboBox& box, Settings::CornerAction& action) const {

@@ -37,7 +37,12 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void InitializeComponent();
 
-		void OnGlobalCheckClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnDelayToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnDelayToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		void OnGlobalToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnGlobalToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
 		void OnActionSelected(const Windows::UI::Xaml::Controls::ComboBox&, Settings::CornerAction&) const;
 
 		//TODO: Refactor?

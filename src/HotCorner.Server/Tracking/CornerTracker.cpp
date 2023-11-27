@@ -172,6 +172,10 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 
 		uint32_t GetDelay(const Settings::MonitorSettings& settings, ActiveCorner corner) noexcept {
+			if (!settings.DelayEnabled) {
+				return 0;
+			}
+
 			switch (corner) {
 			case ActiveCorner::TopLeft:
 				return settings.TopLeftDelay;
