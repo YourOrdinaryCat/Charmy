@@ -143,7 +143,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 
 		std::optional<Settings::MonitorSettings> GetSettingsById(std::wstring_view id) {
-			auto& saved = Current::Settings().Monitors;
+			static const auto& saved = Current::Settings().Monitors;
 			const auto stored = std::find_if(saved.begin(), saved.end(), [&id](const Settings::MonitorSettings& monitor)
 				{
 					return monitor.Id == id;
@@ -244,7 +244,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 			RefreshDisplays();
 		}
 
-		POINT pt;
+		static POINT pt{};
 		if (GetCursorPos(&pt) == FALSE) {
 			return;
 		}
