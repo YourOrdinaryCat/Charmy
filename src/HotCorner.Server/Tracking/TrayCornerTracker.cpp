@@ -32,35 +32,29 @@ namespace winrt::HotCorner::Server::Tracking {
 			break;
 
 		case WM_INPUT: {
-			const auto ri = reinterpret_cast<HRAWINPUT>(lParam);
+			static constexpr UINT riSize = sizeof(RAWINPUT);
+			static constexpr UINT rihSize = sizeof(RAWINPUTHEADER);
 
-			UINT dataSize{};
+			static auto pcbSize = riSize;
+			static std::array<BYTE, riSize> lpb{};
+
 			GetRawInputData(
-				ri,
+				reinterpret_cast<HRAWINPUT>(lParam),
 				RID_INPUT,
-				nullptr,
-				&dataSize,
-				sizeof(RAWINPUTHEADER)
+				lpb.data(),
+				&pcbSize,
+				rihSize
 			);
 
-			if (dataSize > 0) {
-				std::vector<BYTE> rawData(dataSize);
-				const auto size = GetRawInputData(
-					ri,
-					RID_INPUT,
-					rawData.data(),
-					&dataSize,
-					sizeof(RAWINPUTHEADER)
-				);
+			const auto raw = reinterpret_cast<RAWINPUT*>(lpb.data());
 
-				if (size == dataSize) {
-					RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawData.data());
-					if (raw->header.dwType == RIM_TYPEMOUSE) {
-						CornerTracker::ProcessCurrentPosition();
-					}
+			if (raw->header.dwType == RIM_TYPEMOUSE) {
+				if (raw->data.mouse.lLastX != 0 || raw->data.mouse.lLastY != 0) {
+					CornerTracker::ProcessCurrentPosition();
+					return 0;
 				}
 			}
-			return 0;
+			return DefRawInputProc(NULL, NULL, rihSize);
 		}
 
 		default:
