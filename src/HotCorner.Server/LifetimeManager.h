@@ -45,7 +45,7 @@ namespace winrt::HotCorner::Server::implementation {
 	private:
 		HANDLE m_waitHandle{};
 
-		static void OnWaited(PVOID, BOOLEAN);
+		static void NTAPI OnWaited(PVOID, BOOLEAN);
 		winrt::fire_and_forget Unregister() noexcept;
 	};
 }
