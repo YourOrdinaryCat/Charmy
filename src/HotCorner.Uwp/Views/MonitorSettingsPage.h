@@ -51,6 +51,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnBottomLeftActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
 		void OnBottomRightActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
 
+		void OnTopLeftDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
+		void OnTopRightDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
+		void OnBottomLeftDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
+		void OnBottomRightDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
+
 		DEPENDENCY_PROPERTY_META(Monitor, Devices::MonitorInfo, nullptr, OnMonitorPropertyChanged);
 	};
 }

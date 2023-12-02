@@ -2,6 +2,7 @@
 #include "MonitorSettingsPage.h"
 #include "Views/MonitorSettingsPage.g.cpp"
 
+namespace muxc = winrt::Microsoft::UI::Xaml::Controls;
 namespace wfc = winrt::Windows::Foundation::Collections;
 namespace wux = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;
@@ -48,7 +49,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		return App::Settings().Monitors[m_currentSettings];
 	}
 
-	void UpdateSelection(const wuxc::ComboBox& box, Settings::CornerAction act) {
+	static void UpdateSelection(const wuxc::ComboBox& box, const Settings::CornerAction act) {
 		if (act != Settings::CornerAction::None) {
 			box.SelectedIndex(static_cast<int32_t>(act));
 		}
@@ -57,7 +58,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		}
 	}
 
-	void MonitorSettingsPage::Refresh(size_t index) {
+	void MonitorSettingsPage::Refresh(const size_t index) {
 		m_currentSettings = index;
 		const auto& curr = CurrentSettings();
 
@@ -68,6 +69,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		GlobalCheck().IsChecked(curr.Enabled);
 		DelayCheck().IsChecked(curr.DelayEnabled);
+
+		TopLeftDelay().Value(static_cast<double>(curr.TopLeftDelay));
+		TopRightDelay().Value(static_cast<double>(curr.TopRightDelay));
+		BottomLeftDelay().Value(static_cast<double>(curr.BottomLeftDelay));
+		BottomRightDelay().Value(static_cast<double>(curr.BottomRightDelay));
 	}
 
 	void MonitorSettingsPage::InitializeComponent() {
@@ -113,5 +119,18 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	}
 	void MonitorSettingsPage::OnBottomRightActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&) {
 		OnActionSelected(BottomRightCorner(), CurrentSettings().BottomRightAction);
+	}
+
+	void MonitorSettingsPage::OnTopLeftDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs& e) {
+		CurrentSettings().TopLeftDelay = static_cast<uint32_t>(e.NewValue());
+	}
+	void MonitorSettingsPage::OnTopRightDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs& e) {
+		CurrentSettings().TopRightDelay = static_cast<uint32_t>(e.NewValue());
+	}
+	void MonitorSettingsPage::OnBottomLeftDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs& e) {
+		CurrentSettings().BottomLeftDelay = static_cast<uint32_t>(e.NewValue());
+	}
+	void MonitorSettingsPage::OnBottomRightDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs& e) {
+		CurrentSettings().BottomRightDelay = static_cast<uint32_t>(e.NewValue());
 	}
 }

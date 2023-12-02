@@ -4,18 +4,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:uac8="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d">
 
     <RelativePanel MaxHeight="400" Padding="16">
         <ComboBox
             x:Name="TopLeftCorner"
-            Width="160"
+            Width="200"
             PlaceholderText="Top Left"
             SelectionChanged="OnTopLeftActionSelected" />
 
         <ComboBox
             x:Name="TopRightCorner"
-            Width="160"
+            Width="200"
             PlaceholderText="Top Right"
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnTopRightActionSelected" />
@@ -38,8 +40,53 @@
                     <FontIcon FontSize="14" Glyph="&#xE713;" />
 
                     <Button.Flyout>
-                        <Flyout Placement="Top">
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="TODO: UI to configure delay here, or maybe a dialog?" />
+                        <Flyout uac8:ShouldConstrainToRootBounds="False" Placement="Right">
+                            <StackPanel MaxWidth="200" Spacing="8">
+                                <muxc:NumberBox
+                                    x:Name="TopLeftDelay"
+                                    Header="Top Left"
+                                    LargeChange="100"
+                                    Maximum="4294967294"
+                                    Minimum="0"
+                                    SmallChange="10"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="OnTopLeftDelayChanged" />
+
+                                <muxc:NumberBox
+                                    x:Name="TopRightDelay"
+                                    Header="Top Right"
+                                    LargeChange="100"
+                                    Maximum="4294967294"
+                                    Minimum="0"
+                                    SmallChange="10"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="OnTopRightDelayChanged" />
+
+                                <muxc:NumberBox
+                                    x:Name="BottomLeftDelay"
+                                    Header="Bottom Left"
+                                    LargeChange="100"
+                                    Maximum="4294967294"
+                                    Minimum="0"
+                                    SmallChange="10"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="OnBottomLeftDelayChanged" />
+
+                                <muxc:NumberBox
+                                    x:Name="BottomRightDelay"
+                                    Header="Bottom Right"
+                                    LargeChange="100"
+                                    Maximum="4294967294"
+                                    Minimum="0"
+                                    SmallChange="10"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="OnBottomRightDelayChanged" />
+
+                                <TextBlock
+                                    Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="These delays are all in milliseconds (ms) - that is, 1 second every 1000ms" />
+                            </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -48,13 +95,13 @@
 
         <ComboBox
             x:Name="BottomLeftCorner"
-            Width="160"
+            Width="200"
             PlaceholderText="Bottom Left"
             RelativePanel.AlignBottomWithPanel="True"
             SelectionChanged="OnBottomLeftActionSelected" />
         <ComboBox
             x:Name="BottomRightCorner"
-            Width="160"
+            Width="200"
             PlaceholderText="Bottom Right"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
