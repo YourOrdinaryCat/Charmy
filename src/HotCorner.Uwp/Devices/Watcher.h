@@ -53,7 +53,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			return static_cast<uint32_t>(std::distance(m_connected.begin(), device));
 		}
 
-		fire_and_forget OnDeviceAdded(const wde::DeviceWatcher&, const wde::DeviceInformation& device) {
+		fire_and_forget OnDeviceAdded(const wde::DeviceWatcher&, const wde::DeviceInformation device) {
 			const auto index = TryGetDeviceIndex(device.Id());
 			if (!index.has_value()) {
 				Info toAdd{ device };
@@ -83,7 +83,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 		}
 
-		fire_and_forget OnDeviceUpdated(const wde::DeviceWatcher&, const wde::DeviceInformationUpdate& update) {
+		fire_and_forget OnDeviceUpdated(const wde::DeviceWatcher&, const wde::DeviceInformationUpdate update) {
 			const auto id = update.Id();
 
 			if (const auto index = TryGetDeviceIndex(id)) {
