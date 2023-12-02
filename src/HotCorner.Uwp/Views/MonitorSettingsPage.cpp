@@ -11,7 +11,7 @@ using App = winrt::HotCorner::Uwp::implementation::App;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	//TODO: A better way of doing this? Or at least move it to its own header?
-	IInspectable operator ""_box(const wchar_t* str, std::size_t size) {
+	static IInspectable operator ""_box(const wchar_t* str, std::size_t size) {
 		return box_value(hstring{ { str, size } });
 	}
 
@@ -45,7 +45,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		}
 	}
 
-	Settings::MonitorSettings& MonitorSettingsPage::CurrentSettings() const {
+	Settings::MonitorSettings& MonitorSettingsPage::CurrentSettings() const noexcept {
 		return App::Settings().Monitors[m_currentSettings];
 	}
 
@@ -100,7 +100,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		CurrentSettings().DelayEnabled = false;
 	}
 
-	void MonitorSettingsPage::OnActionSelected(const wuxc::ComboBox& box, Settings::CornerAction& action) const {
+	static void OnActionSelected(const wuxc::ComboBox& box, Settings::CornerAction& action) {
 		const auto index = box.SelectedIndex();
 
 		const auto newAction = index < 1 ?

@@ -23,7 +23,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		/**
 		 * @brief Gets the settings for the currently selected monitor.
 		*/
-		Settings::MonitorSettings& CurrentSettings() const;
+		inline Settings::MonitorSettings& CurrentSettings() const noexcept;
 
 		/**
 		 * @brief Refreshes the page's data with the current settings.
@@ -42,8 +42,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void OnGlobalToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		void OnGlobalToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
-
-		void OnActionSelected(const Windows::UI::Xaml::Controls::ComboBox&, Settings::CornerAction&) const;
 
 		//TODO: Refactor?
 		void OnTopLeftActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);

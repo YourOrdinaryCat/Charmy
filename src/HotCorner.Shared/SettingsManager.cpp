@@ -29,7 +29,7 @@ namespace winrt::HotCorner::Settings {
 	SettingsManager::SettingsManager(const std::filesystem::path& folder) noexcept :
 		m_path(folder / SettingsFileName) { }
 
-	FILE* FileFromHandle(HANDLE handle, int flags, const char* mode) noexcept {
+	static FILE* FileFromHandle(HANDLE handle, int flags, const char* mode) noexcept {
 		if (handle != INVALID_HANDLE_VALUE) {
 			int fileDescriptor = _open_osfhandle(reinterpret_cast<intptr_t>(handle), flags);
 			if (fileDescriptor != -1) {
