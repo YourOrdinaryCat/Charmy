@@ -12,7 +12,6 @@
 #include <rapidjson/prettywriter.h>
 #include <string_view>
 #include <vector>
-#include <wil/resource.h>
 
 namespace json = rapidjson;
 namespace jh = winrt::HotCorner::Json;
@@ -23,9 +22,6 @@ using SettingsOutputStream = json::EncodedOutputStream<json::UTF16LE<>, json::Fi
 using SettingsWriter = json::PrettyWriter<SettingsOutputStream, json::UTF16LE<>>;
 
 namespace winrt::HotCorner::Settings {
-	//TODO: Why would WIL hide this outside of the desktop family partition?
-	typedef wil::unique_any<FILE*, decltype(&::fclose), ::fclose> unique_cfile;
-
 	SettingsManager::SettingsManager(const std::filesystem::path& folder) noexcept :
 		m_path(folder / SettingsFileName) { }
 
@@ -69,9 +65,10 @@ namespace winrt::HotCorner::Settings {
 			NULL
 		);
 
-		const unique_cfile file{ FileFromHandle(hFile, _O_RDONLY, "r") };
-		if (file.is_valid()) {
-			LoadFrom(file.get());
+		const auto file{ FileFromHandle(hFile, _O_RDONLY, "r") };
+		if (file) {
+			LoadFrom(file);
+			fclose(file);
 		}
 	}
 
@@ -86,9 +83,10 @@ namespace winrt::HotCorner::Settings {
 			NULL
 		);
 
-		const unique_cfile file{ FileFromHandle(hFile, _O_WRONLY, "w") };
-		if (file.is_valid()) {
-			SaveTo(file.get());
+		const auto file{ FileFromHandle(hFile, _O_WRONLY, "w") };
+		if (file) {
+			SaveTo(file);
+			fclose(file);
 		}
 	}
 
