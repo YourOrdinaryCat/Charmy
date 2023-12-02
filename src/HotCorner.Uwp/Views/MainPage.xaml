@@ -20,8 +20,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <StackPanel
@@ -84,6 +84,7 @@
             x:Name="MonitorPicker"
             Grid.Column="2"
             Margin="8"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
             SelectedIndex="0"
             SelectionChanged="OnMonitorSelected">
