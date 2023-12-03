@@ -11,7 +11,15 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	bool m_running = false;
 	bool m_shouldRefresh = true;
 
-	std::unordered_map<std::wstring, std::array<RECT, 4>> m_displayCorners{};
+	struct DisplayCorners {
+		const std::wstring DisplayId;
+		const std::array<RECT, 4> Corners;
+
+		constexpr DisplayCorners(std::wstring_view displayId, const std::array<RECT, 4>& corners)
+			: DisplayId(displayId), Corners(corners) { }
+	};
+
+	std::vector<DisplayCorners> m_displayCorners{};
 	constexpr LONG m_offset = 10;
 
 	/**
@@ -21,10 +29,10 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 *          a pair that contains the monitor ID and corner the mouse is in.
 	*/
 	static std::optional<std::pair<std::wstring, ActiveCorner>> GetActiveHotCorner(const POINT& pt) {
-		for (const auto& kvp : m_displayCorners) {
-			for (uint32_t i = 0; i < kvp.second.size(); ++i) {
-				if (PtInRect(&kvp.second[i], pt)) {
-					return { { kvp.first, static_cast<ActiveCorner>(i) } };
+		for (const auto& dc : m_displayCorners) {
+			for (uint32_t i = 0; i < dc.Corners.size(); ++i) {
+				if (PtInRect(&dc.Corners[i], pt)) {
+					return { { dc.DisplayId, static_cast<ActiveCorner>(i) } };
 				}
 			}
 		}
@@ -33,7 +41,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 	/**
 	 * @brief Based on the provided monitor RECT, adds monitor corner locations to
-	 *        the hot corner map.
+	 *        the hot corner vector.
 	*/
 	static void AddCornerOffsets(std::wstring_view id, const RECT& rect) {
 		const RECT tlo{
@@ -65,7 +73,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		};
 
 		const std::array<RECT, 4> offsets{ tlo, tro, blo, bro };
-		m_displayCorners.insert_or_assign(id.data(), offsets);
+		m_displayCorners.push_back({ id, offsets });
 	}
 
 	/**
