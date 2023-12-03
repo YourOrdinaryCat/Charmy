@@ -8,9 +8,7 @@
 import server;
 
 namespace winrt::HotCorner::Server::Current {
-	namespace {
-		HINSTANCE m_instance = nullptr;
-	}
+	static HINSTANCE m_instance = nullptr;
 
 	HINSTANCE Module() noexcept {
 		return m_instance;

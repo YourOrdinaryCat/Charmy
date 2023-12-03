@@ -2,9 +2,7 @@
 #include "Lifetime.h"
 
 namespace winrt::HotCorner::Uwp::Lifetime {
-	namespace {
-		Server::LifetimeManager m_lifetime{ nullptr };
-	}
+	static Server::LifetimeManager m_lifetime{ nullptr };
 
 	bool Started() noexcept {
 		return m_lifetime != nullptr;

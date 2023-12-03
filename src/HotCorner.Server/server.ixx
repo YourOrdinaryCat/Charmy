@@ -26,40 +26,38 @@ namespace server {
 		}
 	};
 
-	namespace {
-		std::atomic_uint64_t clients;
+	std::atomic_uint64_t clients;
 
-		template<auto Start, auto End, auto Inc, class F>
-		constexpr void constexpr_for(F&& f) {
-			if constexpr (Start < End) {
-				f(std::integral_constant<decltype(Start), Start>());
-				constexpr_for<Start + Inc, End, Inc>(f);
-			}
+	template<auto Start, auto End, auto Inc, class F>
+	constexpr void constexpr_for(F&& f) {
+		if constexpr (Start < End) {
+			f(std::integral_constant<decltype(Start), Start>());
+			constexpr_for<Start + Inc, End, Inc>(f);
 		}
-
-		template<typename T>
-		concept has_co_registration_context = std::is_same_v<decltype(T::CoRegistrationContext()), CLSCTX>;
-
-		template<typename T>
-		constexpr CLSCTX co_registration_context() {
-			if constexpr (has_co_registration_context<T>)
-				return T::CoRegistrationContext();
-			return CLSCTX_LOCAL_SERVER;
-		}
-
-		template<typename T>
-		concept has_co_registration_flags = std::is_same_v<decltype(T::CoRegistrationFlags()), REGCLS>;
-
-		template<typename T>
-		constexpr REGCLS co_registration_flags() {
-			if constexpr (has_co_registration_flags<T>)
-				return T::CoRegistrationFlags();
-			return REGCLS_MULTIPLEUSE | REGCLS_SUSPENDED;
-		}
-
-		template<int N, typename... Ts>
-		using nth_type = typename std::tuple_element<N, std::tuple<Ts...>>::type;
 	}
+
+	template<typename T>
+	concept has_co_registration_context = std::is_same_v<decltype(T::CoRegistrationContext()), CLSCTX>;
+
+	template<typename T>
+	constexpr CLSCTX co_registration_context() {
+		if constexpr (has_co_registration_context<T>)
+			return T::CoRegistrationContext();
+		return CLSCTX_LOCAL_SERVER;
+	}
+
+	template<typename T>
+	concept has_co_registration_flags = std::is_same_v<decltype(T::CoRegistrationFlags()), REGCLS>;
+
+	template<typename T>
+	constexpr REGCLS co_registration_flags() {
+		if constexpr (has_co_registration_flags<T>)
+			return T::CoRegistrationFlags();
+		return REGCLS_MULTIPLEUSE | REGCLS_SUSPENDED;
+	}
+
+	template<int N, typename... Ts>
+	using nth_type = typename std::tuple_element<N, std::tuple<Ts...>>::type;
 
 	export template<typename T>
 		HRESULT register_class(
