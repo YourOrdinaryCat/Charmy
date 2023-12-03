@@ -26,16 +26,6 @@ namespace server {
 		}
 	};
 
-	std::atomic_uint64_t clients;
-
-	template<auto Start, auto End, auto Inc, class F>
-	constexpr void constexpr_for(F&& f) {
-		if constexpr (Start < End) {
-			f(std::integral_constant<decltype(Start), Start>());
-			constexpr_for<Start + Inc, End, Inc>(f);
-		}
-	}
-
 	template<typename T>
 	concept has_co_registration_context = std::is_same_v<decltype(T::CoRegistrationContext()), CLSCTX>;
 
@@ -74,50 +64,46 @@ namespace server {
 		);
 	}
 
+	template<std::size_t Index, typename... Types>
+	void register_classes_impl(std::array<DWORD, sizeof...(Types)>& cookies) {
+		if constexpr (Index < sizeof...(Types)) {
+			using Type = nth_type<Index, Types...>;
+
+			DWORD cookie{};
+			const auto result = register_class<Type>(
+				co_registration_context<Type>(),
+				co_registration_flags<Type>(),
+				&cookie
+			);
+
+			winrt::check_hresult(result);
+			cookies[Index] = cookie;
+
+			register_classes_impl<Index + 1, Types...>(cookies);
+		}
+	}
+
 	export template<typename... Types>
 		std::array<DWORD, sizeof...(Types)> register_classes()
 	{
 		std::array<DWORD, sizeof...(Types)> cookies{};
-		constexpr_for<0, sizeof...(Types), 1>([&cookies](auto i)
-			{
-				using type = nth_type<i, Types...>;
-
-				DWORD cookie;
-				const auto result = register_class<type>(
-					co_registration_context<type>(),
-					co_registration_flags<type>(),
-					&cookie
-				);
-
-				winrt::check_hresult(result);
-				cookies[i] = cookie;
-			}
-		);
+		register_classes_impl<0, Types...>(cookies);
 		return cookies;
 	}
 
-	export template<std::size_t N>
-		void unregister_classes(const std::array<DWORD, N>& cookies)
+	template<std::size_t Index, std::size_t CookieCount>
+	void unregister_classes_impl(const std::array<DWORD, CookieCount>& cookies) {
+		if constexpr (Index < CookieCount) {
+			const auto result = CoRevokeClassObject(cookies[Index]);
+			winrt::check_hresult(result);
+
+			unregister_classes_impl<Index + 1>(cookies);
+		}
+	}
+
+	export template<std::size_t CookieCount>
+		void unregister_classes(const std::array<DWORD, CookieCount>& cookies)
 	{
-		constexpr_for<0, N, 1>([&cookies](auto i)
-			{
-				const auto result = CoRevokeClassObject(cookies[i]);
-				winrt::check_hresult(result);
-			}
-		);
-	}
-
-	export uint64_t client_count() noexcept {
-		return clients;
-	}
-
-	export uint64_t add_ref() noexcept {
-		clients = CoAddRefServerProcess();
-		return clients;
-	}
-
-	export uint64_t release_ref() noexcept {
-		clients = CoReleaseServerProcess();
-		return clients;
+		unregister_classes_impl<0>(cookies);
 	}
 }

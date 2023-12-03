@@ -2,8 +2,6 @@
 #include "LifetimeManager.g.h"
 #include "Tracking/TrayCornerTracker.h"
 
-import server;
-
 // Implementation outside of the LifetimeManager, to allow usage within the
 // server itself
 namespace winrt::HotCorner::Server {
@@ -14,11 +12,11 @@ namespace winrt::HotCorner::Server {
 	void HideTrayIcon() noexcept;
 
 	inline void BumpServer() noexcept {
-		server::add_ref();
+		CoAddRefServerProcess();
 	}
 
 	inline void ReleaseServer() noexcept {
-		if (server::release_ref() == 0) {
+		if (CoReleaseServerProcess() == 0) {
 			Tracking::TrayCornerTracker::Current().Close();
 		}
 	}
