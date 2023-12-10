@@ -149,20 +149,6 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 	}
 
-	static std::optional<Settings::MonitorSettings> GetSettingsById(std::wstring_view id) {
-		static const auto& saved = Current::Settings().Monitors;
-		const auto stored = std::find_if(saved.begin(), saved.end(), [&id](const Settings::MonitorSettings& monitor)
-			{
-				return monitor.Id == id;
-			}
-		);
-
-		if (stored != saved.end() && stored->Enabled) {
-			return *stored;
-		}
-		return std::nullopt;
-	}
-
 	static std::optional<std::function<bool()>> GetAction(const Settings::MonitorSettings& settings, ActiveCorner corner) noexcept {
 		switch (corner) {
 		case ActiveCorner::TopLeft:
@@ -263,15 +249,17 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 			// The corner is hot, and was previously cold
 			// If there's an associated action, start a tracking thread
-			if (const auto monitor = GetSettingsById(corner->first)) {
-				const auto active = corner->second;
-				if (const auto action = GetAction(*monitor, active)) {
-					m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-					m_actionThread = std::thread(
-						OnHotCornerEntry,
-						std::pair{ *action, GetDelay(*monitor, active) }
-					);
-				}
+			static const auto& settings = Current::Settings();
+
+			const auto setting = settings.GetSettingOrDefaults(corner->first);
+			const auto active = corner->second;
+
+			if (const auto action = GetAction(setting, active)) {
+				m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+				m_actionThread = std::thread(
+					OnHotCornerEntry,
+					std::pair{ *action, GetDelay(setting, active) }
+				);
 			}
 		}
 		else {

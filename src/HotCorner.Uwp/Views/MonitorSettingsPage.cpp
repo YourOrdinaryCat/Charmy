@@ -25,28 +25,18 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MonitorSettingsPage::OnMonitorPropertyChanged(const wux::DependencyObject& sender, const wux::DependencyPropertyChangedEventArgs& args) {
 		const auto page = sender.as<MonitorSettingsPage>();
 		const auto val = args.NewValue().as<Devices::MonitorInfo>();
-		const auto id = val.Id().c_str();
+		const std::wstring id{ val.Id() };
 
-		auto& saved = App::Settings().Monitors;
-		const auto stored = std::find_if(saved.begin(), saved.end(), [&id](const Settings::MonitorSettings& monitor)
-			{
-				return monitor.Id == id;
-			}
-		);
+		auto& saved = page->m_settings.Monitors;
 
-		// Is a monitor with this ID already in settings? If yes, load that
-		if (stored != saved.end()) {
-			page->Refresh(std::distance(saved.begin(), stored));
+		// Is a monitor with this ID already in settings? If no, create new
+		// settings based on the default ones
+		if (!saved.contains(id)) {
+			Settings::MonitorSettings newSettings(val.DisplayName().c_str());
+			saved.insert({ id, saved[L""] });
 		}
-		else {
-			Settings::MonitorSettings newSettings(id, val.DisplayName().c_str());
-			saved.push_back(newSettings);
-			page->Refresh(saved.size() - 1);
-		}
-	}
 
-	Settings::MonitorSettings& MonitorSettingsPage::CurrentSettings() const noexcept {
-		return App::Settings().Monitors[m_currentSettings];
+		page->Refresh(id);
 	}
 
 	static void UpdateSelection(const wuxc::ComboBox& box, const Settings::CornerAction act) {
@@ -58,22 +48,22 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		}
 	}
 
-	void MonitorSettingsPage::Refresh(const size_t index) {
-		m_currentSettings = index;
-		const auto& curr = CurrentSettings();
+	void MonitorSettingsPage::Refresh(const std::wstring& id) {
+		m_currentId = id;
+		const auto& setting = CurrentSettings();
 
-		UpdateSelection(TopLeftCorner(), curr.TopLeftAction);
-		UpdateSelection(TopRightCorner(), curr.TopRightAction);
-		UpdateSelection(BottomLeftCorner(), curr.BottomLeftAction);
-		UpdateSelection(BottomRightCorner(), curr.BottomRightAction);
+		GlobalCheck().IsChecked(setting.Enabled);
+		DelayCheck().IsChecked(setting.DelayEnabled);
 
-		GlobalCheck().IsChecked(curr.Enabled);
-		DelayCheck().IsChecked(curr.DelayEnabled);
+		UpdateSelection(TopLeftCorner(), setting.TopLeftAction);
+		UpdateSelection(TopRightCorner(), setting.TopRightAction);
+		UpdateSelection(BottomLeftCorner(), setting.BottomLeftAction);
+		UpdateSelection(BottomRightCorner(), setting.BottomRightAction);
 
-		TopLeftDelay().Value(static_cast<double>(curr.TopLeftDelay));
-		TopRightDelay().Value(static_cast<double>(curr.TopRightDelay));
-		BottomLeftDelay().Value(static_cast<double>(curr.BottomLeftDelay));
-		BottomRightDelay().Value(static_cast<double>(curr.BottomRightDelay));
+		TopLeftDelay().Value(static_cast<double>(setting.TopLeftDelay));
+		TopRightDelay().Value(static_cast<double>(setting.TopRightDelay));
+		BottomLeftDelay().Value(static_cast<double>(setting.BottomLeftDelay));
+		BottomRightDelay().Value(static_cast<double>(setting.BottomRightDelay));
 	}
 
 	void MonitorSettingsPage::InitializeComponent() {

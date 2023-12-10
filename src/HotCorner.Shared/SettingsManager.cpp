@@ -112,18 +112,24 @@ namespace winrt::HotCorner::Settings {
 				}
 				else if (key == MonitorsKey) {
 					Monitors.clear();
-					for (const auto& elm : member->value.GetArray()) {
-						jh::AssertMatch(elm.GetType(), json::kObjectType);
 
+					const auto val = member->value.GetObj();
+					for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
 						MonitorSettings setting{};
-						setting.Deserialize(elm.GetObj());
+						setting.Deserialize(monitor->value);
 
-						Monitors.push_back(setting);
+						const std::wstring id{ Json::GetStringView(monitor->name) };
+						Monitors.insert({ id, setting });
 					}
+					Monitors.try_emplace(L"");
 				}
 			}
 		}
-		else if (result.Code() != json::kParseErrorDocumentEmpty) {
+		else if (result.Code() == json::kParseErrorDocumentEmpty) {
+			Monitors.clear();
+			Monitors.try_emplace(L"");
+		}
+		else {
 			//TODO: Handle failure
 			OutputDebugString(L"Failed to parse document\n");
 		}
@@ -152,13 +158,15 @@ namespace winrt::HotCorner::Settings {
 
 		jh::Key(writer, MonitorsKey);
 
-		writer.StartArray();
+		writer.StartObject();
 		for (const auto& setting : Monitors) {
+			jh::Key(writer, setting.first);
+
 			writer.StartObject();
-			setting.Serialize(writer);
+			setting.second.Serialize(writer);
 			writer.EndObject();
 		}
-		writer.EndArray();
+		writer.EndObject();
 
 		writer.EndObject();
 		writer.Flush();

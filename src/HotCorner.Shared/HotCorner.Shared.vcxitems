@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MonitorSettings.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingsManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringHash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingsManager.cpp" />

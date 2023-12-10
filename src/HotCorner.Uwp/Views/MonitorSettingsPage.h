@@ -18,22 +18,25 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			const Windows::UI::Xaml::DependencyPropertyChangedEventArgs&
 		);
 
-		size_t m_currentSettings = 0;
+		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
+		std::wstring m_currentId = L"";
 
 		/**
-		 * @brief Gets the settings for the currently selected monitor.
+		 * @brief Gets a reference to the settings for the currently selected
+		 *        monitor.
 		*/
-		inline Settings::MonitorSettings& CurrentSettings() const noexcept;
+		inline Settings::MonitorSettings& CurrentSettings() const noexcept {
+			return m_settings.Monitors.at(m_currentId);
+		}
 
 		/**
-		 * @brief Refreshes the page's data with the current settings.
+		 * @brief Updates the page to show the settings for the monitor with
+		 *        the provided Id.
 		*/
-		void Refresh(size_t index);
+		void Refresh(const std::wstring& id);
 
 	public:
-		MonitorSettingsPage() {
-
-		}
+		MonitorSettingsPage() { }
 
 		void InitializeComponent();
 

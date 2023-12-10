@@ -6,13 +6,11 @@
 namespace winrt::HotCorner::Settings {
 	struct MonitorSettings final {
 		constexpr MonitorSettings() noexcept = default;
-		constexpr MonitorSettings(std::wstring_view id, std::wstring_view name) noexcept :
-			Id(id),
+		constexpr MonitorSettings(std::wstring_view name) noexcept :
 			DisplayName(name)
 		{ }
 
-		constexpr MonitorSettings(std::wstring_view id, std::wstring_view name, bool enabled, CornerAction tla, CornerAction tra, CornerAction bla, CornerAction bra, uint32_t tld, uint32_t trd, uint32_t bld, uint32_t brd) noexcept :
-			Id(id),
+		constexpr MonitorSettings(std::wstring_view name, bool enabled, CornerAction tla, CornerAction tra, CornerAction bla, CornerAction bra, uint32_t tld, uint32_t trd, uint32_t bld, uint32_t brd) noexcept :
 			DisplayName(name),
 			Enabled(enabled),
 			TopLeftAction(tla),
@@ -25,7 +23,6 @@ namespace winrt::HotCorner::Settings {
 			BottomRightDelay(brd)
 		{ }
 
-		std::wstring Id{};
 		std::wstring DisplayName{};
 
 		bool Enabled = true;
@@ -50,7 +47,6 @@ namespace winrt::HotCorner::Settings {
 
 		template<typename Writer>
 		inline void Serialize(Writer& writer) const {
-			Json::KeyValuePair(writer, IdKey, Id);
 			Json::KeyValuePair(writer, DisplayNameKey, DisplayName);
 			Json::KeyValuePair(writer, EnabledKey, Enabled);
 			Json::KeyValuePair(writer, DelayEnabledKey, DelayEnabled);
@@ -71,10 +67,7 @@ namespace winrt::HotCorner::Settings {
 			for (auto member = obj.MemberBegin(); member != obj.MemberEnd(); ++member) {
 				const auto key = Json::GetStringView(member->name);
 
-				if (key == IdKey) {
-					Id = Json::GetStringView(member->value);
-				}
-				else if (key == DisplayNameKey) {
+				if (key == DisplayNameKey) {
 					DisplayName = Json::GetStringView(member->value);
 				}
 				else if (key == EnabledKey) {
@@ -111,7 +104,6 @@ namespace winrt::HotCorner::Settings {
 		}
 
 	private:
-		static constexpr std::wstring_view IdKey = L"id";
 		static constexpr std::wstring_view DisplayNameKey = L"display_name";
 		static constexpr std::wstring_view EnabledKey = L"enabled";
 		static constexpr std::wstring_view DelayEnabledKey = L"delay_enabled";

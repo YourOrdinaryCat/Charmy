@@ -1,6 +1,8 @@
 #pragma once
 #include "MonitorSettings.h"
+#include "StringHash.h"
 #include <filesystem>
+#include <unordered_map>
 
 namespace winrt::HotCorner::Settings {
 	class SettingsManager final {
@@ -19,11 +21,25 @@ namespace winrt::HotCorner::Settings {
 
 		bool TrackingEnabled = true;
 		bool TrayIconEnabled = false;
-		std::vector<MonitorSettings> Monitors{};
+		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
 
 		SettingsManager(const std::filesystem::path& folder) noexcept;
 
 		void Load();
 		void Save() const;
+
+		inline std::optional<MonitorSettings> TryGetSetting(std::wstring_view id) const {
+			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
+				return setting->second;
+			}
+			return std::nullopt;
+		}
+
+		inline MonitorSettings GetSettingOrDefaults(std::wstring_view id) const {
+			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
+				return setting->second;
+			}
+			return Monitors.at(L"");
+		}
 	};
 }
