@@ -5,22 +5,25 @@
 #include "../main.h"
 
 namespace winrt::HotCorner::Server::CornerTracker {
+	using CornerOffsets = std::array<RECT, 4>;
+	using DisplayCorners = std::pair<std::wstring, CornerOffsets>;
+	using ActiveDisplayCorner = std::pair<std::wstring, ActiveCorner>;
+
 	std::thread m_actionThread{};
 	HANDLE m_cornerEvent = INVALID_HANDLE_VALUE;
 
 	bool m_running = false;
 	bool m_shouldRefresh = true;
 
-	struct DisplayCorners {
-		const std::wstring DisplayId;
-		const std::array<RECT, 4> Corners;
-
-		constexpr DisplayCorners(std::wstring_view displayId, const std::array<RECT, 4>& corners)
-			: DisplayId(displayId), Corners(corners) { }
-	};
-
 	std::vector<DisplayCorners> m_displayCorners{};
 	constexpr LONG m_offset = 10;
+
+	static bool IsPointWithinRect(const RECT& rect, POINT pt) noexcept {
+		if (pt.x >= rect.left && pt.x < rect.right && pt.y >= rect.top) {
+			return pt.y < rect.bottom;
+		}
+		return false;
+	}
 
 	/**
 	 * @brief Attempts to pin down the hot corner the provided point belongs to.
@@ -28,11 +31,11 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 * @returns If the point is not within a hot corner, returns nullopt. Otherwise,
 	 *          a pair that contains the monitor ID and corner the mouse is in.
 	*/
-	static std::optional<std::pair<std::wstring, ActiveCorner>> GetActiveHotCorner(const POINT& pt) {
+	static std::optional<ActiveDisplayCorner> GetActiveHotCorner(const POINT& pt) {
 		for (const auto& dc : m_displayCorners) {
-			for (uint32_t i = 0; i < dc.Corners.size(); ++i) {
-				if (PtInRect(&dc.Corners[i], pt)) {
-					return { { dc.DisplayId, static_cast<ActiveCorner>(i) } };
+			for (uint32_t i = 0; i < dc.second.size(); ++i) {
+				if (IsPointWithinRect(dc.second[i], pt)) {
+					return { { dc.first, static_cast<ActiveCorner>(i) } };
 				}
 			}
 		}
@@ -72,8 +75,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 			.bottom = rect.bottom + m_offset,
 		};
 
-		const std::array<RECT, 4> offsets{ tlo, tro, blo, bro };
-		m_displayCorners.push_back({ id, offsets });
+		m_displayCorners.emplace_back(id, CornerOffsets{ tlo, tro, blo, bro });
 	}
 
 	/**
@@ -91,7 +93,6 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 		DWORD index = 0;
 		while (EnumDisplayDevices(NULL, index, &display, 0)) {
-			// This is needed. Why? I have no idea, but it only works if I do this
 			std::array<WCHAR, 32> name{};
 			wcscpy_s(name.data(), name.size(), display.DeviceName);
 
