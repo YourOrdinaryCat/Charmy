@@ -5,24 +5,6 @@
 
 namespace winrt::HotCorner::Settings {
 	struct MonitorSettings final {
-		constexpr MonitorSettings() noexcept = default;
-		constexpr MonitorSettings(std::wstring_view name) noexcept :
-			DisplayName(name)
-		{ }
-
-		constexpr MonitorSettings(std::wstring_view name, bool enabled, CornerAction tla, CornerAction tra, CornerAction bla, CornerAction bra, uint32_t tld, uint32_t trd, uint32_t bld, uint32_t brd) noexcept :
-			DisplayName(name),
-			Enabled(enabled),
-			TopLeftAction(tla),
-			TopRightAction(tra),
-			BottomLeftAction(bla),
-			BottomRightAction(bra),
-			TopLeftDelay(tld),
-			TopRightDelay(trd),
-			BottomLeftDelay(bld),
-			BottomRightDelay(brd)
-		{ }
-
 		std::wstring DisplayName{};
 
 		bool Enabled = true;
@@ -101,6 +83,14 @@ namespace winrt::HotCorner::Settings {
 					Json::ReadValue(member->value, BottomRightDelay);
 				}
 			}
+		}
+
+		constexpr MonitorSettings() noexcept = default;
+		constexpr MonitorSettings(std::wstring_view displayName) noexcept :
+			DisplayName(displayName) { }
+
+		inline MonitorSettings(const Json::value_t& obj) {
+			Deserialize(obj);
 		}
 
 	private:

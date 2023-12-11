@@ -33,7 +33,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		// settings based on the default ones
 		if (!saved.contains(id)) {
 			Settings::MonitorSettings newSettings(val.DisplayName().c_str());
-			saved.insert({ id, saved[L""] });
+			saved.insert({ id, saved.at(L"") });
 		}
 
 		page->Refresh(id);

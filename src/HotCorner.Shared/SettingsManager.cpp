@@ -115,19 +115,16 @@ namespace winrt::HotCorner::Settings {
 
 					const auto val = member->value.GetObj();
 					for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
-						MonitorSettings setting{};
-						setting.Deserialize(monitor->value);
-
-						const std::wstring id{ Json::GetStringView(monitor->name) };
-						Monitors.insert({ id, setting });
+						Monitors.emplace(jh::GetStringView(monitor->name), monitor->value);
 					}
-					Monitors.try_emplace(L"");
+
+					Monitors[L""];
 				}
 			}
 		}
 		else if (result.Code() == json::kParseErrorDocumentEmpty) {
 			Monitors.clear();
-			Monitors.try_emplace(L"");
+			Monitors[L""];
 		}
 		else {
 			//TODO: Handle failure
