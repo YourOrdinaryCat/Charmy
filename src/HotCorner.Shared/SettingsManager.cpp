@@ -10,12 +10,9 @@
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
-#include <string_view>
-#include <vector>
 
 namespace json = rapidjson;
 namespace jh = winrt::HotCorner::Json;
-using namespace std::string_view_literals;
 
 using SettingsInputStream = json::EncodedInputStream<json::UTF16LE<>, json::FileReadStream>;
 using SettingsOutputStream = json::EncodedOutputStream<json::UTF16LE<>, json::FileWriteStream>;
@@ -111,20 +108,25 @@ namespace winrt::HotCorner::Settings {
 					jh::ReadValue(member->value, TrayIconEnabled);
 				}
 				else if (key == MonitorsKey) {
+					DefaultSettings = {};
 					Monitors.clear();
 
 					const auto val = member->value.GetObj();
 					for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
-						Monitors.emplace(jh::GetStringView(monitor->name), monitor->value);
+						const auto id = jh::GetStringView(monitor->name);
+						if (!id.empty()) {
+							Monitors.emplace(id, monitor->value);
+						}
+						else {
+							DefaultSettings.Deserialize(monitor->value);
+						}
 					}
-
-					Monitors[L""];
 				}
 			}
 		}
 		else if (result.Code() == json::kParseErrorDocumentEmpty) {
+			DefaultSettings = {};
 			Monitors.clear();
-			Monitors[L""];
 		}
 		else {
 			//TODO: Handle failure
@@ -133,15 +135,12 @@ namespace winrt::HotCorner::Settings {
 	}
 
 	void SettingsManager::SaveTo(FILE* file) const {
-		static constexpr auto initialComment = L"//TODO: JSON Schema\n"sv;
-		static constexpr auto schema = L"TODO"sv;
-
 		std::array<char, 1024> buffer{};
 		json::FileWriteStream filestream(file, buffer.data(), buffer.size());
 
 		SettingsOutputStream out(filestream, true);
 
-		for (const wchar_t c : initialComment) {
+		for (const wchar_t c : InitialComment) {
 			out.Put(c);
 		}
 
@@ -149,13 +148,18 @@ namespace winrt::HotCorner::Settings {
 		writer.SetIndent(' ', 2);
 
 		writer.StartObject();
-		jh::KeyValuePair(writer, SchemaKey, schema);
+		jh::KeyValuePair(writer, SchemaKey, Schema);
 		jh::KeyValuePair(writer, TrackingEnabledKey, TrackingEnabled);
 		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
 
 		jh::Key(writer, MonitorsKey);
 
 		writer.StartObject();
+
+		writer.StartObject();
+		DefaultSettings.Serialize(writer);
+		writer.EndObject();
+
 		for (const auto& setting : Monitors) {
 			jh::Key(writer, setting.first);
 

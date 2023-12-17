@@ -27,13 +27,13 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		const auto val = args.NewValue().as<Devices::MonitorInfo>();
 		const std::wstring id{ val.Id() };
 
-		auto& saved = page->m_settings.Monitors;
+		auto& saved = page->m_settings;
 
 		// Is a monitor with this ID already in settings? If no, create new
 		// settings based on the default ones
-		if (!saved.contains(id)) {
+		if (!saved.Monitors.contains(id)) {
 			Settings::MonitorSettings newSettings(val.DisplayName().c_str());
-			saved.insert({ id, saved.at(L"") });
+			saved.Monitors.insert({ id, saved.DefaultSettings });
 		}
 
 		page->Refresh(id);

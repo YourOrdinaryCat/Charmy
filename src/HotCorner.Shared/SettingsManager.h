@@ -6,6 +6,9 @@
 
 namespace winrt::HotCorner::Settings {
 	class SettingsManager final {
+		static constexpr std::wstring_view InitialComment = L"//TODO: JSON Schema\n";
+		static constexpr std::wstring_view Schema = L"TODO";
+
 		static constexpr std::wstring_view SchemaKey = L"$schema";
 		static constexpr std::wstring_view TrackingEnabledKey = L"enabled";
 		static constexpr std::wstring_view TrayIconEnabledKey = L"show_tray_icon";
@@ -21,6 +24,8 @@ namespace winrt::HotCorner::Settings {
 
 		bool TrackingEnabled = true;
 		bool TrayIconEnabled = false;
+
+		MonitorSettings DefaultSettings{};
 		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
 
 		SettingsManager(const std::filesystem::path& folder) noexcept;
@@ -39,7 +44,7 @@ namespace winrt::HotCorner::Settings {
 			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
 				return setting->second;
 			}
-			return Monitors.at(L"");
+			return DefaultSettings;
 		}
 	};
 }
