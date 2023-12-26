@@ -13,7 +13,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	 *        or through the tray icon.
 	*/
 	struct MainPage : MainPageT<MainPage> {
-		MainPage();
+		MainPage() { }
 
 		void InitializeComponent();
 

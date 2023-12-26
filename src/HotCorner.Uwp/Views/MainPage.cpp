@@ -11,10 +11,6 @@ namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	MainPage::MainPage() {
-
-	}
-
 	void MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
