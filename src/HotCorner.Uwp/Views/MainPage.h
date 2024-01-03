@@ -32,7 +32,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	private:
 		void Save() const;
 
-		Devices::Watcher<Windows::Devices::Display::DisplayMonitor, Devices::MonitorInfo> m_watcher{};
+		Devices::Watcher<Devices::MonitorInfo> m_watcher{
+			Windows::Devices::Display::DisplayMonitor::GetDeviceSelector(),
+			Devices::DeviceAdditionHandlingMode::Update,
+			Devices::DeviceRemovalHandlingMode::Unhandled
+		};
 		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
 	};
 }

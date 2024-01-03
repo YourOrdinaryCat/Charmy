@@ -8,7 +8,7 @@ namespace wdd = winrt::Windows::Devices::Display;
 namespace wde = winrt::Windows::Devices::Enumeration;
 
 namespace winrt::HotCorner::Uwp::Devices::implementation {
-	hstring GetMonitorName(const hstring& id) {
+	static hstring GetMonitorName(const hstring& id) {
 		const wdd::DisplayMonitor monitor{
 			wdd::DisplayMonitor::FromInterfaceIdAsync(id).get()
 		};
@@ -59,14 +59,11 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 
 	void MonitorInfo::Refresh(const hstring& id) {
 		DisplayName(GetMonitorName(id));
-		Connected(true);
 	}
 
-	MonitorInfo::MonitorInfo(const hstring& id, const hstring& name, bool connected) noexcept :
-		m_id(id), m_name(name), m_connected(connected) { }
+	MonitorInfo::MonitorInfo(const hstring& id, const hstring& name) noexcept :
+		m_id(id), m_name(name) { }
 
 	MonitorInfo::MonitorInfo(const wde::DeviceInformation& device) :
-		m_id(device.Id()),
-		m_name(GetMonitorName(m_id)),
-		m_connected(true) { }
+		m_id(device.Id()), m_name(GetMonitorName(m_id)) { }
 }

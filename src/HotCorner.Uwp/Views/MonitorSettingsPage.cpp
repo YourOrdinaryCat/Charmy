@@ -22,23 +22,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		return m_cornerActions;
 	}
 
-	void MonitorSettingsPage::OnMonitorPropertyChanged(const wux::DependencyObject& sender, const wux::DependencyPropertyChangedEventArgs& args) {
-		const auto page = sender.as<MonitorSettingsPage>();
-		const auto val = args.NewValue().as<Devices::MonitorInfo>();
-		const std::wstring id{ val.Id() };
-
-		auto& saved = page->m_settings;
-
-		// Is a monitor with this ID already in settings? If no, create new
-		// settings based on the default ones
-		if (!saved.Monitors.contains(id)) {
-			Settings::MonitorSettings newSettings(val.DisplayName().c_str());
-			saved.Monitors.insert({ id, saved.DefaultSettings });
-		}
-
-		page->Refresh(id);
-	}
-
 	static void UpdateSelection(const wuxc::ComboBox& box, const Settings::CornerAction act) {
 		if (act != Settings::CornerAction::None) {
 			box.SelectedIndex(static_cast<int32_t>(act));
