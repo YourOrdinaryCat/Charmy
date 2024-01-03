@@ -17,9 +17,14 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		GlobalCheck().IsChecked(m_settings.TrackingEnabled);
 		TrayIconCheck().IsChecked(m_settings.TrayIconEnabled);
 
-		m_watcher.ConnectedDevices().Append({ L"", L"Default settings" });
-		MonitorPicker().ItemsSource(m_watcher.ConnectedDevices());
+		const auto connected = m_watcher.ConnectedDevices();
 
+		connected.Append({ L"", L"Default settings" });
+		for (const auto& setting : m_settings.Monitors) {
+			connected.Append({ setting.first, setting.second.DisplayName });
+		}
+
+		MonitorPicker().ItemsSource(connected);
 		m_watcher.Start();
 	}
 
