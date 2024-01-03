@@ -17,7 +17,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		GlobalCheck().IsChecked(m_settings.TrackingEnabled);
 		TrayIconCheck().IsChecked(m_settings.TrayIconEnabled);
 
+		m_watcher.ConnectedDevices().Append({ L"", L"Default settings" });
 		MonitorPicker().ItemsSource(m_watcher.ConnectedDevices());
+
 		m_watcher.Start();
 	}
 
@@ -62,7 +64,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::OnMonitorSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs& args) {
 		const auto added = args.AddedItems().GetAt(0);
 		if (const auto monitor = added.try_as<MonitorInfo>()) {
-			SettingsView().Monitor(monitor);
+			SettingsView().SetMonitorId(monitor.Id());
 		}
 	}
 }

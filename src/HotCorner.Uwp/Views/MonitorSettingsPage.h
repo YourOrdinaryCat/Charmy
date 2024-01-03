@@ -10,35 +10,15 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	 * @brief Shown to the user when a monitor is picked.
 	*/
 	struct MonitorSettingsPage : MonitorSettingsPageT<MonitorSettingsPage> {
-	private:
-		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();
+		MonitorSettingsPage() { }
 
-		static void OnMonitorPropertyChanged(
-			const Windows::UI::Xaml::DependencyObject&,
-			const Windows::UI::Xaml::DependencyPropertyChangedEventArgs&
-		);
-
-		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
-		std::wstring m_currentId = L"";
-
-		/**
-		 * @brief Gets a reference to the settings for the currently selected
-		 *        monitor.
-		*/
-		inline Settings::MonitorSettings& CurrentSettings() const noexcept {
-			return m_settings.Monitors.at(m_currentId);
-		}
+		void InitializeComponent();
 
 		/**
 		 * @brief Updates the page to show the settings for the monitor with
 		 *        the provided Id.
 		*/
-		void Refresh(const std::wstring& id);
-
-	public:
-		MonitorSettingsPage() { }
-
-		void InitializeComponent();
+		void SetMonitorId(const hstring& id);
 
 		void OnDelayToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		void OnDelayToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
@@ -57,7 +37,22 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnBottomLeftDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
 		void OnBottomRightDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
 
-		DEPENDENCY_PROPERTY_META(Monitor, Devices::MonitorInfo, nullptr, OnMonitorPropertyChanged);
+	private:
+		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();
+
+		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
+		std::wstring m_currentId = L"";
+
+		/**
+		 * @brief Gets a reference to the settings for the currently selected
+		 *        monitor.
+		*/
+		inline Settings::MonitorSettings& CurrentSettings() const noexcept {
+			if (m_currentId.empty()) {
+				return m_settings.DefaultSettings;
+			}
+			return m_settings.Monitors.at(m_currentId);
+		}
 	};
 }
 

@@ -31,8 +31,18 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		}
 	}
 
-	void MonitorSettingsPage::Refresh(const std::wstring& id) {
-		m_currentId = id;
+	void MonitorSettingsPage::InitializeComponent() {
+		MonitorSettingsPageT::InitializeComponent();
+		const auto items = CornerActions();
+
+		TopLeftCorner().ItemsSource(items);
+		TopRightCorner().ItemsSource(items);
+		BottomLeftCorner().ItemsSource(items);
+		BottomRightCorner().ItemsSource(items);
+	}
+
+	void MonitorSettingsPage::SetMonitorId(const hstring& id) {
+		m_currentId = std::wstring{ id };
 		const auto& setting = CurrentSettings();
 
 		GlobalCheck().IsChecked(setting.Enabled);
@@ -47,16 +57,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		TopRightDelay().Value(static_cast<double>(setting.TopRightDelay));
 		BottomLeftDelay().Value(static_cast<double>(setting.BottomLeftDelay));
 		BottomRightDelay().Value(static_cast<double>(setting.BottomRightDelay));
-	}
-
-	void MonitorSettingsPage::InitializeComponent() {
-		MonitorSettingsPageT::InitializeComponent();
-		const auto items = CornerActions();
-
-		TopLeftCorner().ItemsSource(items);
-		TopRightCorner().ItemsSource(items);
-		BottomLeftCorner().ItemsSource(items);
-		BottomRightCorner().ItemsSource(items);
 	}
 
 	void MonitorSettingsPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {

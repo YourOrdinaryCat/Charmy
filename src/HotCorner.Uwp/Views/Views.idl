@@ -13,6 +13,6 @@ namespace HotCorner.Uwp.Views {
 	runtimeclass MonitorSettingsPage : XAML.Controls.UserControl {
 		MonitorSettingsPage();
 
-		DEPENDENCY_PROPERTY(Monitor, HotCorner.Uwp.Devices.MonitorInfo);
+		void SetMonitorId(String id);
 	}
 }
