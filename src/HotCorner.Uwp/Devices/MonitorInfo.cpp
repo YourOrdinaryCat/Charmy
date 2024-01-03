@@ -6,64 +6,65 @@
 
 namespace wdd = winrt::Windows::Devices::Display;
 namespace wde = winrt::Windows::Devices::Enumeration;
+namespace wf = winrt::Windows::Foundation;
 
 namespace winrt::HotCorner::Uwp::Devices::implementation {
-	static hstring GetMonitorName(const hstring& id) {
+	static wf::IAsyncOperation<hstring> GetMonitorNameAsync(const hstring& id) {
 		const wdd::DisplayMonitor monitor{
-			wdd::DisplayMonitor::FromInterfaceIdAsync(id).get()
+			co_await wdd::DisplayMonitor::FromInterfaceIdAsync(id)
 		};
 
 		const hstring name = monitor.DisplayName();
 		if (!name.empty()) {
-			return name;
+			co_return name;
 		}
 
 		//TODO: Localize this, and maybe have better fallbacks?
 		switch (monitor.ConnectionKind()) {
 		case wdd::DisplayMonitorConnectionKind::Internal:
-			return L"Internal Display";
+			co_return L"Internal Display";
 
 		case wdd::DisplayMonitorConnectionKind::Virtual:
-			return L"Virtual Display";
+			co_return L"Virtual Display";
 
 		case wdd::DisplayMonitorConnectionKind::Wireless:
-			return L"Wirelesss Display";
+			co_return L"Wirelesss Display";
 
 		case wdd::DisplayMonitorConnectionKind::Wired:
 			switch (monitor.PhysicalConnector()) {
 			case wdd::DisplayMonitorPhysicalConnectorKind::AnalogTV:
-				return L"Component Video Display";
+				co_return L"Component Video Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::DisplayPort:
-				return L"DisplayPort Display";
+				co_return L"DisplayPort Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::Dvi:
-				return L"DVI Display";
+				co_return L"DVI Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::HD15:
-				return L"VGA Display";
+				co_return L"VGA Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::Hdmi:
-				return L"HDMI Display";
+				co_return L"HDMI Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::Lvds:
-				return L"LVDS Display";
+				co_return L"LVDS Display";
 
 			case wdd::DisplayMonitorPhysicalConnectorKind::Sdi:
-				return L"SDI Display";
+				co_return L"SDI Display";
 			}
 		}
 
-		return L"Unknown Display";
+		co_return L"Unknown Display";
 	}
 
-	void MonitorInfo::Refresh(const hstring& id) {
-		DisplayName(GetMonitorName(id));
+	wf::IAsyncAction MonitorInfo::RefreshAsync(const hstring& id) {
+		DisplayName(co_await GetMonitorNameAsync(id));
 	}
 
 	MonitorInfo::MonitorInfo(const hstring& id, const hstring& name) noexcept :
 		m_id(id), m_name(name) { }
 
 	MonitorInfo::MonitorInfo(const wde::DeviceInformation& device) :
-		m_id(device.Id()), m_name(GetMonitorName(m_id)) { }
+		m_id(device.Id()), m_name(GetMonitorNameAsync(m_id).get()) { }
 }

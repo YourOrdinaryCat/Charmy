@@ -12,7 +12,7 @@ namespace HotCorner.Uwp.Devices {
 		String DisplayName{ get; set; };
 
 		[default_overload]
-		void Refresh(Windows.Devices.Enumeration.DeviceInformationUpdate update);
-		void Refresh(Windows.Devices.Enumeration.DeviceInformation info);
+		Windows.Foundation.IAsyncAction RefreshAsync(Windows.Devices.Enumeration.DeviceInformationUpdate update);
+		Windows.Foundation.IAsyncAction RefreshAsync(Windows.Devices.Enumeration.DeviceInformation info);
 	}
 }

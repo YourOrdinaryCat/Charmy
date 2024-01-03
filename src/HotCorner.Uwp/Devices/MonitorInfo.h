@@ -1,6 +1,8 @@
 #pragma once
 #include "Devices/MonitorInfo.g.h"
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Devices.Enumeration.h>
+#include <winrt/Windows.UI.Xaml.Data.h>
 
 namespace winrt::HotCorner::Uwp::Devices::implementation {
 	struct MonitorInfo : MonitorInfoT<MonitorInfo> {
@@ -9,18 +11,18 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 		hstring m_name;
 
 		winrt::event<Windows::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChanged;
-		void Refresh(const hstring& id);
+		Windows::Foundation::IAsyncAction RefreshAsync(const hstring& id);
 
 	public:
 		MonitorInfo(const hstring& id, const hstring& name) noexcept;
 		MonitorInfo(const Windows::Devices::Enumeration::DeviceInformation& device);
 
-		inline void Refresh(const Windows::Devices::Enumeration::DeviceInformationUpdate& update) {
-			Refresh(update.Id());
+		inline Windows::Foundation::IAsyncAction RefreshAsync(const Windows::Devices::Enumeration::DeviceInformationUpdate& update) {
+			return RefreshAsync(update.Id());
 		}
 
-		inline void Refresh(const Windows::Devices::Enumeration::DeviceInformation& info) {
-			Refresh(info.Id());
+		inline Windows::Foundation::IAsyncAction RefreshAsync(const Windows::Devices::Enumeration::DeviceInformation& info) {
+			return RefreshAsync(info.Id());
 		}
 
 		inline hstring Id() const noexcept {

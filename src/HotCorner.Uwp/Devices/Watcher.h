@@ -16,8 +16,8 @@ namespace winrt::HotCorner::Uwp::Devices {
 	concept DeviceInfo = requires(T device, wde::DeviceInformation info, wde::DeviceInformationUpdate update) {
 		{ T(info) } -> std::same_as<T>;
 		{ device.Id() } -> std::same_as<hstring>;
-		{ device.Refresh(info) } -> std::same_as<void>;
-		{ device.Refresh(update) } -> std::same_as<void>;
+		{ device.RefreshAsync(info) } -> std::same_as<wf::IAsyncAction>;
+		{ device.RefreshAsync(update) } -> std::same_as<wf::IAsyncAction>;
 	};
 
 	/**
@@ -106,7 +106,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 						const auto info = m_connected.GetAt(*index);
 
 						co_await m_startContext;
-						info.Refresh(device);
+						co_await info.RefreshAsync(device);
 					}
 				}
 				else if (HasFlag(m_addMode, DeviceAdditionHandlingMode::Add)) {
@@ -134,7 +134,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 				const auto info = m_connected.GetAt(*index);
 
 				co_await m_startContext;
-				info.Refresh(update);
+				co_await info.RefreshAsync(update);
 			}
 		}
 
