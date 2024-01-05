@@ -21,18 +21,15 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="8" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel
             Margin="8"
-            VerticalAlignment="Stretch"
             Orientation="Horizontal"
-            Spacing="8"
-            XYFocusKeyboardNavigation="Enabled">
+            Spacing="8">
             <muxc:DropDownButton>
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="6">
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
                     <TextBlock Text="General" />
                 </StackPanel>
@@ -81,28 +78,42 @@
             </muxc:DropDownButton>
         </StackPanel>
 
-        <ComboBox
-            x:Name="MonitorPicker"
-            Grid.Column="2"
+        <Grid
+            Grid.Column="1"
             Margin="8"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            SelectedIndex="0"
-            SelectionChanged="OnMonitorSelected">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="hcud:MonitorInfo">
-                    <TextBlock Text="{x:Bind DisplayName}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
+            HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
 
-            <d:ComboBox.Items>
-                <d:ComboBoxItem>Internal Display</d:ComboBoxItem>
-            </d:ComboBox.Items>
-        </ComboBox>
+            <Button
+                MinWidth="32"
+                Padding="4"
+                VerticalAlignment="Stretch"
+                CornerRadius="4,0,0,4"
+                ToolTipService.ToolTip="Add dedicated configuration for another monitor">
+                <FontIcon FontSize="14" Glyph="&#xE710;" />
+            </Button>
+
+            <ComboBox
+                x:Name="MonitorPicker"
+                Grid.Column="1"
+                BorderThickness="0,1,1,1"
+                CornerRadius="0,4,4,0"
+                SelectedIndex="0"
+                SelectionChanged="OnMonitorSelected">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="hcud:MonitorInfo">
+                        <TextBlock Text="{x:Bind DisplayName}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
 
         <Border
             Grid.Row="1"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="2"
             Margin="8,0"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -114,7 +125,7 @@
 
         <StackPanel
             Grid.Row="2"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="2"
             Margin="8"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
