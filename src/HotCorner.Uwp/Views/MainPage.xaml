@@ -99,6 +99,7 @@
             <ComboBox
                 x:Name="MonitorPicker"
                 Grid.Column="1"
+                VerticalAlignment="Stretch"
                 BorderThickness="0,1,1,1"
                 CornerRadius="0,4,4,0"
                 SelectedIndex="0"
