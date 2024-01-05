@@ -37,7 +37,7 @@
                     Unchecked="OnDelayToggleUnchecked" />
 
                 <Button Padding="4" ToolTipService.ToolTip="Configure">
-                    <FontIcon FontSize="14" Glyph="&#xE713;" />
+                    <FontIcon FontSize="16" Glyph="&#xE713;" />
 
                     <Button.Flyout>
                         <Flyout uac8:ShouldConstrainToRootBounds="False" Placement="Right">
@@ -91,6 +91,19 @@
                     </Button.Flyout>
                 </Button>
             </StackPanel>
+
+            <Button
+                x:Name="RemoveConfigButton"
+                Margin="0,8,0,0"
+                HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <FontIcon
+                        FontSize="16"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        Glyph="&#xE74D;" />
+                    <TextBlock Text="Remove this configuration" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <ComboBox

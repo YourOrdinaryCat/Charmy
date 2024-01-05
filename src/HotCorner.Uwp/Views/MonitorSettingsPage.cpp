@@ -47,6 +47,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		GlobalCheck().IsChecked(setting.Enabled);
 		DelayCheck().IsChecked(setting.DelayEnabled);
+		RemoveConfigButton().Visibility(
+			id.empty() ? wux::Visibility::Collapsed : wux::Visibility::Visible
+		);
 
 		UpdateSelection(TopLeftCorner(), setting.TopLeftAction);
 		UpdateSelection(TopRightCorner(), setting.TopRightAction);
