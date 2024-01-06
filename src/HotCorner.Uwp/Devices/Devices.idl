@@ -1,6 +1,8 @@
+#include "../Utils/Midl.h"
+
 namespace HotCorner.Uwp.Devices {
 	[default_interface]
-	runtimeclass MonitorInfo : Windows.UI.Xaml.Data.INotifyPropertyChanged {
+	runtimeclass MonitorInfo : XAML.Data.INotifyPropertyChanged {
 		[noexcept]
 		MonitorInfo(String id, String name);
 
