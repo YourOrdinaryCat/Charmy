@@ -34,8 +34,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		Devices::Watcher<Devices::MonitorInfo> m_watcher{
 			Windows::Devices::Display::DisplayMonitor::GetDeviceSelector(),
-			Devices::DeviceAdditionHandlingMode::Update,
-			Devices::DeviceRemovalHandlingMode::Unhandled
+			Devices::DeviceWatcherEvent::None
 		};
 		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
 	};

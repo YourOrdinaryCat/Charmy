@@ -21,43 +21,14 @@ namespace winrt::HotCorner::Uwp::Devices {
 	};
 
 	/**
-	 * @brief Defines a set of values that specify how the DeviceWatcher.Added
-	 *        event should be handled.
+	 * @brief Defines a set of values that identify DeviceWacher events.
 	*/
-	enum class DeviceAdditionHandlingMode : uint32_t {
-		/**
-		 * @brief The event is left effectively unhandled.
-		*/
-		Unhandled = 0,
-		/**
-		 * @brief Newly connected devices are added to the connected device
-		 *        collection.
-		*/
+	enum class DeviceWatcherEvent : uint32_t {
+		None = 0,
 		Add = 1,
-		/**
-		 * @brief If the device is already in the connected device collection,
-		 *        its data gets updated.
-		*/
-		Update = 2
+		Remove = 2
 	};
-	APPLY_FLAG_OPERATORS_TO_ENUM(DeviceAdditionHandlingMode);
-
-	/**
-	 * @brief Defines a set of values that specify how the DeviceWatcher.Removed
-	 *        event should be handled.
-	*/
-	enum class DeviceRemovalHandlingMode : uint32_t {
-		/**
-		 * @brief The event is left effectively unhandled.
-		*/
-		Unhandled = 0,
-		/**
-		 * @brief On disconnection, if the device is in the connected device
-		 *        collection, it will be removed.
-		*/
-		Remove = 1
-	};
-	APPLY_FLAG_OPERATORS_TO_ENUM(DeviceRemovalHandlingMode);
+	APPLY_FLAG_OPERATORS_TO_ENUM(DeviceWatcherEvent);
 
 	/**
 	 * @brief A watcher based on Windows' DeviceWatcher.
@@ -77,8 +48,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 		apartment_context m_startContext{ nullptr };
 		bool m_running = false;
 
-		const DeviceAdditionHandlingMode m_addMode;
-		const DeviceRemovalHandlingMode m_removeMode;
+		const DeviceWatcherEvent m_handledEvents;
 
 		/**
 		 * @brief Gets the index of a device based on the provided ID.
@@ -100,18 +70,16 @@ namespace winrt::HotCorner::Uwp::Devices {
 		}
 
 		fire_and_forget OnDeviceAdded(const wde::DeviceWatcher&, const wde::DeviceInformation device) {
-			if (m_addMode != DeviceAdditionHandlingMode::Unhandled) {
-				if (const auto index = TryGetDeviceIndex(device.Id())) {
-					if (HasFlag(m_addMode, DeviceAdditionHandlingMode::Update)) {
-						const auto info = m_connected.GetAt(*index);
+			if (const auto index = TryGetDeviceIndex(device.Id())) {
+				const auto info = m_connected.GetAt(*index);
 
-						co_await m_startContext;
-						co_await info.RefreshAsync(device);
-					}
-				}
-				else if (HasFlag(m_addMode, DeviceAdditionHandlingMode::Add)) {
-					Info toAdd{ device };
+				co_await m_startContext;
+				co_await info.RefreshAsync(device);
+			}
+			else if (HasFlag(m_handledEvents, DeviceWatcherEvent::Add)) {
+				Info toAdd{ device };
 
+				if (AddingDeviceOverride(toAdd)) {
 					co_await m_startContext;
 					m_connected.Append(toAdd);
 				}
@@ -119,10 +87,13 @@ namespace winrt::HotCorner::Uwp::Devices {
 		}
 
 		fire_and_forget OnDeviceRemoved(const wde::DeviceWatcher&, const wde::DeviceInformationUpdate& update) {
-			if (m_removeMode != DeviceRemovalHandlingMode::Unhandled) {
+			if (HasFlag(m_handledEvents, DeviceWatcherEvent::Remove)) {
 				if (const auto index = TryGetDeviceIndex(update.Id())) {
-					co_await m_startContext;
-					m_connected.RemoveAt(*index);
+					const auto device = m_connected.GetAt(*index);
+					if (RemovingDeviceOverride(device)) {
+						co_await m_startContext;
+						m_connected.RemoveAt(*index);
+					}
 				}
 			}
 		}
@@ -145,15 +116,40 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 		}
 
+	protected:
+		/**
+		 * @brief When overriden in a derived class, it can be used to
+		 *        determine whether the provided device should be added to the
+		 *        connected device collection.
+		 *
+		 * @returns Whether the provided device should be added to the
+		 *          connected device collection. If not overriden, simply
+		 *          returns true.
+		*/
+		bool AddingDeviceOverride(const Info&) const {
+			return true;
+		}
+
+		/**
+		 * @brief When overriden in a derived class, it can be used to
+		 *        determine whether the provided device should be removed from
+		 *        the connected device collection.
+		 *
+		 * @returns Whether the provided device should be removed from the
+		 *          connected device collection. If not overriden, simply
+		 *          returns true.
+		*/
+		bool RemovingDeviceOverride(const Info&) const {
+			return true;
+		}
+
 	public:
 		Watcher(
 			const hstring& selector,
-			const DeviceAdditionHandlingMode addMode = DeviceAdditionHandlingMode::Add | DeviceAdditionHandlingMode::Update,
-			const DeviceRemovalHandlingMode removeMode = DeviceRemovalHandlingMode::Remove
+			const DeviceWatcherEvent handledEvents = DeviceWatcherEvent::Add | DeviceWatcherEvent::Remove
 		) :
 			m_watcher(wde::DeviceInformation::CreateWatcher(selector)),
-			m_addMode(addMode),
-			m_removeMode(removeMode),
+			m_handledEvents(handledEvents),
 			m_addToken(m_watcher.Added({ this, &Watcher::OnDeviceAdded })),
 			m_removeToken(m_watcher.Removed({ this, &Watcher::OnDeviceRemoved })),
 			m_updateToken(m_watcher.Updated({ this, &Watcher::OnDeviceUpdated })),
