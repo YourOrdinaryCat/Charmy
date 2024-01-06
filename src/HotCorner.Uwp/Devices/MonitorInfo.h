@@ -1,8 +1,9 @@
 #pragma once
-#include "Devices/MonitorInfo.g.h"
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Devices.Enumeration.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
+
+#include "Devices/MonitorInfo.g.h"
 
 namespace winrt::HotCorner::Uwp::Devices::implementation {
 	struct MonitorInfo : MonitorInfoT<MonitorInfo> {

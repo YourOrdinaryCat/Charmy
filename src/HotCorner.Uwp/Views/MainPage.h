@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "MonitorSettingsPage.h"
 #include <App.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <winrt/Windows.Devices.Display.h>
 
+#include "MonitorSettingsPage.h"
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
