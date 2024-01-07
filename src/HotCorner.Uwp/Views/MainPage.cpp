@@ -46,6 +46,13 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		Lifetime::Current().HideTrayIcon();
 	}
 
+	void MainPage::OnSettingRemoved(const hstring& monitorId) {
+		if (const auto index = m_watcher.TryGetDeviceIndex(monitorId)) {
+			MonitorPicker().SelectedIndex(*index - 1);
+			m_watcher.ConnectedDevices().RemoveAt(*index);
+		}
+	}
+
 	void MainPage::Save() const {
 		AppSettings().Save();
 		if (Lifetime::Started()) {
@@ -66,9 +73,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		co_await wuvm::ApplicationView::GetForCurrentView().TryConsolidateAsync();
 	}
 
-	void MainPage::OnMonitorSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs& args) {
-		const auto added = args.AddedItems().GetAt(0);
-		if (const auto monitor = added.try_as<MonitorInfo>()) {
+	void MainPage::OnMonitorSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&) {
+		if (const auto monitor = MonitorPicker().SelectedItem().try_as<MonitorInfo>()) {
 			SettingsView().SetMonitorId(monitor.Id());
 		}
 	}

@@ -60,11 +60,23 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		BottomRightDelay().Value(static_cast<double>(setting.BottomRightDelay));
 	}
 
+	event_token MonitorSettingsPage::SettingRemoved(const SettingRemovedEventHandler& handler) {
+		return m_settingRemovedEvent.add(handler);
+	}
+	void MonitorSettingsPage::SettingRemoved(const event_token& token) noexcept {
+		return m_settingRemovedEvent.remove(token);
+	}
+
 	void MonitorSettingsPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
 		CurrentSettings().Enabled = true;
 	}
 	void MonitorSettingsPage::OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
 		CurrentSettings().Enabled = false;
+	}
+
+	void MonitorSettingsPage::OnRemoveConfigClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		AppSettings().Monitors.erase(m_currentId);
+		m_settingRemovedEvent(hstring{ m_currentId });
 	}
 
 	void MonitorSettingsPage::OnDelayToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {

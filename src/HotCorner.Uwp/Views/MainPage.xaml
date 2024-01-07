@@ -121,7 +121,7 @@
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
             CornerRadius="{ThemeResource ControlCornerRadius}">
-            <hcuv:MonitorSettingsPage x:Name="SettingsView" />
+            <hcuv:MonitorSettingsPage x:Name="SettingsView" SettingRemoved="OnSettingRemoved" />
         </Border>
 
         <StackPanel

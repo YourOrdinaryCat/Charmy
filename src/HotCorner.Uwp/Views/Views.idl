@@ -8,11 +8,14 @@ namespace HotCorner.Uwp.Views {
 		MainPage();
 	}
 
+	delegate void SettingRemovedEventHandler(String monitorId);
+
 	[default_interface]
 	[webhosthidden]
 	runtimeclass MonitorSettingsPage : XAML.Controls.UserControl {
 		MonitorSettingsPage();
 
 		void SetMonitorId(String id);
+		event SettingRemovedEventHandler SettingRemoved;
 	}
 }

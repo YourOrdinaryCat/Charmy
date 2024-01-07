@@ -20,11 +20,16 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		*/
 		void SetMonitorId(const hstring& id);
 
+		event_token SettingRemoved(const SettingRemovedEventHandler& handler);
+		void SettingRemoved(const event_token& token) noexcept;
+
 		void OnDelayToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		void OnDelayToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
 		void OnGlobalToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		void OnGlobalToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+
+		void OnRemoveConfigClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
 		//TODO: Refactor?
 		void OnTopLeftActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
@@ -39,6 +44,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	private:
 		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();
+
+		event<SettingRemovedEventHandler> m_settingRemovedEvent;
 		std::wstring m_currentId = L"";
 
 		/**

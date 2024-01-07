@@ -95,7 +95,8 @@
             <Button
                 x:Name="RemoveConfigButton"
                 Margin="0,8,0,0"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                Click="OnRemoveConfigClick">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <FontIcon
                         FontSize="16"
