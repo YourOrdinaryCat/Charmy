@@ -38,22 +38,6 @@ namespace winrt::HotCorner::Uwp::Devices {
 		using DeviceVectorT = Windows::Foundation::Collections::IObservableVector<Info>;
 		using DeviceVectorChangedArgsT = Windows::Foundation::Collections::IVectorChangedEventArgs;
 
-	private:
-		const wde::DeviceWatcher m_watcher;
-		const DeviceVectorT m_connected{ single_threaded_observable_vector<Info>() };
-
-		const event_token m_addToken;
-		const event_token m_removeToken;
-		const event_token m_updateToken;
-		const event_token m_stoppedToken;
-
-		// Caller might expect updates to be dispatched to the context
-		// under which watching started
-		apartment_context m_startContext{ nullptr };
-		bool m_running = false;
-
-		const DeviceWatcherEvent m_handledEvents;
-
 		/**
 		 * @brief Gets the index of a device based on the provided ID.
 		 *
@@ -72,6 +56,22 @@ namespace winrt::HotCorner::Uwp::Devices {
 
 			return static_cast<uint32_t>(std::distance(m_connected.begin(), device));
 		}
+
+	private:
+		const wde::DeviceWatcher m_watcher;
+		const DeviceVectorT m_connected{ single_threaded_observable_vector<Info>() };
+
+		const event_token m_addToken;
+		const event_token m_removeToken;
+		const event_token m_updateToken;
+		const event_token m_stoppedToken;
+
+		// Caller might expect updates to be dispatched to the context
+		// under which watching started
+		apartment_context m_startContext{ nullptr };
+		bool m_running = false;
+
+		const DeviceWatcherEvent m_handledEvents;
 
 		fire_and_forget OnDeviceAdded(const wde::DeviceWatcher&, const wde::DeviceInformation device) {
 			if (const auto index = TryGetDeviceIndex(device.Id())) {
