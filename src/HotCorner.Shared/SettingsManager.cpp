@@ -153,8 +153,9 @@ namespace winrt::HotCorner::Settings {
 		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
 
 		jh::Key(writer, MonitorsKey);
-
 		writer.StartObject();
+
+		jh::Key(writer, L"");
 
 		writer.StartObject();
 		DefaultSettings.Serialize(writer);
