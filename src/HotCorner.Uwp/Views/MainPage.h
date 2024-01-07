@@ -23,6 +23,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnTrayIconToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 		void OnTrayIconToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
 
+		void OnSettingAdded(const hstring&, const hstring&);
 		void OnSettingRemoved(const hstring&);
 
 		void OnApplyButtonClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);

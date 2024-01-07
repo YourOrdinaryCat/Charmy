@@ -8,6 +8,7 @@ namespace HotCorner.Uwp.Views {
 		MainPage();
 	}
 
+	delegate void SettingAddedEventHandler(String monitorId, String monitorName);
 	delegate void SettingRemovedEventHandler(String monitorId);
 
 	[default_interface]
@@ -17,5 +18,14 @@ namespace HotCorner.Uwp.Views {
 
 		void SetMonitorId(String id);
 		event SettingRemovedEventHandler SettingRemoved;
+	}
+
+	[default_interface]
+	[webhosthidden]
+	runtimeclass MonitorPickerFlyout : XAML.Controls.Flyout {
+		MonitorPickerFlyout();
+
+		void RestartWatcher();
+		event SettingAddedEventHandler SettingAdded;
 	}
 }

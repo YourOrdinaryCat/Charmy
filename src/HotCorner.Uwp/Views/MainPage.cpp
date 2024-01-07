@@ -46,10 +46,19 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		Lifetime::Current().HideTrayIcon();
 	}
 
+	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {
+		m_watcher.ConnectedDevices().Append({ monitorId, monitorName });
+		MonitorPicker().SelectedIndex(m_watcher.ConnectedDevices().Size() - 1);
+
+		AddConfigFlyout().RestartWatcher();
+	}
+
 	void MainPage::OnSettingRemoved(const hstring& monitorId) {
 		if (const auto index = m_watcher.TryGetDeviceIndex(monitorId)) {
 			MonitorPicker().SelectedIndex(*index - 1);
 			m_watcher.ConnectedDevices().RemoveAt(*index);
+
+			AddConfigFlyout().RestartWatcher();
 		}
 	}
 

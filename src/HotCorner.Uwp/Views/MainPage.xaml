@@ -94,6 +94,10 @@
                 CornerRadius="4,0,0,4"
                 ToolTipService.ToolTip="Add dedicated configuration for another monitor">
                 <FontIcon FontSize="14" Glyph="&#xE710;" />
+
+                <Button.Flyout>
+                    <hcuv:MonitorPickerFlyout x:Name="AddConfigFlyout" SettingAdded="OnSettingAdded" />
+                </Button.Flyout>
             </Button>
 
             <ComboBox

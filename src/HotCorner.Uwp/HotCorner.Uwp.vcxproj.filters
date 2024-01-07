@@ -75,6 +75,9 @@
     <Page Include="Views\MonitorSettingsPage.xaml">
       <Filter>Views</Filter>
     </Page>
+    <Page Include="Views\MonitorPickerFlyout.xaml">
+      <Filter>Views</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Views\Views.idl">
