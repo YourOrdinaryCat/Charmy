@@ -71,6 +71,9 @@ namespace winrt::HotCorner::Uwp::Devices {
 		apartment_context m_startContext{ nullptr };
 		bool m_running = false;
 
+		bool m_clearRequested = false;
+		bool m_restartRequested = false;
+
 		const DeviceWatcherEvent m_handledEvents;
 
 		fire_and_forget OnDeviceAdded(const wde::DeviceWatcher&, const wde::DeviceInformation device) {
@@ -113,10 +116,24 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 		}
 
-		void OnDeviceEnumerationStopped(const wde::DeviceWatcher&, const wf::IInspectable&) {
-			m_running = false;
+		fire_and_forget OnDeviceEnumerationStopped(const wde::DeviceWatcher&, const wf::IInspectable&) {
+			if (m_clearRequested) {
+				m_clearRequested = false;
+
+				co_await m_startContext;
+				m_connected.Clear();
+			}
+
 			if (m_watcher.Status() != wde::DeviceWatcherStatus::Stopped) {
 				OutputDebugString(L"Device enumeration has stopped unexpectedly\n");
+			}
+
+			if (m_restartRequested) {
+				m_restartRequested = false;
+				m_watcher.Start();
+			}
+			else {
+				m_running = false;
 			}
 		}
 
@@ -166,7 +183,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			m_watcher.Updated(m_updateToken);
 			m_watcher.Stopped(m_stoppedToken);
 
-			Stop();
+			Stop(false);
 		}
 
 		void Start() {
@@ -178,8 +195,17 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 		}
 
-		void Stop() {
+		void Stop(const bool clear) {
 			if (m_running) {
+				m_clearRequested = clear;
+				m_watcher.Stop();
+			}
+		}
+
+		void Restart(const bool clear) {
+			if (m_running) {
+				m_clearRequested = clear;
+				m_restartRequested = true;
 				m_watcher.Stop();
 			}
 		}
