@@ -16,10 +16,12 @@ namespace winrt::HotCorner::Uwp::implementation {
 		 * @param args Details about the launch request and process.
 		*/
 		void OnLaunched(const Windows::ApplicationModel::Activation::LaunchActivatedEventArgs&) const;
-
-		/**
-		 * @brief Gets the singleton instance of the app's settings manager.
-		*/
-		static Settings::SettingsManager& Settings();
 	};
+}
+
+namespace winrt::HotCorner::Uwp {
+	/**
+	 * @brief Gets the singleton instance of the app's settings manager.
+	*/
+	Settings::SettingsManager& AppSettings();
 }

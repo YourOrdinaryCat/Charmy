@@ -36,7 +36,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			Windows::Devices::Display::DisplayMonitor::GetDeviceSelector(),
 			Devices::DeviceWatcherEvent::None
 		};
-		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
 	};
 }
 

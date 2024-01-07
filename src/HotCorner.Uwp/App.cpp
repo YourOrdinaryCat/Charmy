@@ -39,10 +39,12 @@ namespace winrt::HotCorner::Uwp::implementation {
 
 		window.Activate();
 	}
+}
 
-	Settings::SettingsManager& App::Settings() {
+namespace winrt::HotCorner::Uwp {
+	Settings::SettingsManager& AppSettings() {
 		static Settings::SettingsManager m_settings{
-			Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
+				Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
 		};
 		static bool m_settingsLoaded = false;
 

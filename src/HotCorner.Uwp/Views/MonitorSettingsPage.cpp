@@ -7,8 +7,6 @@ namespace wfc = winrt::Windows::Foundation::Collections;
 namespace wux = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
-using App = winrt::HotCorner::Uwp::implementation::App;
-
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	//TODO: A better way of doing this? Or at least move it to its own header?
 	static IInspectable operator ""_box(const wchar_t* str, std::size_t size) {

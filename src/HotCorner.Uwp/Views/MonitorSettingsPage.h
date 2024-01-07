@@ -39,8 +39,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	private:
 		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();
-
-		Settings::SettingsManager& m_settings = Uwp::implementation::App::Settings();
 		std::wstring m_currentId = L"";
 
 		/**
@@ -49,9 +47,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		*/
 		inline Settings::MonitorSettings& CurrentSettings() const noexcept {
 			if (m_currentId.empty()) {
-				return m_settings.DefaultSettings;
+				return AppSettings().DefaultSettings;
 			}
-			return m_settings.Monitors.at(m_currentId);
+			return AppSettings().Monitors.at(m_currentId);
 		}
 	};
 }

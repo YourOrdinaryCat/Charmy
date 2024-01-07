@@ -14,13 +14,13 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
-		GlobalCheck().IsChecked(m_settings.TrackingEnabled);
-		TrayIconCheck().IsChecked(m_settings.TrayIconEnabled);
+		GlobalCheck().IsChecked(AppSettings().TrackingEnabled);
+		TrayIconCheck().IsChecked(AppSettings().TrayIconEnabled);
 
 		const auto connected = m_watcher.ConnectedDevices();
 
 		connected.Append({ L"", L"Default settings" });
-		for (const auto& setting : m_settings.Monitors) {
+		for (const auto& setting : AppSettings().Monitors) {
 			connected.Append({ setting.first, setting.second.DisplayName });
 		}
 
@@ -29,25 +29,25 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	}
 
 	void MainPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		m_settings.TrackingEnabled = true;
+		AppSettings().TrackingEnabled = true;
 		Lifetime::Current().TrackHotCorners();
 	}
 	void MainPage::OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		m_settings.TrackingEnabled = false;
+		AppSettings().TrackingEnabled = false;
 		Lifetime::Current().StopTracking();
 	}
 
 	void MainPage::OnTrayIconToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		m_settings.TrayIconEnabled = true;
+		AppSettings().TrayIconEnabled = true;
 		Lifetime::Current().ShowTrayIcon();
 	}
 	void MainPage::OnTrayIconToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		m_settings.TrayIconEnabled = false;
+		AppSettings().TrayIconEnabled = false;
 		Lifetime::Current().HideTrayIcon();
 	}
 
 	void MainPage::Save() const {
-		m_settings.Save();
+		AppSettings().Save();
 		if (Lifetime::Started()) {
 			Lifetime::Current().ReloadSettings();
 		}
