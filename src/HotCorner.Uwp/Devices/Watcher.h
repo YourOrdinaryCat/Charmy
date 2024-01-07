@@ -1,12 +1,12 @@
 #pragma once
 #include <winrt/Windows.Devices.Enumeration.h>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <EnumFlags.h>
 
 namespace winrt::HotCorner::Uwp::Devices {
 	namespace wde = Windows::Devices::Enumeration;
 	namespace wf = Windows::Foundation;
-	namespace wfc = Windows::Foundation::Collections;
 
 	/**
 	 * @brief This concept represents a minimal interface required to uniquely
@@ -34,9 +34,13 @@ namespace winrt::HotCorner::Uwp::Devices {
 	 * @brief A watcher based on Windows' DeviceWatcher.
 	*/
 	template<DeviceInfo Info>
-	class Watcher {
+	struct Watcher {
+		using DeviceVectorT = Windows::Foundation::Collections::IObservableVector<Info>;
+		using DeviceVectorChangedArgsT = Windows::Foundation::Collections::IVectorChangedEventArgs;
+
+	private:
 		const wde::DeviceWatcher m_watcher;
-		const wfc::IObservableVector<Info> m_connected{ single_threaded_observable_vector<Info>() };
+		const DeviceVectorT m_connected{ single_threaded_observable_vector<Info>() };
 
 		const event_token m_addToken;
 		const event_token m_removeToken;
@@ -126,7 +130,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 		 *          connected device collection. If not overriden, simply
 		 *          returns true.
 		*/
-		bool AddingDeviceOverride(const Info&) const {
+		virtual bool AddingDeviceOverride(const Info&) const {
 			return true;
 		}
 
@@ -139,7 +143,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 		 *          connected device collection. If not overriden, simply
 		 *          returns true.
 		*/
-		bool RemovingDeviceOverride(const Info&) const {
+		virtual bool RemovingDeviceOverride(const Info&) const {
 			return true;
 		}
 
@@ -180,7 +184,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 		}
 
-		wfc::IObservableVector<Info> ConnectedDevices() const noexcept {
+		DeviceVectorT ConnectedDevices() const noexcept {
 			return m_connected;
 		}
 	};
