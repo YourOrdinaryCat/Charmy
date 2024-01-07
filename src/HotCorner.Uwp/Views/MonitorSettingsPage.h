@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <App.h>
+#include <AppSettings.h>
 #include <Devices/MonitorInfo.h>
 #include <Utils/Property.h>
 

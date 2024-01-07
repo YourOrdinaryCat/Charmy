@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppSettings.h" />
     <ClInclude Include="Devices\MonitorInfo.h" />
     <ClInclude Include="Devices\Watcher.h" />
     <ClInclude Include="Server\Lifetime.h" />
@@ -156,6 +157,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="Devices\MonitorInfo.cpp" />
     <ClCompile Include="Server\Lifetime.cpp" />
     <ClCompile Include="pch.cpp">

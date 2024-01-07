@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
-#include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -38,21 +37,5 @@ namespace winrt::HotCorner::Uwp::implementation {
 		}
 
 		window.Activate();
-	}
-}
-
-namespace winrt::HotCorner::Uwp {
-	Settings::SettingsManager& AppSettings() {
-		static Settings::SettingsManager m_settings{
-				Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
-		};
-		static bool m_settingsLoaded = false;
-
-		if (!m_settingsLoaded) {
-			m_settingsLoaded = true;
-			m_settings.Load();
-		}
-
-		return m_settings;
 	}
 }

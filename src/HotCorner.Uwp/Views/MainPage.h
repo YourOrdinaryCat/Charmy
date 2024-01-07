@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <App.h>
+#include <AppSettings.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <winrt/Windows.Devices.Display.h>
