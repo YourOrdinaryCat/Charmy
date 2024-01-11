@@ -3,7 +3,6 @@
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <winrt/Windows.Devices.Display.h>
-#include <winrt/Windows.UI.Xaml.Controls.h>
 
 #include "Views/MonitorPickerFlyout.g.h"
 

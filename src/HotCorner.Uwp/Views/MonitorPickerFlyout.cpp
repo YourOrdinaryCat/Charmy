@@ -2,8 +2,6 @@
 #include "MonitorPickerFlyout.h"
 #include "Views/MonitorPickerFlyout.g.cpp"
 
-#include <winrt/Windows.UI.Xaml.h>
-
 namespace wfc = winrt::Windows::Foundation::Collections;
 namespace wux = winrt::Windows::UI::Xaml;
 namespace wuxc = winrt::Windows::UI::Xaml::Controls;

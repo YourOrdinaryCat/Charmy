@@ -8,6 +8,12 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
+    <Flyout.FlyoutPresenterStyle>
+        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+            <Setter Property="Padding" Value="2" />
+        </Style>
+    </Flyout.FlyoutPresenterStyle>
+
     <Grid>
         <ListView
             x:Name="MonitorList"
@@ -25,6 +31,7 @@
             x:Name="NoMonitorsInfo"
             Title="To add a new configuration, connect a monitor you haven't configured yet"
             MaxWidth="300"
+            CornerRadius="{ThemeResource OverlayCornerRadius}"
             IsClosable="False"
             IsOpen="True"
             Severity="Informational" />
