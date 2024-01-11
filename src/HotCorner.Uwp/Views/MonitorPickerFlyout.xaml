@@ -16,7 +16,7 @@
             Visibility="Collapsed">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="hcud:MonitorInfo">
-                    <TextBlock Text="{x:Bind DisplayName}" />
+                    <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
