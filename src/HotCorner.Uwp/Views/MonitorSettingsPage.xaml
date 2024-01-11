@@ -22,7 +22,10 @@
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnTopRightActionSelected" />
 
-        <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+        <StackPanel
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.AlignVerticalCenterWithPanel="True"
+            XYFocusKeyboardNavigation="Enabled">
             <CheckBox
                 x:Name="GlobalCheck"
                 Checked="OnGlobalToggleChecked"
