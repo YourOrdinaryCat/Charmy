@@ -5,8 +5,6 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wuvm = winrt::Windows::UI::ViewManagement;
-namespace wux = winrt::Windows::UI::Xaml;
-namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
 

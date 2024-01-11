@@ -2,11 +2,14 @@
 #include <AppSettings.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
+#include <Utils/Xaml.h>
 #include <winrt/Windows.Devices.Display.h>
 
 #include "Views/MonitorPickerFlyout.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
+	using namespace XamlAliases;
+
 	struct MonitorPickerFlyoutWatcher final : public Devices::Watcher<Devices::MonitorInfo> {
 		MonitorPickerFlyoutWatcher() :
 			Devices::Watcher<Devices::MonitorInfo>(Windows::Devices::Display::DisplayMonitor::GetDeviceSelector()) { }
@@ -29,7 +32,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void RestartWatcher();
 
-		void OnMonitorListItemClick(const IInspectable&, const Windows::UI::Xaml::Controls::ItemClickEventArgs&);
+		void OnMonitorListItemClick(const IInspectable&, const wuxc::ItemClickEventArgs&);
 
 	private:
 		event<SettingAddedEventHandler> m_settingAddedEvent;
@@ -38,7 +41,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void OnConnectedDevicesChanged(const WatcherT::DeviceVectorT&, const WatcherT::DeviceVectorChangedArgsT&);
 		const event_token m_devicesChangedToken = m_watcher.ConnectedDevices().
-			VectorChanged({ this,&MonitorPickerFlyout::OnConnectedDevicesChanged });
+			VectorChanged({ this, &MonitorPickerFlyout::OnConnectedDevicesChanged });
 	};
 }
 

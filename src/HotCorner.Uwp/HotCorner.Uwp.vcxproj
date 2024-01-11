@@ -135,6 +135,7 @@
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Utils\Xaml.h" />
     <ClInclude Include="Views\MainPage.h">
       <DependentUpon>Views\MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>

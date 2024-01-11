@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include <AppSettings.h>
 #include <Devices/MonitorInfo.h>
-#include <Utils/Property.h>
+#include <Utils/Xaml.h>
 
 #include "Views/MonitorSettingsPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
+	using namespace XamlAliases;
+
 	/**
 	 * @brief Shown to the user when a monitor is picked.
 	*/
@@ -23,24 +25,24 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		event_token SettingRemoved(const SettingRemovedEventHandler& handler);
 		void SettingRemoved(const event_token& token) noexcept;
 
-		void OnDelayToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
-		void OnDelayToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnDelayToggleChecked(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnDelayToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&);
 
-		void OnGlobalToggleChecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
-		void OnGlobalToggleUnchecked(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&);
 
-		void OnRemoveConfigClick(const IInspectable&, const Windows::UI::Xaml::RoutedEventArgs&);
+		void OnRemoveConfigClick(const IInspectable&, const wux::RoutedEventArgs&);
 
 		//TODO: Refactor?
-		void OnTopLeftActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
-		void OnTopRightActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
-		void OnBottomLeftActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
-		void OnBottomRightActionSelected(const IInspectable&, const Windows::UI::Xaml::Controls::SelectionChangedEventArgs&);
+		void OnTopLeftActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
+		void OnTopRightActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
+		void OnBottomLeftActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
+		void OnBottomRightActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
 
-		void OnTopLeftDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
-		void OnTopRightDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
-		void OnBottomLeftDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
-		void OnBottomRightDelayChanged(const Microsoft::UI::Xaml::Controls::NumberBox&, const Microsoft::UI::Xaml::Controls::NumberBoxValueChangedEventArgs&);
+		void OnTopLeftDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs&);
+		void OnTopRightDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs&);
+		void OnBottomLeftDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs&);
+		void OnBottomRightDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs&);
 
 	private:
 		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();

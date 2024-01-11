@@ -2,10 +2,7 @@
 #include "MonitorSettingsPage.h"
 #include "Views/MonitorSettingsPage.g.cpp"
 
-namespace muxc = winrt::Microsoft::UI::Xaml::Controls;
 namespace wfc = winrt::Windows::Foundation::Collections;
-namespace wux = winrt::Windows::UI::Xaml;
-namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	//TODO: A better way of doing this? Or at least move it to its own header?

@@ -3,8 +3,6 @@
 #include "Views/MonitorPickerFlyout.g.cpp"
 
 namespace wfc = winrt::Windows::Foundation::Collections;
-namespace wux = winrt::Windows::UI::Xaml;
-namespace wuxc = winrt::Windows::UI::Xaml::Controls;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
 

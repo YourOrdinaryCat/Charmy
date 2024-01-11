@@ -36,6 +36,9 @@
       <Filter>Devices</Filter>
     </ClInclude>
     <ClInclude Include="AppSettings.h" />
+    <ClInclude Include="Utils\Xaml.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
