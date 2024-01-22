@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CornerActions.h"
 #include "TrayCornerTracker.h"
+#include <array>
 
 namespace winrt::HotCorner::Server::Tracking {
 	static constexpr INPUT VirtualKeyInput(const WORD virtualKeyCode, const DWORD flags = 0) {
@@ -30,36 +31,23 @@ namespace winrt::HotCorner::Server::Tracking {
 	std::array<INPUT, 4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
 	std::array<INPUT, 4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
 
-	std::optional<std::function<bool()>> GetDelegate(Settings::CornerAction action) noexcept {
+	bool RunAction(const Settings::CornerAction action) noexcept {
+		using ActionT = Settings::CornerAction;
+		using TCT = Tracking::TrayCornerTracker;
+
 		switch (action) {
-		case Settings::CornerAction::TaskView:
-			return OpenTaskView;
+		case ActionT::TaskView:
+			return Inject(TaskViewInput);
 
-		case Settings::CornerAction::Start:
-			return OpenStart;
+		case ActionT::Start:
+			return TCT::Current().Post(WM_SYSCOMMAND, SC_TASKLIST);
 
-		case Settings::CornerAction::Search:
-			return OpenSearch;
+		case ActionT::Search:
+			return Inject(SearchInput);
 
-		case Settings::CornerAction::GoToDesktop:
-			return ToggleDesktop;
+		case ActionT::GoToDesktop:
+			return Inject(ShowDesktopInput);
 		}
-		return std::nullopt;
-	}
-
-	bool OpenTaskView() noexcept {
-		return Inject(TaskViewInput);
-	}
-
-	bool OpenStart() noexcept {
-		return Tracking::TrayCornerTracker::Current().Post(WM_SYSCOMMAND, SC_TASKLIST);
-	}
-
-	bool OpenSearch() noexcept {
-		return Inject(SearchInput);
-	}
-
-	bool ToggleDesktop() noexcept {
-		return Inject(ShowDesktopInput);
+		return false;
 	}
 }

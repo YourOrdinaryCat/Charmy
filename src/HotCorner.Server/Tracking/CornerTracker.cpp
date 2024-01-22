@@ -3,8 +3,14 @@
 #include "CornerActions.h"
 #include "hidusage.h"
 #include "../main.h"
+#include <array>
+#include <thread>
+#include <Unknwn.h>
 
 namespace winrt::HotCorner::Server::CornerTracker {
+	using ActionT = Settings::CornerAction;
+	using SettingsT = Settings::MonitorSettings;
+
 	using CornerOffsets = std::array<RECT, 4>;
 	using DisplayCorners = std::pair<std::wstring, CornerOffsets>;
 	using ActiveDisplayCorner = std::pair<std::wstring, ActiveCorner>;
@@ -136,10 +142,10 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 *        wait times out, the corner function is executed. If the object is signaled,
 	 *        the thread exits.
 	*/
-	static void OnHotCornerEntry(std::pair<std::function<bool()>, uint32_t> param) noexcept {
+	static void OnHotCornerEntry(std::pair<ActionT, uint32_t> param) noexcept {
 		const auto result = WaitForSingleObject(m_cornerEvent, param.second);
 		if (result == WAIT_TIMEOUT) {
-			if (!param.first()) {
+			if (!Tracking::RunAction(param.first)) {
 				//TODO: Handle failure
 				OutputDebugString(L"Failed to perform user-defined action\n");
 			}
@@ -150,22 +156,21 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 	}
 
-	static std::optional<std::function<bool()>> GetAction(const Settings::MonitorSettings& settings, ActiveCorner corner) noexcept {
+	static ActionT GetAction(const SettingsT& settings, ActiveCorner corner) noexcept {
 		switch (corner) {
 		case ActiveCorner::TopLeft:
-			return Tracking::GetDelegate(settings.TopLeftAction);
+			return settings.TopLeftAction;
 		case ActiveCorner::TopRight:
-			return Tracking::GetDelegate(settings.TopRightAction);
+			return settings.TopRightAction;
 		case ActiveCorner::BottomLeft:
-			return Tracking::GetDelegate(settings.BottomLeftAction);
+			return settings.BottomLeftAction;
 		case ActiveCorner::BottomRight:
-			return Tracking::GetDelegate(settings.BottomRightAction);
+			return settings.BottomRightAction;
 		}
-
-		return std::nullopt;
+		return ActionT::None;
 	}
 
-	static uint32_t GetDelay(const Settings::MonitorSettings& settings, ActiveCorner corner) noexcept {
+	static uint32_t GetDelay(const SettingsT& settings, ActiveCorner corner) noexcept {
 		if (!settings.DelayEnabled) {
 			return 0;
 		}
@@ -181,7 +186,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 			return settings.BottomRightDelay;
 		}
 
-		return std::numeric_limits<uint32_t>::max();
+		return UINT32_MAX;
 	}
 
 	StartupResult Start(HWND window) noexcept {
@@ -254,12 +259,13 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 			const auto setting = settings.GetSettingOrDefaults(corner->first);
 			const auto active = corner->second;
+			const auto action = GetAction(setting, active);
 
-			if (const auto action = GetAction(setting, active)) {
+			if (action != ActionT::None) {
 				m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 				m_actionThread = std::thread(
 					OnHotCornerEntry,
-					std::pair{ *action, GetDelay(setting, active) }
+					std::pair{ action, GetDelay(setting, active) }
 				);
 			}
 		}
