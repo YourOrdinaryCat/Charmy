@@ -10,11 +10,16 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		return box_value(hstring{ { str, size } });
 	}
 
-	wfc::IVectorView<IInspectable> MonitorSettingsPage::CornerActions() {
-		static const auto m_cornerActions = winrt::single_threaded_vector<IInspectable>(
-			{ L"None"_box, L"Open Task View"_box, L"Open Start"_box, L"Open Search"_box, L"Go to Desktop"_box }
-		).GetView();
-		return m_cornerActions;
+	static wfc::IVectorView<IInspectable> CornerActions() {
+		static const auto m_cornerActions = winrt::single_threaded_vector<IInspectable>({
+			L"None"_box,
+			L"Open Task View"_box,
+			L"Open Start"_box,
+			L"Open Search"_box,
+			L"Go to Desktop"_box,
+			L"Open Quick Settings"_box
+		});
+		return m_cornerActions.GetView();
 	}
 
 	static void UpdateSelection(const wuxc::ComboBox& box, const Settings::CornerAction act) {

@@ -15,7 +15,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	}
 
 	template<size_t InputSize>
-	constexpr bool Inject(std::array<INPUT, InputSize>& input) {
+	inline bool Inject(std::array<INPUT, InputSize>& input) {
 		const auto inSize = static_cast<UINT>(InputSize);
 		return SendInput(inSize, input.data(), sizeof(INPUT)) == inSize;
 	}
@@ -24,9 +24,11 @@ namespace winrt::HotCorner::Server::Tracking {
 
 	KEYBOARD_INPUT(LWin, VK_LWIN);
 	KEYBOARD_INPUT(Tab, VK_TAB);
+	KEYBOARD_INPUT(AKey, 0x41);
 	KEYBOARD_INPUT(DKey, 0x44);
 	KEYBOARD_INPUT(SKey, 0x53);
 
+	std::array<INPUT, 4> QuickSettingsInput = { LWinDown, AKeyDown, AKeyUp, LWinUp, };
 	std::array<INPUT, 4> SearchInput = { LWinDown, SKeyDown, SKeyUp, LWinUp, };
 	std::array<INPUT, 4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
 	std::array<INPUT, 4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
@@ -47,6 +49,9 @@ namespace winrt::HotCorner::Server::Tracking {
 
 		case ActionT::GoToDesktop:
 			return Inject(ShowDesktopInput);
+
+		case ActionT::QuickSettings:
+			return Inject(QuickSettingsInput);
 		}
 		return false;
 	}

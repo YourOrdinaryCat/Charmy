@@ -45,8 +45,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnBottomRightDelayChanged(const muxc::NumberBox&, const muxc::NumberBoxValueChangedEventArgs&);
 
 	private:
-		static Windows::Foundation::Collections::IVectorView<IInspectable> CornerActions();
-
 		event<SettingRemovedEventHandler> m_settingRemovedEvent;
 		std::wstring m_currentId = L"";
 
