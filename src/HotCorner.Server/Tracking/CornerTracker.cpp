@@ -142,10 +142,10 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 *        wait times out, the corner function is executed. If the object is signaled,
 	 *        the thread exits.
 	*/
-	static void OnHotCornerEntry(std::pair<ActionT, uint32_t> param) noexcept {
-		const auto result = WaitForSingleObject(m_cornerEvent, param.second);
+	static void OnHotCornerEntry(ActionT action, uint32_t delay) noexcept {
+		const auto result = WaitForSingleObject(m_cornerEvent, delay);
 		if (result == WAIT_TIMEOUT) {
-			if (!Tracking::RunAction(param.first)) {
+			if (!Tracking::RunAction(action)) {
 				//TODO: Handle failure
 				OutputDebugString(L"Failed to perform user-defined action\n");
 			}
@@ -265,7 +265,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 				m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 				m_actionThread = std::thread(
 					OnHotCornerEntry,
-					std::pair{ action, GetDelay(setting, active) }
+					action, GetDelay(setting, active)
 				);
 			}
 		}
