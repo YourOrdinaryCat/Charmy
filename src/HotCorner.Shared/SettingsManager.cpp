@@ -2,9 +2,6 @@
 #include "SettingsManager.h"
 #include <array>
 #include <debugapi.h>
-#include <fcntl.h>
-#include <fileapifromapp.h>
-#include <handleapi.h>
 #include <io.h>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/filereadstream.h>
@@ -19,71 +16,35 @@ using SettingsOutputStream = json::EncodedOutputStream<json::UTF16LE<>, json::Fi
 using SettingsWriter = json::PrettyWriter<SettingsOutputStream, json::UTF16LE<>>;
 
 namespace winrt::HotCorner::Settings {
-	SettingsManager::SettingsManager(const std::filesystem::path& folder) noexcept :
-		m_path(folder / SettingsFileName) { }
-
-	static FILE* FileFromHandle(HANDLE handle, int flags, const char* mode) noexcept {
-		if (handle != INVALID_HANDLE_VALUE) {
-			int fileDescriptor = _open_osfhandle(reinterpret_cast<intptr_t>(handle), flags);
-			if (fileDescriptor != -1) {
-				const auto file = _fdopen(fileDescriptor, mode);
-
-				if (file != NULL) {
-					return file;
-				}
-				else {
-					//TODO: Handle failure
-					OutputDebugString(L"Failed to open file\n");
-					_close(fileDescriptor);
-				}
-			}
-			else {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to create descriptor\n");
-				CloseHandle(handle);
-			}
-		}
-		else {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to find file\n");
-		}
-
-		return nullptr;
+	SettingsManager::SettingsManager(const std::filesystem::path& folder) :
+		m_path(folder / SettingsFileName)
+	{
+		Load();
 	}
 
 	void SettingsManager::Load() {
-		const auto hFile = CreateFileFromAppW(
-			m_path.c_str(),
-			GENERIC_READ,
-			0,
-			NULL,
-			OPEN_EXISTING,
-			FILE_ATTRIBUTE_NORMAL,
-			NULL
-		);
+		FILE* file = nullptr;
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"r");
 
-		const auto file{ FileFromHandle(hFile, _O_RDONLY, "r") };
-		if (file) {
+		if (err == 0) {
 			LoadFrom(file);
 			fclose(file);
+		}
+		else {
+			OutputDebugString(L"Unable to open save file\n");
 		}
 	}
 
 	void SettingsManager::Save() const {
-		const auto hFile = CreateFileFromAppW(
-			m_path.c_str(),
-			GENERIC_WRITE,
-			0,
-			NULL,
-			CREATE_ALWAYS,
-			FILE_ATTRIBUTE_NORMAL,
-			NULL
-		);
+		FILE* file = nullptr;
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"w");
 
-		const auto file{ FileFromHandle(hFile, _O_WRONLY, "w") };
-		if (file) {
+		if (err == 0) {
 			SaveTo(file);
 			fclose(file);
+		}
+		else {
+			OutputDebugString(L"Unable to create or open save file\n");
 		}
 	}
 

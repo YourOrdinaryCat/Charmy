@@ -14,7 +14,7 @@ namespace winrt::HotCorner::Server::Current {
 		return m_instance;
 	}
 
-	Settings::SettingsManager& Settings() noexcept {
+	Settings::SettingsManager& Settings() {
 		static Settings::SettingsManager m_settings{
 			Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
 		};
@@ -24,7 +24,6 @@ namespace winrt::HotCorner::Server::Current {
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
 		if (!m_instance) {
 			m_instance = instance;
-			Settings().Load();
 		}
 
 		winrt::init_apartment();

@@ -28,7 +28,7 @@ namespace winrt::HotCorner::Settings {
 		MonitorSettings DefaultSettings{};
 		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
 
-		SettingsManager(const std::filesystem::path& folder) noexcept;
+		SettingsManager(const std::filesystem::path& folder);
 
 		void Load();
 		void Save() const;

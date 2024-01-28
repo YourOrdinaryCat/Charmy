@@ -7,5 +7,5 @@ namespace winrt::HotCorner::Server::Current {
 	/**
 	 * @brief Gets the singleton instance of the current settings manager.
 	*/
-	Settings::SettingsManager& Settings() noexcept;
+	Settings::SettingsManager& Settings();
 }
