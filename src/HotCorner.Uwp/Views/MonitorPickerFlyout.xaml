@@ -20,6 +20,10 @@
             IsItemClickEnabled="True"
             ItemClick="OnMonitorListItemClick"
             Visibility="Collapsed">
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection />
+            </ListView.ItemContainerTransitions>
+
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="hcud:MonitorInfo">
                     <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
