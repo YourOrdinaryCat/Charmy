@@ -8,7 +8,7 @@
 	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
 
 	<Identity
-		Name="eaf6ed38-7dd3-414c-9c41-866b92da597a"
+		Name="HotCorner"
 		Publisher="CN=YourOrdinaryCat"
 		Version="1.0.0.0" />
 
@@ -49,28 +49,14 @@
 				</uap:DefaultTile>
 				<uap:SplashScreen Image="Images\SplashScreen.png" uap5:Optional="true" />
 			</uap:VisualElements>
-		</Application>
-
-		<Application
-			Id="HotCorner.Server"
-			Executable="HotCorner.Server\HotCorner.Server.exe"
-			EntryPoint="Windows.FullTrustApplication">
-			<uap:VisualElements
-				DisplayName="Charmy's FullTrust Server"
-				Description="The FullTrust component used by Charmy"
-				BackgroundColor="transparent"
-				Square150x150Logo="Images\Square150x150Logo.png"
-				Square44x44Logo="Images\Square44x44Logo.png"
-				AppListEntry="none" />
 
 			<Extensions>
 				<com:Extension Category="windows.comServer">
 					<com:ComServer>
 						<com:ExeServer
 							Executable="HotCorner.Server\HotCorner.Server.exe"
-							DisplayName="Charmy's FullTrust Server"
 							LaunchAndActivationPermission="O:SYG:SYD:(A;;11;;;WD)(A;;11;;;RC)(A;;11;;;AC)(A;;11;;;AN)S:P(ML;;NX;;;S-1-16-0)">
-							<com:Class Id="898F12B7-4BB0-4279-B3B1-126440D7CB7A" DisplayName="LifetimeManager" />
+							<com:Class Id="898F12B7-4BB0-4279-B3B1-126440D7CB7A" />
 						</com:ExeServer>
 					</com:ComServer>
 				</com:Extension>
@@ -81,8 +67,8 @@
 					EntryPoint="Windows.FullTrustApplication">
 					<desktop:StartupTask
 						TaskId="HotCorner.ServerAutoStart"
-						Enabled="true"
-						DisplayName="Charmy" />
+						DisplayName="Charmy"
+						Enabled="true" />
 				</desktop:Extension>
 			</Extensions>
 		</Application>
