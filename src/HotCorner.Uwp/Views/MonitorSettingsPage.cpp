@@ -2,22 +2,19 @@
 #include "MonitorSettingsPage.h"
 #include "Views/MonitorSettingsPage.g.cpp"
 
+#include <Localization.h>
+
 namespace wfc = winrt::Windows::Foundation::Collections;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	//TODO: A better way of doing this? Or at least move it to its own header?
-	static IInspectable operator ""_box(const wchar_t* str, std::size_t size) {
-		return box_value(hstring{ { str, size } });
-	}
-
 	static wfc::IVectorView<IInspectable> CornerActions() {
-		static const auto m_cornerActions = winrt::single_threaded_vector<IInspectable>({
-			L"None"_box,
-			L"Open Task View"_box,
-			L"Open Start"_box,
-			L"Open Search"_box,
-			L"Go to Desktop"_box,
-			L"Open Quick Settings"_box
+		static const auto m_cornerActions = single_threaded_vector<IInspectable>({
+			box_value(StringLoader().GetString(L"CornerActionNone")),
+			box_value(StringLoader().GetString(L"CornerActionTaskView")),
+			box_value(StringLoader().GetString(L"CornerActionStart")),
+			box_value(StringLoader().GetString(L"CornerActionSearch")),
+			box_value(StringLoader().GetString(L"CornerActionGoToDesktop")),
+			box_value(StringLoader().GetString(L"CornerActionQuickSettings"))
 		});
 		return m_cornerActions.GetView();
 	}

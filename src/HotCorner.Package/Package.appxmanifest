@@ -33,7 +33,7 @@
 			EntryPoint="HotCorner.Uwp.App">
 			<uap:VisualElements
 				DisplayName="Charmy"
-				Description="Hot Corners for Windows"
+				Description="ms-resource:AppDescription"
 				Square150x150Logo="Images\Square150x150Logo.png"
 				Square44x44Logo="Images\Square44x44Logo.png"
 				BackgroundColor="transparent">

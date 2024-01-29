@@ -11,14 +11,14 @@
     <RelativePanel MaxHeight="400" Padding="16">
         <ComboBox
             x:Name="TopLeftCorner"
+            x:Uid="MonitorSettingsActionTopLeft"
             Width="200"
-            PlaceholderText="Top Left"
             SelectionChanged="OnTopLeftActionSelected" />
 
         <ComboBox
             x:Name="TopRightCorner"
+            x:Uid="MonitorSettingsActionTopRight"
             Width="200"
-            PlaceholderText="Top Right"
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnTopRightActionSelected" />
 
@@ -28,18 +28,18 @@
             XYFocusKeyboardNavigation="Enabled">
             <CheckBox
                 x:Name="GlobalCheck"
+                x:Uid="MonitorSettingsGlobalCheck"
                 Checked="OnGlobalToggleChecked"
-                Content="Enable Charmy on this monitor"
                 Unchecked="OnGlobalToggleUnchecked" />
 
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <CheckBox
                     x:Name="DelayCheck"
+                    x:Uid="MonitorSettingsDelayCheck"
                     Checked="OnDelayToggleChecked"
-                    Content="Delayed response"
                     Unchecked="OnDelayToggleUnchecked" />
 
-                <Button Padding="4" ToolTipService.ToolTip="Configure">
+                <Button x:Uid="MonitorSettingsConfigureButton" Padding="4">
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
 
                     <Button.Flyout>
@@ -47,7 +47,7 @@
                             <StackPanel MaxWidth="200" Spacing="8">
                                 <muxc:NumberBox
                                     x:Name="TopLeftDelay"
-                                    Header="Top Left"
+                                    x:Uid="MonitorSettingsDelayTopLeft"
                                     LargeChange="100"
                                     Maximum="4294967294"
                                     Minimum="0"
@@ -57,7 +57,7 @@
 
                                 <muxc:NumberBox
                                     x:Name="TopRightDelay"
-                                    Header="Top Right"
+                                    x:Uid="MonitorSettingsDelayTopRight"
                                     LargeChange="100"
                                     Maximum="4294967294"
                                     Minimum="0"
@@ -67,7 +67,7 @@
 
                                 <muxc:NumberBox
                                     x:Name="BottomLeftDelay"
-                                    Header="Bottom Left"
+                                    x:Uid="MonitorSettingsDelayBottomLeft"
                                     LargeChange="100"
                                     Maximum="4294967294"
                                     Minimum="0"
@@ -77,7 +77,7 @@
 
                                 <muxc:NumberBox
                                     x:Name="BottomRightDelay"
-                                    Header="Bottom Right"
+                                    x:Uid="MonitorSettingsDelayBottomRight"
                                     LargeChange="100"
                                     Maximum="4294967294"
                                     Minimum="0"
@@ -86,9 +86,9 @@
                                     ValueChanged="OnBottomRightDelayChanged" />
 
                                 <TextBlock
+                                    x:Uid="MonitorSettingsDelayInfo"
                                     Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="These delays are all in milliseconds (ms) - that is, 1 second every 1000ms" />
+                                    Style="{StaticResource CaptionTextBlockStyle}" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -105,21 +105,21 @@
                         FontSize="16"
                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                         Glyph="&#xE74D;" />
-                    <TextBlock Text="Remove this configuration" />
+                    <TextBlock x:Uid="MonitorSettingsRemoveConfig" />
                 </StackPanel>
             </Button>
         </StackPanel>
 
         <ComboBox
             x:Name="BottomLeftCorner"
+            x:Uid="MonitorSettingsActionBottomLeft"
             Width="200"
-            PlaceholderText="Bottom Left"
             RelativePanel.AlignBottomWithPanel="True"
             SelectionChanged="OnBottomLeftActionSelected" />
         <ComboBox
             x:Name="BottomRightCorner"
+            x:Uid="MonitorSettingsActionBottomRight"
             Width="200"
-            PlaceholderText="Bottom Right"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnBottomRightActionSelected" />

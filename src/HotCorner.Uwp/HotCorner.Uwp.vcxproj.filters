@@ -17,6 +17,7 @@
       <Filter>Project Files</Filter>
     </ClCompile>
     <ClCompile Include="AppSettings.cpp" />
+    <ClCompile Include="Localization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Utils\Xaml.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Localization.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

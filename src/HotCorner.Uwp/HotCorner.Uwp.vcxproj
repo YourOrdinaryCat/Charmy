@@ -130,6 +130,7 @@
     <ClInclude Include="AppSettings.h" />
     <ClInclude Include="Devices\MonitorInfo.h" />
     <ClInclude Include="Devices\Watcher.h" />
+    <ClInclude Include="Localization.h" />
     <ClInclude Include="Server\Lifetime.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.h">
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="Devices\MonitorInfo.cpp" />
+    <ClCompile Include="Localization.cpp" />
     <ClCompile Include="Server\Lifetime.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
