@@ -147,6 +147,9 @@
   <data name="CornerActionTaskView" xml:space="preserve">
     <value>Open Task View</value>
   </data>
+  <data name="DefaultSettings" xml:space="preserve">
+    <value>Default settings</value>
+  </data>
   <data name="GenericDisplay" xml:space="preserve">
     <value>Generic Display</value>
   </data>
