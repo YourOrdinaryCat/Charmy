@@ -33,7 +33,7 @@
 
         <muxc:InfoBar
             x:Name="NoMonitorsInfo"
-            Title="To add a new configuration, connect a monitor you haven't configured yet"
+            x:Uid="MonitorPickerFlyoutNoMonitorsInfo"
             MaxWidth="300"
             CornerRadius="{ThemeResource OverlayCornerRadius}"
             IsClosable="False"
