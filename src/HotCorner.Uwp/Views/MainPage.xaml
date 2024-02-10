@@ -31,7 +31,7 @@
             <muxc:DropDownButton>
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
-                    <TextBlock Text="General" />
+                    <TextBlock x:Uid="MainPageGeneral" />
                 </StackPanel>
 
                 <muxc:DropDownButton.Flyout>
@@ -39,23 +39,23 @@
                         <StackPanel XYFocusKeyboardNavigation="Enabled">
                             <CheckBox
                                 x:Name="GlobalCheck"
+                                x:Uid="MainPageGlobalCheck"
                                 Checked="OnGlobalToggleChecked"
-                                Content="Enable Charmy"
                                 Unchecked="OnGlobalToggleUnchecked" />
                             <CheckBox
                                 x:Name="TrayIconCheck"
+                                x:Uid="MainPageTrayIconCheck"
                                 Checked="OnTrayIconToggleChecked"
-                                Content="Enable tray icon"
                                 Unchecked="OnTrayIconToggleUnchecked" />
 
-                            <HyperlinkButton Content="Manage auto startup" NavigateUri="ms-settings:startupapps" />
+                            <HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
 
                             <TextBlock
+                                x:Uid="MainPageGeneralTip"
                                 MaxWidth="300"
                                 Margin="0,8,0,0"
                                 Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="These settings take effect right away - however, you still need to hit the Apply button to save them" />
+                                Style="{StaticResource CaptionTextBlockStyle}" />
                         </StackPanel>
                     </Flyout>
                 </muxc:DropDownButton.Flyout>
@@ -64,7 +64,7 @@
             <muxc:DropDownButton>
                 <StackPanel Orientation="Horizontal" Spacing="6">
                     <FontIcon FontSize="16" Glyph="&#xE946;" />
-                    <TextBlock Text="About" />
+                    <TextBlock x:Uid="MainPageAbout" />
                 </StackPanel>
 
                 <muxc:DropDownButton.Flyout>
@@ -88,11 +88,11 @@
             </Grid.ColumnDefinitions>
 
             <Button
+                x:Uid="MainPageAddButton"
                 MinWidth="32"
                 Padding="4"
                 VerticalAlignment="Stretch"
-                CornerRadius="4,0,0,4"
-                ToolTipService.ToolTip="Add dedicated configuration for another monitor">
+                CornerRadius="4,0,0,4">
                 <FontIcon FontSize="14" Glyph="&#xE710;" />
 
                 <Button.Flyout>
@@ -136,19 +136,12 @@
             Orientation="Horizontal"
             Spacing="8"
             XYFocusKeyboardNavigation="Enabled">
-            <Button
-                MinWidth="72"
-                Click="OnOKButtonClick"
-                Content="OK" />
-            <Button
-                MinWidth="72"
-                Click="OnCancelButtonClick"
-                Content="Cancel" />
+            <Button x:Uid="MainPageOKButton" Click="OnOKButtonClick" />
+            <Button x:Uid="MainPageCancelButton" Click="OnCancelButtonClick" />
 
             <Button
-                MinWidth="72"
+                x:Uid="MainPageApplyButton"
                 Click="OnApplyButtonClick"
-                Content="Apply"
                 Style="{StaticResource AccentButtonStyle}" />
         </StackPanel>
     </Grid>

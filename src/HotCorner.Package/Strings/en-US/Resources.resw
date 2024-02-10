@@ -150,6 +150,36 @@
   <data name="GenericDisplay" xml:space="preserve">
     <value>Generic Display</value>
   </data>
+  <data name="MainPageAbout.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MainPageAddButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add dedicated configuration for another monitor</value>
+  </data>
+  <data name="MainPageApplyButton.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="MainPageCancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MainPageGeneral.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MainPageGeneralTip.Text" xml:space="preserve">
+    <value>These settings take effect right away - however, you still need to hit the Apply button to save them</value>
+  </data>
+  <data name="MainPageGlobalCheck.Content" xml:space="preserve">
+    <value>Enable Charmy</value>
+  </data>
+  <data name="MainPageManageAutoStartup.Content" xml:space="preserve">
+    <value>Manage auto startup</value>
+  </data>
+  <data name="MainPageOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MainPageTrayIconCheck.Content" xml:space="preserve">
+    <value>Enable tray icon</value>
+  </data>
   <data name="MonitorPickerFlyoutNoMonitorsInfo.Title" xml:space="preserve">
     <value>To add a new configuration, connect a monitor you haven't configured yet</value>
   </data>
