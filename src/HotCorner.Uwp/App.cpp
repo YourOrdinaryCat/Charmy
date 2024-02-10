@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
+
+#include <AppSettings.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -27,9 +29,13 @@ namespace winrt::HotCorner::Uwp::implementation {
 
 	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
 		const auto view = wuvm::ApplicationView::GetForCurrentView();
-
 		view.SetPreferredMinSize(MainViewSize);
-		view.TryResizeView(MainViewSize);
+
+		// Only resize the view if the settings aren't there - in practical
+		// terms, this means it will only be resized on first startup
+		if (!AppSettings().Load()) {
+			view.TryResizeView(MainViewSize);
+		}
 
 		const auto window = wux::Window::Current();
 		if (!window.Content()) {

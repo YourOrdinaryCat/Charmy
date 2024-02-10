@@ -24,6 +24,7 @@ namespace winrt::HotCorner::Server::Current {
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
 		if (!m_instance) {
 			m_instance = instance;
+			Settings().Load();
 		}
 
 		winrt::init_apartment();

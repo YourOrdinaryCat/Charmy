@@ -28,10 +28,10 @@ namespace winrt::HotCorner::Settings {
 		MonitorSettings DefaultSettings{};
 		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
 
-		SettingsManager(const std::filesystem::path& folder);
+		SettingsManager(const std::filesystem::path& folder) noexcept;
 
-		void Load();
-		void Save() const;
+		bool Load();
+		bool Save() const;
 
 		inline std::optional<MonitorSettings> TryGetSetting(std::wstring_view id) const {
 			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
