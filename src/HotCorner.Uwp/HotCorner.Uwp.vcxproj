@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h" />
+    <ClInclude Include="Controls\EvenStackPanel.h" />
     <ClInclude Include="Devices\MonitorInfo.h" />
     <ClInclude Include="Devices\Watcher.h" />
     <ClInclude Include="Localization.h" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppSettings.cpp" />
+    <ClCompile Include="Controls\EvenStackPanel.cpp" />
     <ClCompile Include="Devices\MonitorInfo.cpp" />
     <ClCompile Include="Localization.cpp" />
     <ClCompile Include="Server\Lifetime.cpp" />
@@ -204,6 +206,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="Controls\Controls.idl" />
     <Midl Include="Devices\Devices.idl" />
     <Midl Include="Views\Views.idl" />
   </ItemGroup>

@@ -18,6 +18,9 @@
     </ClCompile>
     <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="Localization.cpp" />
+    <ClCompile Include="Controls\EvenStackPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -41,6 +44,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Localization.h" />
+    <ClInclude Include="Controls\EvenStackPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -60,6 +66,9 @@
     </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{c2abae89-e05d-4d25-b11d-0989e4fc03bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{58951cb2-760a-4b72-a7bf-0880fdf3656d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +99,9 @@
     </Midl>
     <Midl Include="Devices\Devices.idl">
       <Filter>Devices</Filter>
+    </Midl>
+    <Midl Include="Controls\Controls.idl">
+      <Filter>Controls</Filter>
     </Midl>
   </ItemGroup>
 </Project>

@@ -1,0 +1,12 @@
+#include "../Utils/Midl.h"
+
+namespace HotCorner.Uwp.Controls {
+	[default_interface]
+	[webhosthidden]
+	runtimeclass EvenStackPanel : XAML.Controls.Panel {
+		EvenStackPanel();
+
+		DEPENDENCY_PROPERTY(Orientation, XAML.Controls.Orientation);
+		DEPENDENCY_PROPERTY(Spacing, Double);
+	}
+}
