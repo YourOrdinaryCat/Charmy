@@ -120,6 +120,15 @@
   <data name="AppDescription" xml:space="preserve">
     <value>A lightweight and user-friendly utility that adds customizable hot corners to your computer</value>
   </data>
+  <data name="ConnectionKindInternal" xml:space="preserve">
+    <value>Internal Display</value>
+  </data>
+  <data name="ConnectionKindVirtual" xml:space="preserve">
+    <value>Virtual Display</value>
+  </data>
+  <data name="ConnectionKindWireless" xml:space="preserve">
+    <value>Wireless Display</value>
+  </data>
   <data name="CornerActionGoToDesktop" xml:space="preserve">
     <value>Go to Desktop</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="CornerActionTaskView" xml:space="preserve">
     <value>Open Task View</value>
+  </data>
+  <data name="GenericDisplay" xml:space="preserve">
+    <value>Generic Display</value>
   </data>
   <data name="MonitorPickerFlyoutNoMonitorsInfo.Title" xml:space="preserve">
     <value>To add a new configuration, connect a monitor you haven't configured yet</value>
@@ -179,5 +191,26 @@
   </data>
   <data name="MonitorSettingsRemoveConfig.Text" xml:space="preserve">
     <value>Remove this configuration</value>
+  </data>
+  <data name="PhysicalConnectorAnalogTV" xml:space="preserve">
+    <value>Component Video Display</value>
+  </data>
+  <data name="PhysicalConnectorDisplayPort" xml:space="preserve">
+    <value>DisplayPort Display</value>
+  </data>
+  <data name="PhysicalConnectorDvi" xml:space="preserve">
+    <value>DVI Display</value>
+  </data>
+  <data name="PhysicalConnectorHD15" xml:space="preserve">
+    <value>VGA Display</value>
+  </data>
+  <data name="PhysicalConnectorHdmi" xml:space="preserve">
+    <value>HDMI Display</value>
+  </data>
+  <data name="PhysicalConnectorLvds" xml:space="preserve">
+    <value>LVDS Display</value>
+  </data>
+  <data name="PhysicalConnectorSdi" xml:space="preserve">
+    <value>SDI Display</value>
   </data>
 </root>

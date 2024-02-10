@@ -2,6 +2,7 @@
 #include "MonitorInfo.h"
 #include "Devices/MonitorInfo.g.cpp"
 
+#include <Localization.h>
 #include <winrt/Windows.Devices.Display.h>
 
 namespace wdd = winrt::Windows::Devices::Display;
@@ -19,43 +20,45 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 			co_return name;
 		}
 
-		//TODO: Localize this, and maybe have better fallbacks?
+		using ConnectionKind = wdd::DisplayMonitorConnectionKind;
+		using PhysicalConnector = wdd::DisplayMonitorPhysicalConnectorKind;
+
 		switch (monitor.ConnectionKind()) {
-		case wdd::DisplayMonitorConnectionKind::Internal:
-			co_return L"Internal Display";
+		case ConnectionKind::Internal:
+			co_return StringLoader().GetString(L"ConnectionKindInternal");
 
-		case wdd::DisplayMonitorConnectionKind::Virtual:
-			co_return L"Virtual Display";
+		case ConnectionKind::Virtual:
+			co_return StringLoader().GetString(L"ConnectionKindVirtual");
 
-		case wdd::DisplayMonitorConnectionKind::Wireless:
-			co_return L"Wirelesss Display";
+		case ConnectionKind::Wireless:
+			co_return StringLoader().GetString(L"ConnectionKindWireless");
 
-		case wdd::DisplayMonitorConnectionKind::Wired:
+		case ConnectionKind::Wired:
 			switch (monitor.PhysicalConnector()) {
-			case wdd::DisplayMonitorPhysicalConnectorKind::AnalogTV:
-				co_return L"Component Video Display";
+			case PhysicalConnector::AnalogTV:
+				co_return StringLoader().GetString(L"PhysicalConnectorAnalogTV");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::DisplayPort:
-				co_return L"DisplayPort Display";
+			case PhysicalConnector::DisplayPort:
+				co_return StringLoader().GetString(L"PhysicalConnectorDisplayPort");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::Dvi:
-				co_return L"DVI Display";
+			case PhysicalConnector::Dvi:
+				co_return StringLoader().GetString(L"PhysicalConnectorDvi");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::HD15:
-				co_return L"VGA Display";
+			case PhysicalConnector::HD15:
+				co_return StringLoader().GetString(L"PhysicalConnectorHD15");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::Hdmi:
-				co_return L"HDMI Display";
+			case PhysicalConnector::Hdmi:
+				co_return StringLoader().GetString(L"PhysicalConnectorHdmi");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::Lvds:
-				co_return L"LVDS Display";
+			case PhysicalConnector::Lvds:
+				co_return StringLoader().GetString(L"PhysicalConnectorLvds");
 
-			case wdd::DisplayMonitorPhysicalConnectorKind::Sdi:
-				co_return L"SDI Display";
+			case PhysicalConnector::Sdi:
+				co_return StringLoader().GetString(L"PhysicalConnectorSdi");
 			}
 		}
 
-		co_return L"Unknown Display";
+		co_return StringLoader().GetString(L"GenericDisplay");
 	}
 
 	wf::IAsyncAction MonitorInfo::RefreshAsync(const hstring& id) {
