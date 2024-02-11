@@ -12,7 +12,8 @@ namespace wuvm = winrt::Windows::UI::ViewManagement;
 namespace wux = winrt::Windows::UI::Xaml;
 
 namespace winrt::HotCorner::Uwp::implementation {
-	static constexpr wf::Size MainViewSize{ 480, 360 };
+	// 4:3 aspect ratio <3
+	static constexpr wf::Size MainViewSize{ 500, 375 };
 
 	App::App() {
 #if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION

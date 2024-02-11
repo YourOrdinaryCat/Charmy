@@ -12,13 +12,13 @@
         <ComboBox
             x:Name="TopLeftCorner"
             x:Uid="MonitorSettingsActionTopLeft"
-            Width="200"
+            Width="216"
             SelectionChanged="OnTopLeftActionSelected" />
 
         <ComboBox
             x:Name="TopRightCorner"
             x:Uid="MonitorSettingsActionTopRight"
-            Width="200"
+            Width="216"
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnTopRightActionSelected" />
 
@@ -113,13 +113,13 @@
         <ComboBox
             x:Name="BottomLeftCorner"
             x:Uid="MonitorSettingsActionBottomLeft"
-            Width="200"
+            Width="216"
             RelativePanel.AlignBottomWithPanel="True"
             SelectionChanged="OnBottomLeftActionSelected" />
         <ComboBox
             x:Name="BottomRightCorner"
             x:Uid="MonitorSettingsActionBottomRight"
-            Width="200"
+            Width="216"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
             SelectionChanged="OnBottomRightActionSelected" />

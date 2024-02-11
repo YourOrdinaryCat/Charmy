@@ -37,7 +37,7 @@
 
                 <muxc:DropDownButton.Flyout>
                     <Flyout>
-                        <StackPanel XYFocusKeyboardNavigation="Enabled">
+                        <StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
                             <CheckBox
                                 x:Name="GlobalCheck"
                                 x:Uid="MainPageGlobalCheck"
@@ -53,7 +53,6 @@
 
                             <TextBlock
                                 x:Uid="MainPageGeneralTip"
-                                MaxWidth="300"
                                 Margin="0,8,0,0"
                                 Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}" />
