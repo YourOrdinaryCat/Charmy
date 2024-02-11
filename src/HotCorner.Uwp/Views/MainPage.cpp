@@ -4,8 +4,10 @@
 
 #include <Localization.h>
 #include <Server/Lifetime.h>
+#include <winrt/Windows.ApplicationModel.DataTransfer.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
+namespace wamdt = winrt::Windows::ApplicationModel::DataTransfer;
 namespace wuvm = winrt::Windows::UI::ViewManagement;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
@@ -86,5 +88,13 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		if (const auto monitor = MonitorPicker().SelectedItem().try_as<MonitorInfo>()) {
 			SettingsView().SetMonitorId(monitor.Id());
 		}
+	}
+
+	void MainPage::OnCopyVersionClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		const wamdt::DataPackage dp{};
+		dp.RequestedOperation(wamdt::DataPackageOperation::Copy);
+		dp.SetText(L"Charmy - UAP v1.0.0");
+
+		wamdt::Clipboard::SetContent(dp);
 	}
 }
