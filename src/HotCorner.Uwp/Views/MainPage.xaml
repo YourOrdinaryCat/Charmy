@@ -69,7 +69,10 @@
 
                 <muxc:DropDownButton.Flyout>
                     <Flyout>
-                        <Grid Width="300" ColumnSpacing="8">
+                        <Grid
+                            Width="300"
+                            ColumnSpacing="8"
+                            XYFocusKeyboardNavigation="Enabled">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
