@@ -35,7 +35,7 @@
             x:Name="NoMonitorsInfo"
             x:Uid="MonitorPickerFlyoutNoMonitorsInfo"
             MaxWidth="300"
-            CornerRadius="{ThemeResource OverlayCornerRadius}"
+            CornerRadius="6"
             IsClosable="False"
             IsOpen="True"
             Severity="Informational" />
