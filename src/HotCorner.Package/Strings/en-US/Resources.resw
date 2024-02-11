@@ -165,6 +165,12 @@
   <data name="MainPageCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="MainPageChangelog.Content" xml:space="preserve">
+    <value>Changelog</value>
+  </data>
+  <data name="MainPageCopyVersion.Content" xml:space="preserve">
+    <value>Copy version info</value>
+  </data>
   <data name="MainPageGeneral.Text" xml:space="preserve">
     <value>General</value>
   </data>
@@ -174,11 +180,23 @@
   <data name="MainPageGlobalCheck.Content" xml:space="preserve">
     <value>Enable Charmy</value>
   </data>
+  <data name="MainPageGPL3.Content" xml:space="preserve">
+    <value>GPL-v3 License</value>
+  </data>
+  <data name="MainPageLicenses.Text" xml:space="preserve">
+    <value>Licenses</value>
+  </data>
   <data name="MainPageManageAutoStartup.Content" xml:space="preserve">
     <value>Manage auto startup</value>
   </data>
+  <data name="MainPageMIT.Content" xml:space="preserve">
+    <value>MIT License</value>
+  </data>
   <data name="MainPageOKButton.Content" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="MainPageThanks.Text" xml:space="preserve">
+    <value>Charmy has become better thanks to the projects listed above - many thanks to them! And thank YOU for using Charmy!</value>
   </data>
   <data name="MainPageTrayIconCheck.Content" xml:space="preserve">
     <value>Enable tray icon</value>
