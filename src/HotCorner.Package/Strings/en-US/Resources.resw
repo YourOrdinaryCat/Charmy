@@ -121,37 +121,37 @@
     <value>A lightweight and user-friendly utility that adds customizable hot corners to your computer</value>
   </data>
   <data name="ConnectionKindInternal" xml:space="preserve">
-    <value>Internal Display</value>
+    <value>Internal display</value>
   </data>
   <data name="ConnectionKindVirtual" xml:space="preserve">
-    <value>Virtual Display</value>
+    <value>Virtual display</value>
   </data>
   <data name="ConnectionKindWireless" xml:space="preserve">
-    <value>Wireless Display</value>
+    <value>Wireless display</value>
   </data>
   <data name="CornerActionGoToDesktop" xml:space="preserve">
-    <value>Go to Desktop</value>
+    <value>Go to desktop</value>
   </data>
   <data name="CornerActionNone" xml:space="preserve">
     <value>None</value>
   </data>
   <data name="CornerActionQuickSettings" xml:space="preserve">
-    <value>Open Quick Settings</value>
+    <value>Open quick settings</value>
   </data>
   <data name="CornerActionSearch" xml:space="preserve">
-    <value>Open Search</value>
+    <value>Open search</value>
   </data>
   <data name="CornerActionStart" xml:space="preserve">
     <value>Open Start</value>
   </data>
   <data name="CornerActionTaskView" xml:space="preserve">
-    <value>Open Task View</value>
+    <value>Open Task view</value>
   </data>
   <data name="DefaultSettings" xml:space="preserve">
     <value>Default settings</value>
   </data>
   <data name="GenericDisplay" xml:space="preserve">
-    <value>Generic Display</value>
+    <value>Generic display</value>
   </data>
   <data name="MainPageAbout.Text" xml:space="preserve">
     <value>About</value>
@@ -244,24 +244,24 @@
     <value>Remove this configuration</value>
   </data>
   <data name="PhysicalConnectorAnalogTV" xml:space="preserve">
-    <value>Component Video Display</value>
+    <value>Component video display</value>
   </data>
   <data name="PhysicalConnectorDisplayPort" xml:space="preserve">
-    <value>DisplayPort Display</value>
+    <value>DisplayPort display</value>
   </data>
   <data name="PhysicalConnectorDvi" xml:space="preserve">
-    <value>DVI Display</value>
+    <value>DVI display</value>
   </data>
   <data name="PhysicalConnectorHD15" xml:space="preserve">
-    <value>VGA Display</value>
+    <value>VGA display</value>
   </data>
   <data name="PhysicalConnectorHdmi" xml:space="preserve">
-    <value>HDMI Display</value>
+    <value>HDMI display</value>
   </data>
   <data name="PhysicalConnectorLvds" xml:space="preserve">
-    <value>LVDS Display</value>
+    <value>LVDS display</value>
   </data>
   <data name="PhysicalConnectorSdi" xml:space="preserve">
-    <value>SDI Display</value>
+    <value>SDI display</value>
   </data>
 </root>
