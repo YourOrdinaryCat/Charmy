@@ -20,12 +20,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		MainPage() { }
 
 		void InitializeComponent();
-
-		void OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&);
-		void OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&);
-
-		void OnTrayIconToggleChecked(const IInspectable&, const wux::RoutedEventArgs&);
-		void OnTrayIconToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&);
+		winrt::fire_and_forget OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&);
 
 		void OnSettingAdded(const hstring&, const hstring&);
 		void OnSettingRemoved(const hstring&);

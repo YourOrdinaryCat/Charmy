@@ -16,9 +16,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
-		GlobalCheck().IsChecked(AppSettings().TrackingEnabled);
-		TrayIconCheck().IsChecked(AppSettings().TrayIconEnabled);
-
 		const auto connected = m_watcher.ConnectedDevices();
 
 		connected.Append({ L"", StringLoader().GetString(L"DefaultSettings") });
@@ -30,22 +27,62 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		m_watcher.Start();
 	}
 
-	void MainPage::OnGlobalToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		AppSettings().TrackingEnabled = true;
-		Lifetime::Current().TrackHotCorners();
-	}
-	void MainPage::OnGlobalToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		AppSettings().TrackingEnabled = false;
-		Lifetime::Current().StopTracking();
+	static void SwitchTracking(bool track) {
+		if (track) {
+			Lifetime::Current().TrackHotCorners();
+		}
+		else if (Lifetime::Started()) {
+			Lifetime::Current().StopTracking();
+		}
 	}
 
-	void MainPage::OnTrayIconToggleChecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		AppSettings().TrayIconEnabled = true;
-		Lifetime::Current().ShowTrayIcon();
+	static void SwitchTrayIcon(bool show) {
+		if (show) {
+			Lifetime::Current().ShowTrayIcon();
+		}
+		else if (Lifetime::Started()) {
+			Lifetime::Current().HideTrayIcon();
+		}
 	}
-	void MainPage::OnTrayIconToggleUnchecked(const IInspectable&, const wux::RoutedEventArgs&) {
-		AppSettings().TrayIconEnabled = false;
-		Lifetime::Current().HideTrayIcon();
+
+	static void OnGlobalCheckUpdated(bool checked) {
+		AppSettings().TrackingEnabled = checked;
+		SwitchTracking(checked);
+	}
+
+	static void OnTrayIconCheckUpdated(bool checked) {
+		AppSettings().TrayIconEnabled = checked;
+		SwitchTrayIcon(checked);
+	}
+
+	winrt::fire_and_forget MainPage::OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&) {
+		const bool track = AppSettings().TrackingEnabled;
+		const bool show = AppSettings().TrayIconEnabled;
+
+		const auto gc = GlobalCheck();
+		const auto tic = TrayIconCheck();
+
+		gc.IsChecked(track);
+		tic.IsChecked(show);
+
+		gc.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
+			{ OnGlobalCheckUpdated(true); }
+		);
+		gc.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
+			{ OnGlobalCheckUpdated(false); }
+		);
+
+		tic.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
+			{ OnTrayIconCheckUpdated(true); }
+		);
+		tic.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
+			{ OnTrayIconCheckUpdated(false); }
+		);
+
+		co_await winrt::resume_background();
+
+		SwitchTracking(track);
+		SwitchTrayIcon(show);
 	}
 
 	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {

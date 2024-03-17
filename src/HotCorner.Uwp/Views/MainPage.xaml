@@ -11,6 +11,7 @@
     d:DesignHeight="360"
     d:DesignWidth="480"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Loaded="OnPageLoaded"
     mc:Ignorable="d">
 
     <Grid Background="{x:Bind Background, Mode=OneWay}">
@@ -38,16 +39,8 @@
                 <muxc:DropDownButton.Flyout>
                     <Flyout>
                         <StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
-                            <CheckBox
-                                x:Name="GlobalCheck"
-                                x:Uid="MainPageGlobalCheck"
-                                Checked="OnGlobalToggleChecked"
-                                Unchecked="OnGlobalToggleUnchecked" />
-                            <CheckBox
-                                x:Name="TrayIconCheck"
-                                x:Uid="MainPageTrayIconCheck"
-                                Checked="OnTrayIconToggleChecked"
-                                Unchecked="OnTrayIconToggleUnchecked" />
+                            <CheckBox x:Name="GlobalCheck" x:Uid="MainPageGlobalCheck" />
+                            <CheckBox x:Name="TrayIconCheck" x:Uid="MainPageTrayIconCheck" />
 
                             <HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
 
