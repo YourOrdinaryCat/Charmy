@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "TrayCornerTracker.h"
 #include "../Resources.h"
+#include "ShlObj.h"
 
 namespace winrt::HotCorner::Server::Tracking {
 	TrayCornerTracker::TrayCornerTracker() noexcept :
@@ -29,7 +30,7 @@ namespace winrt::HotCorner::Server::Tracking {
 		case DisplayChangeMessage:
 			OutputDebugString(L"Requesting refresh\n");
 			CornerTracker::RequestRefresh();
-			break;
+			return 0;
 
 		case WM_INPUT: {
 			static constexpr UINT riSize = sizeof(RAWINPUT);
@@ -62,6 +63,30 @@ namespace winrt::HotCorner::Server::Tracking {
 		}
 
 		return TrayIcon::HandleMessage(message, wParam, lParam);
+	}
+
+	LRESULT TrayCornerTracker::HandleTrayMessage(WPARAM wParam, LPARAM lParam) noexcept {
+		switch (LOWORD(lParam)) {
+		case WM_CONTEXTMENU:
+		case NIN_KEYSELECT:
+		case NIN_SELECT:
+			const auto am{
+				create_instance<IApplicationActivationManager>(
+					CLSID_ApplicationActivationManager,
+					CLSCTX_LOCAL_SERVER
+				)
+			};
+
+			DWORD pid;
+			const auto hr = am->ActivateApplication(L"HotCorner_w2v1h8dyp9x88!App", L"", AO_NONE, &pid);
+
+			if (hr != S_OK) {
+				//TODO: Handle failure
+				OutputDebugString(L"Unable to launch Charmy. AUMID: HotCorner_w2v1h8dyp9x88!App");
+			}
+			return 0;
+		}
+		return TrayIcon::HandleTrayMessage(wParam, lParam);
 	}
 
 	TrayCornerTracker& TrayCornerTracker::Current() {

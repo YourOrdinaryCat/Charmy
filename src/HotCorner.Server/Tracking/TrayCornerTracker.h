@@ -17,6 +17,8 @@ namespace winrt::HotCorner::Server::Tracking {
 			WPARAM wParam,
 			LPARAM lParam) noexcept override final;
 
+		LRESULT HandleTrayMessage(WPARAM wParam, LPARAM lParam) noexcept override final;
+
 	public:
 		static TrayCornerTracker& Current();
 
