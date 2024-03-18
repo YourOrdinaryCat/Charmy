@@ -130,6 +130,9 @@ namespace winrt::HotCorner::Server {
 			ReloadIcon(m_canAdd);
 			break;
 
+		case TrayIconCallback:
+			return HandleTrayMessage(wParam, lParam);
+
 		default:
 			if (message == m_taskbarCreated) {
 				ReloadIcon(false);

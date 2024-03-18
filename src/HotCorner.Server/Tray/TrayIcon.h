@@ -10,8 +10,6 @@ namespace winrt::HotCorner::Server {
 	class TrayIcon : public WindowBase<TrayIcon> {
 		friend class WindowBase<TrayIcon>;
 
-		static constexpr uint32_t TrayIconCallback = 0xCA7;
-
 		const guid m_id;
 		NOTIFYICONDATAW m_data;
 
@@ -30,10 +28,25 @@ namespace winrt::HotCorner::Server {
 		void ReloadIcon(bool callModify) noexcept;
 
 	protected:
+		/**
+		 * @brief The backing window's message identifier.
+		*/
+		static constexpr uint32_t TrayIconCallback = 0xACA7;
+
 		LRESULT HandleMessage(
 			UINT message,
 			WPARAM wParam,
 			LPARAM lParam) noexcept override;
+
+		/**
+		 * @brief A separate message handler for notification messages associated with
+		 *        the tray icon. Override this in a derived class to handle those
+		 *        messages on your own - by default, all calls to this method are
+		 *        forwarded to DefWindowProcW.
+		*/
+		inline virtual LRESULT HandleTrayMessage(WPARAM wParam, LPARAM lParam) noexcept {
+			return DefWindowProc(m_window, TrayIconCallback, wParam, lParam);
+		}
 
 	public:
 		TrayIcon(HINSTANCE instance, const guid& id) noexcept;
