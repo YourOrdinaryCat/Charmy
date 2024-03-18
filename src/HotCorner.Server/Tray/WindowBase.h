@@ -67,7 +67,7 @@ namespace winrt::HotCorner::Server {
 		{
 			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
-				}
+			}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
