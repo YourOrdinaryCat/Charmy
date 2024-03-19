@@ -14,7 +14,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 	*/
 	template<typename T>
 	concept DeviceInfo = requires(T device, wde::DeviceInformation info, wde::DeviceInformationUpdate update) {
-		{ T(info) } -> std::same_as<T>;
+		{ T::FromDeviceAsync(info) } -> std::same_as<wf::IAsyncOperation<T>>;
 		{ device.Id() } -> std::same_as<hstring>;
 		{ device.RefreshAsync(info) } -> std::same_as<wf::IAsyncAction>;
 		{ device.RefreshAsync(update) } -> std::same_as<wf::IAsyncAction>;
@@ -84,7 +84,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 				co_await info.RefreshAsync(device);
 			}
 			else if (HasFlag(m_handledEvents, DeviceWatcherEvent::Add)) {
-				Info toAdd{ device };
+				const Info toAdd = co_await Info::FromDeviceAsync(device);
 
 				if (AddingDeviceOverride(toAdd)) {
 					co_await m_startContext;

@@ -68,6 +68,10 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 	MonitorInfo::MonitorInfo(const hstring& id, const hstring& name) noexcept :
 		m_id(id), m_name(name) { }
 
-	MonitorInfo::MonitorInfo(const wde::DeviceInformation& device) :
-		m_id(device.Id()), m_name(GetMonitorNameAsync(m_id).get()) { }
+	wf::IAsyncOperation<Devices::MonitorInfo> MonitorInfo::FromDeviceAsync(const wde::DeviceInformation& device) {
+		const auto id = device.Id();
+		const hstring name{ co_await GetMonitorNameAsync(id) };
+
+		co_return Devices::MonitorInfo(id, name);
+	}
 }

@@ -16,7 +16,8 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 
 	public:
 		MonitorInfo(const hstring& id, const hstring& name) noexcept;
-		MonitorInfo(const Windows::Devices::Enumeration::DeviceInformation& device);
+
+		static Windows::Foundation::IAsyncOperation<Devices::MonitorInfo> FromDeviceAsync(const Windows::Devices::Enumeration::DeviceInformation& device);
 
 		inline Windows::Foundation::IAsyncAction RefreshAsync(const Windows::Devices::Enumeration::DeviceInformationUpdate& update) {
 			return RefreshAsync(update.Id());

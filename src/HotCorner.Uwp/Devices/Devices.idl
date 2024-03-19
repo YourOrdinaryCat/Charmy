@@ -6,7 +6,7 @@ namespace HotCorner.Uwp.Devices {
 		[noexcept]
 		MonitorInfo(String id, String name);
 
-		MonitorInfo(Windows.Devices.Enumeration.DeviceInformation info);
+		static Windows.Foundation.IAsyncOperation<MonitorInfo> FromDeviceAsync(Windows.Devices.Enumeration.DeviceInformation info);
 
 		[noexcept]
 		String Id{ get; };
