@@ -4,9 +4,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="server.ixx">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Tray\TrayIcon.cpp">
       <Filter>Tray</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Tracking\CornerActions.h">
       <Filter>Tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

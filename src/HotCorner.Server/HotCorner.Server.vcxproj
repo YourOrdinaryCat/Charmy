@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="server.h" />
     <ClInclude Include="Tracking\CornerActions.h" />
     <ClInclude Include="Tracking\CornerTracker.h" />
     <ClInclude Include="LifetimeManager.h" />
@@ -146,7 +147,6 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="server.ixx" />
     <ClCompile Include="Tray\TrayIcon.cpp" />
     <ClCompile Include="Tracking\TrayCornerTracker.cpp" />
     <ClCompile Include="Undocumented\UxTheme.cpp" />

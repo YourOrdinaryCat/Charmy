@@ -1,11 +1,10 @@
 ﻿#include "pch.h"
 #include "main.h"
+#include "server.h"
 
 #include "LifetimeManager.h"
 #include "Tracking/TrayCornerTracker.h"
 #include <winrt/Windows.Storage.h>
-
-import server;
 
 namespace winrt::HotCorner::Server::Current {
 	static HINSTANCE m_instance = nullptr;
@@ -27,9 +26,11 @@ namespace winrt::HotCorner::Server::Current {
 			Settings().Load();
 		}
 
-		winrt::init_apartment();
+		winrt::init_apartment(apartment_type::multi_threaded);
 
-		const auto cookies = server::register_classes<implementation::LifetimeManager>();
+		DWORD cookie{};
+		server::register_class<implementation::LifetimeManager>(&cookie);
+
 		CoResumeClassObjects();
 
 		// If auto startup is enabled, we won't get this argument, which means
@@ -45,7 +46,7 @@ namespace winrt::HotCorner::Server::Current {
 		}
 
 		const auto result = Tracking::TrayCornerTracker::Current().RunMessageLoop();
-		server::unregister_classes(cookies);
+		server::unregister_class(cookie);
 
 		return static_cast<int>(result);
 	}
