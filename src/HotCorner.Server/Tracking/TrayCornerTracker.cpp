@@ -4,8 +4,10 @@
 #include "ShlObj.h"
 
 namespace winrt::HotCorner::Server::Tracking {
+	static constexpr winrt::guid IconId{ "DFD7D29C-DA63-4B0A-B396-34F656DC7CC2" };
+
 	TrayCornerTracker::TrayCornerTracker() noexcept :
-		TrayIcon(Current::Module(), __uuidof(IUnknown))
+		TrayIcon(Current::Module(), IconId)
 	{
 		const auto tip = Resources::GetString<128>(IDS_TRAY_TOOLTIP);
 		UpdateToolTip(tip.data());
