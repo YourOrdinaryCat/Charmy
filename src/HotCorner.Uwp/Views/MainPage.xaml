@@ -62,83 +62,136 @@
 
                 <muxc:DropDownButton.Flyout>
                     <Flyout>
-                        <Grid
-                            Width="300"
-                            ColumnSpacing="8"
-                            XYFocusKeyboardNavigation="Enabled">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0,15,0,0" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                        <Pivot
+                            Width="328"
+                            Height="240"
+                            Style="{StaticResource DesktopPivotStyle}">
+                            <PivotItem>
+                                <PivotItem.Header>
+                                    <TextBlock x:Uid="MainPageAbout" Style="{StaticResource SubtitleTextBlockStyle}" />
+                                </PivotItem.Header>
 
-                            <TextBlock
-                                Grid.ColumnSpan="2"
-                                HorizontalTextAlignment="Center"
-                                Style="{StaticResource BodyStrongTextBlockStyle}"
-                                Text="Charmy - UAP v1.0.0" />
+                                <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+                                    <Grid
+                                        Margin="0,0,0,17"
+                                        ColumnSpacing="8"
+                                        RowSpacing="8"
+                                        XYFocusKeyboardNavigation="Enabled">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
 
-                            <Button
-                                x:Uid="MainPageCopyVersion"
-                                Grid.Row="1"
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Stretch"
-                                Style="{StaticResource AccentButtonStyle}" />
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                            <HyperlinkButton
-                                x:Uid="MainPageChangelog"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Stretch" />
+                                        <TextBlock
+                                            Grid.ColumnSpan="2"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="Charmy - UAP v1.0.0" />
 
-                            <TextBlock
-                                x:Uid="MainPageLicenses"
-                                Grid.Row="2"
-                                Grid.ColumnSpan="2"
-                                Margin="0,8,0,0"
-                                Style="{StaticResource SubtitleTextBlockStyle}" />
+                                        <Button
+                                            x:Uid="MainPageCopyVersion"
+                                            Grid.Row="1"
+                                            HorizontalAlignment="Stretch"
+                                            Style="{StaticResource AccentButtonStyle}" />
 
-                            <StackPanel Grid.Row="3">
-                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
-                                <HyperlinkButton
-                                    x:Uid="MainPageGPL3"
-                                    Padding="0"
-                                    NavigateUri="https://github.com/taviso/hotcorner/blob/master/LICENSE" />
+                                        <HyperlinkButton
+                                            x:Uid="MainPageChangelog"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Stretch" />
 
-                                <TextBlock
-                                    Margin="0,8,0,0"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="TranslucentTB" />
-                                <HyperlinkButton
-                                    x:Uid="MainPageGPL3"
-                                    Padding="0"
-                                    NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/release/LICENSE.md" />
-                            </StackPanel>
+                                        <TextBlock
+                                            x:Uid="MainPageThanks"
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,6,0,0"
+                                            Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}" />
+                                    </Grid>
+                                </ScrollViewer>
+                            </PivotItem>
 
-                            <StackPanel Grid.Row="3" Grid.Column="1">
-                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
-                                <HyperlinkButton
-                                    x:Uid="MainPageMIT"
-                                    Padding="0"
-                                    NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/main/LICENSE" />
-                            </StackPanel>
+                            <PivotItem>
+                                <PivotItem.Header>
+                                    <TextBlock x:Uid="MainPageLicenses" Style="{StaticResource SubtitleTextBlockStyle}" />
+                                </PivotItem.Header>
 
-                            <TextBlock
-                                x:Uid="MainPageThanks"
-                                Grid.Row="4"
-                                Grid.ColumnSpan="2"
-                                Margin="0,14,0,0"
-                                Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                                Style="{StaticResource CaptionTextBlockStyle}" />
-                        </Grid>
+                                <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+                                    <VariableSizedWrapGrid
+                                        Margin="0,0,0,17"
+                                        ItemWidth="144"
+                                        MaximumRowsOrColumns="2"
+                                        Orientation="Horizontal"
+                                        XYFocusKeyboardNavigation="Enabled">
+                                        <StackPanel Margin="0,0,0,8">
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
+                                            <HyperlinkButton
+                                                x:Uid="MainPageGPL3"
+                                                Padding="0"
+                                                NavigateUri="https://github.com/taviso/hotcorner/blob/master/LICENSE" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,8">
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
+                                            <HyperlinkButton
+                                                x:Uid="MainPageGPL3"
+                                                Padding="0"
+                                                NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/release/LICENSE.md" />
+                                        </StackPanel>
+
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
+                                            <HyperlinkButton
+                                                x:Uid="MainPageMIT"
+                                                Padding="0"
+                                                NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/main/LICENSE" />
+                                        </StackPanel>
+                                    </VariableSizedWrapGrid>
+                                </ScrollViewer>
+                            </PivotItem>
+
+                            <PivotItem>
+                                <PivotItem.Header>
+                                    <TextBlock x:Uid="MainPageTranslations" Style="{StaticResource SubtitleTextBlockStyle}" />
+                                </PivotItem.Header>
+
+                                <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+                                    <VariableSizedWrapGrid
+                                        Margin="0,0,0,17"
+                                        ItemWidth="144"
+                                        MaximumRowsOrColumns="2"
+                                        Orientation="Horizontal"
+                                        XYFocusKeyboardNavigation="Enabled">
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="English" />
+                                            <HyperlinkButton
+                                                Padding="0"
+                                                Content="YourOrdinaryCat"
+                                                NavigateUri="https://github.com/YourOrdinaryCat" />
+                                        </StackPanel>
+
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Español" />
+                                            <HyperlinkButton
+                                                Padding="0"
+                                                Content="YourOrdinaryCat"
+                                                NavigateUri="https://github.com/YourOrdinaryCat" />
+                                        </StackPanel>
+                                    </VariableSizedWrapGrid>
+                                </ScrollViewer>
+                            </PivotItem>
+                        </Pivot>
                     </Flyout>
                 </muxc:DropDownButton.Flyout>
             </muxc:DropDownButton>

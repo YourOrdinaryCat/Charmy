@@ -198,6 +198,9 @@
   <data name="MainPageThanks.Text" xml:space="preserve">
     <value>Charmy se ha vuelto mejor gracias a los proyectos listados aquí - ¡les doy las gracias! ¡Y gracias a ti por usar Charmy!</value>
   </data>
+  <data name="MainPageTranslations.Text" xml:space="preserve">
+    <value>Traducciones</value>
+  </data>
   <data name="MainPageTrayIconCheck.Content" xml:space="preserve">
     <value>Habilitar icono de notificación</value>
   </data>
