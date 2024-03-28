@@ -6,7 +6,7 @@
 #include <wil/resource.h>
 
 namespace winrt::HotCorner::Server::AppData {
-	static bool IsPackaged() {
+	static bool IsPackaged() noexcept {
 		UINT32 length = 0;
 		const LONG result = GetCurrentPackageFullName(&length, nullptr);
 
