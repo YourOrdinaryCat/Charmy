@@ -25,6 +25,9 @@
     <ClCompile Include="Tracking\CornerActions.cpp">
       <Filter>Tracking</Filter>
     </ClCompile>
+    <ClCompile Include="Storage\AppData.cpp">
+      <Filter>Storage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tray\TrayIcon.h">
@@ -64,6 +67,9 @@
     <ClInclude Include="server.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="Storage\AppData.h">
+      <Filter>Storage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">
@@ -94,6 +100,9 @@
     </Filter>
     <Filter Include="Project Files">
       <UniqueIdentifier>{7f28ff92-db39-4965-8240-9c18049db232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Storage">
+      <UniqueIdentifier>{d780e4b4-9ddf-438b-b58d-2a01bb8d419f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
