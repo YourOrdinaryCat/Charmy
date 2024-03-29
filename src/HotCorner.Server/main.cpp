@@ -20,7 +20,7 @@ namespace winrt::HotCorner::Server::Current {
 	}
 
 	static Settings::SettingsManager m_settings{ GetSettingsPath() };
-	Settings::SettingsManager& Settings() {
+	Settings::SettingsManager& Settings() noexcept {
 		return m_settings;
 	}
 
