@@ -3,30 +3,33 @@
 #include "server.h"
 
 #include "LifetimeManager.h"
+#include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
-#include <winrt/Windows.Storage.h>
 
 namespace winrt::HotCorner::Server::Current {
 	static HINSTANCE m_instance = nullptr;
-
 	HINSTANCE Module() noexcept {
 		return m_instance;
 	}
 
-	Settings::SettingsManager& Settings() {
-		static Settings::SettingsManager m_settings{
-			Windows::Storage::ApplicationData::Current().LocalFolder().Path().c_str()
-		};
+	static std::filesystem::path GetSettingsPath() {
+		if (const auto path = AppData::Roaming()) {
+			return *path;
+		}
+		throw_hresult(APPMODEL_ERROR_NO_PACKAGE);
+	}
+
+	static Settings::SettingsManager m_settings{ GetSettingsPath() };
+	Settings::SettingsManager& Settings() noexcept {
 		return m_settings;
 	}
 
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
+		winrt::init_apartment(apartment_type::multi_threaded);
 		if (!m_instance) {
 			m_instance = instance;
-			Settings().Load();
+			m_settings.Load();
 		}
-
-		winrt::init_apartment(apartment_type::multi_threaded);
 
 		DWORD cookie{};
 		server::register_class<implementation::LifetimeManager>(&cookie);
@@ -36,11 +39,11 @@ namespace winrt::HotCorner::Server::Current {
 		// If auto startup is enabled, we won't get this argument, which means
 		// we have to initialize tracking right away
 		if (wcscmp(pCmdLine, L"-Embedding") != 0) {
-			if (Settings().TrackingEnabled) {
+			if (m_settings.TrackingEnabled) {
 				TrackHotCorners();
 			}
 
-			if (Settings().TrayIconEnabled) {
+			if (m_settings.TrayIconEnabled) {
 				ShowTrayIcon();
 			}
 		}
