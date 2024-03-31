@@ -104,5 +104,6 @@
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\es-US\Resources.resw" />
+    <PRIResource Include="Strings\pt-BR\Resources.resw" />
   </ItemGroup>
 </Project>
