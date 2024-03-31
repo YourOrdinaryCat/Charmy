@@ -25,28 +25,28 @@ namespace winrt::server {
 	};
 
 	template<typename T>
-	inline void register_class(
-		DWORD* cookie,
+	inline DWORD register_class(
 		CLSCTX context = CLSCTX_LOCAL_SERVER,
 		REGCLS flags = REGCLS_MULTIPLEUSE | REGCLS_SUSPENDED)
 	{
+		DWORD cookie{};
 		const auto result = CoRegisterClassObject(
 			__uuidof(T),
 			winrt::make<class_factory<T>>().get(),
 			context,
 			flags,
-			cookie
+			&cookie
 		);
 
 		winrt::check_hresult(result);
+		return cookie;
 	}
 
 	inline void unregister_class(DWORD cookie) {
-		const auto result = CoRevokeClassObject(cookie);
-		winrt::check_hresult(result);
+		winrt::check_hresult(CoRevokeClassObject(cookie));
 	}
 
-	inline hresult resume_class_objects() {
-		return CoResumeClassObjects();
+	inline void resume_class_objects() {
+		winrt::check_hresult(CoResumeClassObjects());
 	}
 }

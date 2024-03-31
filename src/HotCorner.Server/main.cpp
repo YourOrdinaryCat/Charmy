@@ -31,10 +31,8 @@ namespace winrt::HotCorner::Server::Current {
 			m_settings.Load();
 		}
 
-		DWORD cookie{};
-		server::register_class<implementation::LifetimeManager>(&cookie);
-
-		CoResumeClassObjects();
+		const auto cookie = server::register_class<implementation::LifetimeManager>();
+		server::resume_class_objects();
 
 		// If auto startup is enabled, we won't get this argument, which means
 		// we have to initialize tracking right away
