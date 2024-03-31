@@ -4,14 +4,10 @@ namespace HotCorner.Server {
 		void LockServer(UInt32 pid);
 		void ReloadSettings();
 
-		[noexcept]
 		void TrackHotCorners();
-		[noexcept]
 		void StopTracking();
 
-		[noexcept]
 		void ShowTrayIcon();
-		[noexcept]
 		void HideTrayIcon();
 	}
 }
