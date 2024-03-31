@@ -9,9 +9,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	TrayCornerTracker::TrayCornerTracker() noexcept :
 		TrayIcon(Current::Module(), IconId)
 	{
-		const auto tip = Resources::GetString<128>(IDS_TRAY_TOOLTIP);
-		UpdateToolTip(tip.data());
-
+		UpdateToolTip(L"Charmy");
 		SetHighContrastIcon(IDI_TRAYICON_HC_DARK, IDI_TRAYICON_HC_LIGHT);
 	}
 
