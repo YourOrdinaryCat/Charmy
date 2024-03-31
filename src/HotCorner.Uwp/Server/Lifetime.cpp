@@ -9,7 +9,7 @@ namespace winrt::HotCorner::Uwp::Lifetime {
 		return m_lifetime != nullptr;
 	}
 
-	const Server::LifetimeManager& Current() noexcept {
+	const Server::LifetimeManager& Current() {
 		if (!Started()) {
 			m_lifetime = winrt::create_instance<Server::LifetimeManager>(
 				CLSID_LifetimeManager, CLSCTX_LOCAL_SERVER

@@ -3,5 +3,5 @@
 
 namespace winrt::HotCorner::Uwp::Lifetime {
 	inline bool Started() noexcept;
-	const Server::LifetimeManager& Current() noexcept;
+	const Server::LifetimeManager& Current();
 }
