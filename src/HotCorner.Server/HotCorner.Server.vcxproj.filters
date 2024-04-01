@@ -28,6 +28,7 @@
     <ClCompile Include="Storage\AppData.cpp">
       <Filter>Storage</Filter>
     </ClCompile>
+    <ClCompile Include="Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tray\TrayIcon.h">
@@ -70,6 +71,7 @@
     <ClInclude Include="Storage\AppData.h">
       <Filter>Storage</Filter>
     </ClInclude>
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">
