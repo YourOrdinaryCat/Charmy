@@ -31,7 +31,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		if (track) {
 			Lifetime::Current().TrackHotCorners();
 		}
-		else if (Lifetime::Started()) {
+		else {
 			Lifetime::Current().StopTracking();
 		}
 	}
@@ -40,7 +40,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		if (show) {
 			Lifetime::Current().ShowTrayIcon();
 		}
-		else if (Lifetime::Started()) {
+		else {
 			Lifetime::Current().HideTrayIcon();
 		}
 	}
@@ -103,9 +103,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	void MainPage::Save() const {
 		AppSettings().Save();
-		if (Lifetime::Started()) {
-			Lifetime::Current().ReloadSettings();
-		}
+		Lifetime::Current().ReloadSettings();
 	}
 
 	void MainPage::OnApplyButtonClick(const IInspectable&, const wux::RoutedEventArgs&) {
