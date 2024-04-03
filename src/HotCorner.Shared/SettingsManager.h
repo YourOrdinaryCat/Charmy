@@ -33,15 +33,8 @@ namespace winrt::HotCorner::Settings {
 		bool Load();
 		bool Save() const;
 
-		inline std::optional<MonitorSettings> TryGetSetting(std::wstring_view id) const {
-			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
-				return setting->second;
-			}
-			return std::nullopt;
-		}
-
-		inline MonitorSettings GetSettingOrDefaults(std::wstring_view id) const {
-			if (const auto setting = Monitors.find(id); setting != Monitors.end()) {
+		inline MonitorSettings& GetSettingOrDefaults(std::wstring_view id) {
+			if (auto setting = Monitors.find(id); setting != Monitors.end()) {
 				return setting->second;
 			}
 			return DefaultSettings;

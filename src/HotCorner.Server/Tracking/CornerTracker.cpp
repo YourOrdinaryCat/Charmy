@@ -255,9 +255,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 
 			// The corner is hot, and was previously cold
 			// If there's an associated action, start a tracking thread
-			static const auto& settings = Current::Settings();
-
-			const auto setting = settings.GetSettingOrDefaults(corner->first);
+			const auto& setting = Current::Settings().GetSettingOrDefaults(corner->first);
 			const auto active = corner->second;
 			const auto action = GetAction(setting, active);
 
