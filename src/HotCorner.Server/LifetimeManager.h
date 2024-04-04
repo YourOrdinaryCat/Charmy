@@ -29,7 +29,6 @@ namespace winrt::HotCorner::Server::implementation {
 	{
 		LifetimeManager() noexcept;
 
-		void LockServer(uint32_t pid);
 		void ReloadSettings();
 
 		void TrackHotCorners() const noexcept;
@@ -39,11 +38,5 @@ namespace winrt::HotCorner::Server::implementation {
 		void HideTrayIcon() const noexcept;
 
 		~LifetimeManager() noexcept;
-
-	private:
-		HANDLE m_waitHandle{};
-
-		static void NTAPI OnWaited(PVOID, BOOLEAN);
-		winrt::fire_and_forget Unregister() noexcept;
 	};
 }

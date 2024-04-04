@@ -47,36 +47,7 @@ namespace winrt::HotCorner::Server {
 }
 
 namespace winrt::HotCorner::Server::implementation {
-	LifetimeManager::LifetimeManager() noexcept { }
-
-	void LifetimeManager::OnWaited(PVOID param, BOOLEAN) {
-		static_cast<LifetimeManager*>(param)->Unregister();
-	}
-
-	winrt::fire_and_forget LifetimeManager::Unregister() noexcept {
-		co_await std::chrono::seconds(0);
-		ReleaseServer();
-
-		Release();
-	}
-
-	void LifetimeManager::LockServer(uint32_t pid) {
-		const auto proc = OpenProcess(SYNCHRONIZE, false, pid);
-
-		if (!proc) {
-			throw winrt::hresult_invalid_argument(L"The provided process ID is invalid.");
-		}
-
-		const bool registered = RegisterWaitForSingleObject(
-			&m_waitHandle,
-			proc,
-			&LifetimeManager::OnWaited,
-			this,
-			INFINITE,
-			WT_EXECUTEONLYONCE
-		);
-
-		winrt::check_bool(registered);
+	LifetimeManager::LifetimeManager() noexcept {
 		BumpServer();
 	}
 
@@ -107,12 +78,6 @@ namespace winrt::HotCorner::Server::implementation {
 	}
 
 	LifetimeManager::~LifetimeManager() noexcept {
-		if (m_waitHandle) {
-			const auto unregistered = UnregisterWait(m_waitHandle);
-			if (!unregistered) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to unregister wait handle\n");
-			}
-		}
+		ReleaseServer();
 	}
 }
