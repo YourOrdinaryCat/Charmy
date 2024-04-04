@@ -4,7 +4,6 @@
 #include "hidusage.h"
 #include "../main.h"
 #include <array>
-#include <thread>
 #include <Unknwn.h>
 
 namespace winrt::HotCorner::Server::CornerTracker {
@@ -15,8 +14,8 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	using DisplayCorners = std::pair<std::wstring, CornerOffsets>;
 	using ActiveDisplayCorner = std::pair<std::wstring, ActiveCorner>;
 
-	std::thread m_actionThread{};
-	HANDLE m_cornerEvent = INVALID_HANDLE_VALUE;
+	HANDLE m_cornerEvent = NULL;
+	HANDLE m_waitHandle = INVALID_HANDLE_VALUE;
 
 	bool m_running = false;
 	bool m_shouldRefresh = true;
@@ -24,7 +23,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	std::vector<DisplayCorners> m_displayCorners{};
 	constexpr LONG m_offset = 10;
 
-	static bool IsPointWithinRect(const RECT& rect, POINT pt) noexcept {
+	static constexpr bool IsPointWithinRect(const RECT& rect, POINT pt) noexcept {
 		if (pt.x >= rect.left && pt.x < rect.right && pt.y >= rect.top) {
 			return pt.y < rect.bottom;
 		}
@@ -37,7 +36,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 * @returns If the point is not within a hot corner, returns nullopt. Otherwise,
 	 *          a pair that contains the monitor ID and corner the mouse is in.
 	*/
-	static std::optional<ActiveDisplayCorner> GetActiveHotCorner(const POINT& pt) {
+	static std::optional<ActiveDisplayCorner> GetActiveCorner(POINT pt) {
 		for (const auto& dc : m_displayCorners) {
 			for (uint32_t i = 0; i < dc.second.size(); ++i) {
 				if (IsPointWithinRect(dc.second[i], pt)) {
@@ -137,26 +136,24 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	}
 
 	/**
-	 * @brief This thread runs when the cursor enters the hot corner, and waits for
-	 *        its reset event with a timeout equivalent to the desired delay. If the
-	 *        wait times out, the corner function is executed. If the object is signaled,
-	 *        the thread exits.
+	 * @brief This method runs when the cursor enters the hot corner, after a registered
+	 *        wait with a timeout equivalent to the desired delay. If the wait times
+	 *        out, the corner function is executed. If the object is signaled, the
+	 *        method does nothing.
 	*/
-	static void OnHotCornerEntry(ActionT action, uint32_t delay) noexcept {
-		const auto result = WaitForSingleObject(m_cornerEvent, delay);
-		if (result == WAIT_TIMEOUT) {
-			if (!Tracking::RunAction(action)) {
+	static void NTAPI OnHotCornerEntry(PVOID action, BOOLEAN timerOrWaitFired) noexcept {
+		if (timerOrWaitFired == TRUE) {
+			// Nasty, but the callback signature only takes void*
+			const auto act = static_cast<ActionT>(reinterpret_cast<intptr_t>(action));
+
+			if (!Tracking::RunAction(act)) {
 				//TODO: Handle failure
 				OutputDebugString(L"Failed to perform user-defined action\n");
 			}
 		}
-		else if (result == WAIT_FAILED) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to wait for hot corner event\n");
-		}
 	}
 
-	static ActionT GetAction(const SettingsT& settings, ActiveCorner corner) noexcept {
+	static constexpr ActionT GetAction(const SettingsT& settings, ActiveCorner corner) noexcept {
 		switch (corner) {
 		case ActiveCorner::TopLeft:
 			return settings.TopLeftAction;
@@ -170,7 +167,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		return ActionT::None;
 	}
 
-	static uint32_t GetDelay(const SettingsT& settings, ActiveCorner corner) noexcept {
+	static constexpr uint32_t GetDelay(const SettingsT& settings, ActiveCorner corner) noexcept {
 		if (!settings.DelayEnabled) {
 			return 0;
 		}
@@ -187,6 +184,42 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 
 		return UINT32_MAX;
+	}
+
+	/**
+	 * @brief Based on the provided display and active corner, begins execution of the
+	 *        associated action (if any).
+	*/
+	static void ProcessActiveCorner(std::wstring_view displayId, ActiveCorner corner) {
+		const auto& setting = Current::Settings().GetSettingOrDefaults(displayId);
+		const auto action = GetAction(setting, corner);
+
+		if (action != ActionT::None) {
+			SetLastError(0);
+			m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+
+			if (m_cornerEvent != NULL) {
+				SetLastError(0);
+				const BOOL registered = RegisterWaitForSingleObject(
+					&m_waitHandle,
+					m_cornerEvent,
+					OnHotCornerEntry,
+					// Very nasty cast, but the callback only accepts void*
+					reinterpret_cast<void*>(static_cast<intptr_t>(action)),
+					GetDelay(setting, corner),
+					WT_EXECUTEONLYONCE
+				);
+
+				if (registered == FALSE) {
+					//TODO: properly log failure
+					OutputDebugString(L"Unable to register wait\n");
+				}
+			}
+			else {
+				//TODO: properly log failure
+				OutputDebugString(L"Unable to create event\n");
+			}
+		}
 	}
 
 	StartupResult Start(HWND window) noexcept {
@@ -236,52 +269,36 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	void ProcessCurrentPosition() {
 		// If no hot corner is active, and refreshing has been requested,
 		// update monitors positions
-		if (m_shouldRefresh && !m_actionThread.joinable()) {
+		if (m_shouldRefresh && m_cornerEvent == NULL) {
 			m_shouldRefresh = false;
 			OutputDebugString(L"Refreshing displays\n");
 			RefreshDisplays();
 		}
 
-		static POINT pt{};
-		if (GetCursorPos(&pt) == FALSE) {
-			return;
-		}
+		POINT pt;
+		SetLastError(0);
 
-		if (const auto corner = GetActiveHotCorner(pt)) {
-			// The corner is hot, check if it was already hot
-			if (m_actionThread.joinable()) {
-				return;
+		if (GetCursorPos(&pt) != FALSE) {
+			if (const auto corner = GetActiveCorner(pt)) {
+				if (m_cornerEvent == NULL) {
+					// The corner is hot, and was previously cold
+					ProcessActiveCorner(corner->first, corner->second);
+				}
 			}
+			else if (m_cornerEvent != NULL) {
+				// The corner is cold, but was previously hot
+				//TODO: failure here is critical, we likely want to abort here
+				SetEvent(m_cornerEvent);
+				CloseHandle(m_cornerEvent);
+				(void)UnregisterWait(m_waitHandle);
 
-			// The corner is hot, and was previously cold
-			// If there's an associated action, start a tracking thread
-			const auto& setting = Current::Settings().GetSettingOrDefaults(corner->first);
-			const auto active = corner->second;
-			const auto action = GetAction(setting, active);
-
-			if (action != ActionT::None) {
-				m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-				m_actionThread = std::thread(
-					OnHotCornerEntry,
-					action, GetDelay(setting, active)
-				);
+				m_cornerEvent = NULL;
+				m_waitHandle = INVALID_HANDLE_VALUE;
 			}
 		}
 		else {
-			// The corner is cold, and was cold before
-			if (!m_actionThread.joinable()) {
-				return;
-			}
-
-			// The corner is cold, but was previously hot
-			SetEvent(m_cornerEvent);
-			CloseHandle(m_cornerEvent);
-
-			// We have to reset state here
-			m_actionThread.join();
-
-			m_actionThread = {};
-			m_cornerEvent = INVALID_HANDLE_VALUE;
+			//TODO: properly log failure
+			OutputDebugString(L"Unable to create event\n");
 		}
 	}
 }
