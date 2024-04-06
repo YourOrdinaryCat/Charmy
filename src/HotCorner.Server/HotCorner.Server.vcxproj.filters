@@ -72,6 +72,9 @@
       <Filter>Storage</Filter>
     </ClInclude>
     <ClInclude Include="Version.h" />
+    <ClInclude Include="Devices\Display.h">
+      <Filter>Devices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">
@@ -105,6 +108,9 @@
     </Filter>
     <Filter Include="Storage">
       <UniqueIdentifier>{d780e4b4-9ddf-438b-b58d-2a01bb8d419f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Devices">
+      <UniqueIdentifier>{d4c25fdd-5e95-48c6-be92-2ff4b2d6b75d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

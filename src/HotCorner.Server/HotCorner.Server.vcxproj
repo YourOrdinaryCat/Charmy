@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Devices\Display.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="Storage\AppData.h" />

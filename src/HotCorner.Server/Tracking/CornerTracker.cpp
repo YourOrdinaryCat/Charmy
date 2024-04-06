@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CornerTracker.h"
 #include "CornerActions.h"
-#include "hidusage.h"
-#include "../main.h"
+
 #include <array>
+#include <Devices/Display.h>
+#include <hidusage.h>
+#include <main.h>
 #include <Unknwn.h>
 
 namespace winrt::HotCorner::Server::CornerTracker {
@@ -90,48 +92,36 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	static void RefreshDisplays() {
 		m_displayCorners.clear();
 
-		DISPLAY_DEVICE display{};
-		ZeroMemory(&display, sizeof(display));
-		display.cb = sizeof(display);
+		DEVMODE dm;
 
-		DEVMODE dm{};
-
-		DWORD index = 0;
-		while (EnumDisplayDevices(NULL, index, &display, 0)) {
+		// Enumerate displays that are part of the desktop
+		for (auto&& display : Devices::EnumDisplays(DISPLAY_DEVICE_ATTACHED_TO_DESKTOP)) {
 			std::array<WCHAR, 32> name{};
 			wcscpy_s(name.data(), name.size(), display.DeviceName);
 
-			// Only add displays that are part of the desktop
-			if (display.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
-				if (!EnumDisplayDevices(name.data(), 0, &display, EDD_GET_DEVICE_INTERFACE_NAME)) {
-					//TODO: Handle failure
-					OutputDebugString(L"Failed to get display ID\n");
-					goto next_display;
-				}
-
+			if (EnumDisplayDevices(name.data(), 0, &display, EDD_GET_DEVICE_INTERFACE_NAME)) {
 				ZeroMemory(&dm, sizeof(DEVMODE));
 				dm.dmSize = sizeof(DEVMODE);
 
-				if (!EnumDisplaySettings(name.data(), ENUM_CURRENT_SETTINGS, &dm)) {
+				if (EnumDisplaySettings(name.data(), ENUM_CURRENT_SETTINGS, &dm)) {
+					const RECT screenRect{
+						.left = dm.dmPosition.x,
+						.top = dm.dmPosition.y,
+						.right = dm.dmPosition.x + static_cast<LONG>(dm.dmPelsWidth),
+						.bottom = dm.dmPosition.y + static_cast<LONG>(dm.dmPelsHeight)
+					};
+
+					AddCornerOffsets(display.DeviceID, screenRect);
+				}
+				else {
 					//TODO: Handle failure
 					OutputDebugString(L"Failed to get screen rect\n");
-					goto next_display;
 				}
-
-				const RECT screenRect{
-					.left = dm.dmPosition.x,
-					.top = dm.dmPosition.y,
-					.right = dm.dmPosition.x + static_cast<LONG>(dm.dmPelsWidth),
-					.bottom = dm.dmPosition.y + static_cast<LONG>(dm.dmPelsHeight)
-				};
-
-				AddCornerOffsets(display.DeviceID, screenRect);
 			}
-
-		next_display:
-			ZeroMemory(&display, sizeof(display));
-			display.cb = sizeof(display);
-			++index;
+			else {
+				//TODO: Handle failure
+				OutputDebugString(L"Failed to get display ID\n");
+			}
 		}
 	}
 
