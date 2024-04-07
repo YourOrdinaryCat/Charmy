@@ -111,7 +111,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 				}
 				else {
 					//TODO: Handle failure
-					OutputDebugString(L"Failed to get screen rect\n");
+					OutputDebugString(L"Failed to get display settings\n");
 				}
 			}
 			else {
