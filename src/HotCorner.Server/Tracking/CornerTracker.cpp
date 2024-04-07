@@ -92,18 +92,14 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	static void RefreshDisplays() {
 		m_displayCorners.clear();
 
-		DEVMODE dm;
-
 		// Enumerate displays that are part of the desktop
-		for (auto&& display : Devices::EnumDisplays(DISPLAY_DEVICE_ATTACHED_TO_DESKTOP)) {
-			std::array<WCHAR, 32> name{};
-			wcscpy_s(name.data(), name.size(), display.DeviceName);
+		for (auto&& display : Devices::Displays(Devices::DisplayAttachedToDesktop)) {
+			const auto name = Devices::GetDisplayName(display);
 
-			if (EnumDisplayDevices(name.data(), 0, &display, EDD_GET_DEVICE_INTERFACE_NAME)) {
-				ZeroMemory(&dm, sizeof(DEVMODE));
-				dm.dmSize = sizeof(DEVMODE);
+			if (Devices::TrySetDisplayId(name.data(), &display)) {
+				DEVMODE dm{};
 
-				if (EnumDisplaySettings(name.data(), ENUM_CURRENT_SETTINGS, &dm)) {
+				if (Devices::TryGetDisplaySettings(name.data(), &dm)) {
 					const RECT screenRect{
 						.left = dm.dmPosition.x,
 						.top = dm.dmPosition.y,
