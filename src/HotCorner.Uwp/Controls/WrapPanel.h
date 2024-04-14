@@ -1,12 +1,10 @@
 #pragma once
-#include <Utils/Property.h>
+#include <limits>
 #include <Utils/Xaml.h>
 
 #include "Controls/WrapPanel.g.h"
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
-	using namespace XamlAliases;
-
 	struct WrapPanel : WrapPanelT<WrapPanel> {
 		WrapPanel() { }
 
@@ -16,14 +14,14 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 		DEPENDENCY_PROPERTY_META(
 			Orientation,
 			wuxc::Orientation,
-			box_value(wuxc::Orientation::Vertical),
+			box_value(wuxc::Orientation::Horizontal),
 			nullptr
 		);
 
 		DEPENDENCY_PROPERTY_META(
 			HorizontalSpacing,
 			double,
-			box_value(0.0),
+			box_value(std::numeric_limits<double>::quiet_NaN()),
 			nullptr
 		);
 

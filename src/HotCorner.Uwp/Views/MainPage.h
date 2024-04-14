@@ -10,8 +10,6 @@
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	using namespace XamlAliases;
-
 	/**
 	 * @brief Shown to the user when the app is launched normally
 	 *        or through the tray icon.
