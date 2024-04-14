@@ -9,4 +9,14 @@ namespace HotCorner.Uwp.Controls {
 		DEPENDENCY_PROPERTY(Orientation, XAML.Controls.Orientation);
 		DEPENDENCY_PROPERTY(Spacing, Double);
 	}
+
+	[default_interface]
+	[webhosthidden]
+	runtimeclass WrapPanel : XAML.Controls.Panel {
+		WrapPanel();
+
+		DEPENDENCY_PROPERTY(Orientation, XAML.Controls.Orientation);
+		DEPENDENCY_PROPERTY(HorizontalSpacing, Double);
+		DEPENDENCY_PROPERTY(VerticalSpacing, Double);
+	}
 }
