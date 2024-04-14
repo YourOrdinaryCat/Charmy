@@ -19,9 +19,23 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 		);
 
 		DEPENDENCY_PROPERTY_META(
-			HorizontalSpacing,
+			ItemWidth,
 			double,
 			box_value(std::numeric_limits<double>::quiet_NaN()),
+			nullptr
+		);
+
+		DEPENDENCY_PROPERTY_META(
+			ItemHeight,
+			double,
+			box_value(std::numeric_limits<double>::quiet_NaN()),
+			nullptr
+		);
+
+		DEPENDENCY_PROPERTY_META(
+			HorizontalSpacing,
+			double,
+			box_value(0.0),
 			nullptr
 		);
 

@@ -16,6 +16,8 @@ namespace HotCorner.Uwp.Controls {
 		WrapPanel();
 
 		DEPENDENCY_PROPERTY(Orientation, XAML.Controls.Orientation);
+		DEPENDENCY_PROPERTY(ItemWidth, Double);
+		DEPENDENCY_PROPERTY(ItemHeight, Double);
 		DEPENDENCY_PROPERTY(HorizontalSpacing, Double);
 		DEPENDENCY_PROPERTY(VerticalSpacing, Double);
 	}
