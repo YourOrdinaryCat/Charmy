@@ -5,11 +5,21 @@
 #include "Controls/WrapPanel.g.h"
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
+	struct UIElementGroup {
+		float Length;
+		float Extent;
+
+		std::vector<Windows::Foundation::Rect> Children;
+
+		constexpr UIElementGroup(float length, float extent) noexcept :
+			Length(length), Extent(extent) { }
+	};
+
 	struct WrapPanel : WrapPanelT<WrapPanel> {
 		WrapPanel() { }
 
 		Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size);
-		Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size) const;
+		Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size);
 
 		DEPENDENCY_PROPERTY_META(
 			Orientation,
@@ -47,7 +57,12 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 		);
 
 	private:
-		Windows::Foundation::Size m_maxSize{};
+		std::vector<UIElementGroup> m_groups;
+		Windows::Foundation::Size UpdateGroups(
+			Windows::Foundation::Size constraint,
+			bool isHorizontal,
+			bool shouldMeasure
+		);
 	};
 }
 
