@@ -128,13 +128,13 @@
                                 </PivotItem.Header>
 
                                 <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                    <VariableSizedWrapGrid
+                                    <controls:WrapPanel
                                         Margin="0,0,0,17"
+                                        HorizontalSpacing="8"
                                         ItemWidth="144"
-                                        MaximumRowsOrColumns="2"
-                                        Orientation="Horizontal"
+                                        VerticalSpacing="8"
                                         XYFocusKeyboardNavigation="Enabled">
-                                        <StackPanel Margin="0,0,0,8">
+                                        <StackPanel>
                                             <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
                                             <HyperlinkButton
                                                 x:Uid="MainPageGPL3"
@@ -142,7 +142,7 @@
                                                 NavigateUri="https://github.com/taviso/hotcorner/blob/master/LICENSE" />
                                         </StackPanel>
 
-                                        <StackPanel Margin="0,0,0,8">
+                                        <StackPanel>
                                             <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
                                             <HyperlinkButton
                                                 x:Uid="MainPageGPL3"
@@ -157,7 +157,7 @@
                                                 Padding="0"
                                                 NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/main/LICENSE" />
                                         </StackPanel>
-                                    </VariableSizedWrapGrid>
+                                    </controls:WrapPanel>
                                 </ScrollViewer>
                             </PivotItem>
 
@@ -167,11 +167,11 @@
                                 </PivotItem.Header>
 
                                 <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                    <VariableSizedWrapGrid
+                                    <controls:WrapPanel
                                         Margin="0,0,0,17"
+                                        HorizontalSpacing="8"
                                         ItemWidth="144"
-                                        MaximumRowsOrColumns="2"
-                                        Orientation="Horizontal"
+                                        VerticalSpacing="8"
                                         XYFocusKeyboardNavigation="Enabled">
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="English" />
@@ -188,7 +188,7 @@
                                                 Content="YourOrdinaryCat"
                                                 NavigateUri="https://github.com/YourOrdinaryCat" />
                                         </StackPanel>
-                                    </VariableSizedWrapGrid>
+                                    </controls:WrapPanel>
                                 </ScrollViewer>
                             </PivotItem>
                         </Pivot>

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <AppSettings.h>
 #include <Controls/EvenStackPanel.h>
+#include <Controls/WrapPanel.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <Utils/Xaml.h>
