@@ -39,7 +39,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 	 *          a pair that contains the monitor ID and corner the mouse is in.
 	*/
 	static std::optional<ActiveDisplayCorner> GetActiveCorner(POINT pt) {
-		for (const auto& dc : m_displayCorners) {
+		for (auto&& dc : m_displayCorners) {
 			for (uint32_t i = 0; i < dc.second.size(); ++i) {
 				if (IsPointWithinRect(dc.second[i], pt)) {
 					return { { dc.first, static_cast<ActiveCorner>(i) } };

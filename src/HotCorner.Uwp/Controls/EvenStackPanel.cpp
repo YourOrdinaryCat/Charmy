@@ -14,7 +14,7 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 			wf::Size{ INFINITY, availableSize.Height };
 
 		wf::Size desiredSize{};
-		for (const auto child : Children()) {
+		for (auto&& child : Children()) {
 			child.Measure(constraint);
 
 			desiredSize.Width = std::max(desiredSize.Width, child.DesiredSize().Width);
@@ -52,7 +52,7 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 			m_maxSize.Height
 		};
 
-		for (const auto child : Children()) {
+		for (auto&& child : Children()) {
 			child.Arrange(arrangeRect);
 			if (Orientation() == wuxc::Orientation::Horizontal) {
 				arrangeRect.X += arrangeRect.Width + static_cast<float>(Spacing());

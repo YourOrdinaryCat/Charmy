@@ -19,7 +19,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		const auto connected = m_watcher.ConnectedDevices();
 
 		connected.Append({ L"", StringLoader().GetString(L"DefaultSettings") });
-		for (const auto& setting : AppSettings().Monitors) {
+		for (auto&& setting : AppSettings().Monitors) {
 			connected.Append({ setting.first, setting.second.DisplayName });
 		}
 

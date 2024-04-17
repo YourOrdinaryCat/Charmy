@@ -123,7 +123,7 @@ namespace winrt::HotCorner::Settings {
 		DefaultSettings.Serialize(writer);
 		writer.EndObject();
 
-		for (const auto& setting : Monitors) {
+		for (auto&& setting : Monitors) {
 			jh::Key(writer, setting.first);
 
 			writer.StartObject();
