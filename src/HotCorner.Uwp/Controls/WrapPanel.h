@@ -16,6 +16,18 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 	};
 
 	struct WrapPanel : WrapPanelT<WrapPanel> {
+	private:
+		static void OnLayoutPropertyChanged(
+			const wux::DependencyObject& sender,
+			const wux::DependencyPropertyChangedEventArgs&)
+		{
+			if (const auto elm = sender.try_as<class_type>()) {
+				elm.InvalidateMeasure();
+				elm.InvalidateArrange();
+			}
+		}
+
+	public:
 		WrapPanel() { }
 
 		Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size);
@@ -25,35 +37,35 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 			Orientation,
 			wuxc::Orientation,
 			box_value(wuxc::Orientation::Horizontal),
-			nullptr
+			OnLayoutPropertyChanged
 		);
 
 		DEPENDENCY_PROPERTY_META(
 			ItemWidth,
 			double,
 			box_value(std::numeric_limits<double>::quiet_NaN()),
-			nullptr
+			OnLayoutPropertyChanged
 		);
 
 		DEPENDENCY_PROPERTY_META(
 			ItemHeight,
 			double,
 			box_value(std::numeric_limits<double>::quiet_NaN()),
-			nullptr
+			OnLayoutPropertyChanged
 		);
 
 		DEPENDENCY_PROPERTY_META(
 			HorizontalSpacing,
 			double,
 			box_value(0.0),
-			nullptr
+			OnLayoutPropertyChanged
 		);
 
 		DEPENDENCY_PROPERTY_META(
 			VerticalSpacing,
 			double,
 			box_value(0.0),
-			nullptr
+			OnLayoutPropertyChanged
 		);
 
 	private:
