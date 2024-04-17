@@ -20,7 +20,9 @@ namespace winrt::HotCorner::Uwp::implementation {
 		UnhandledException([this](const IInspectable&, const wux::UnhandledExceptionEventArgs& e)
 			{
 				if (IsDebuggerPresent()) {
+					//TODO: logging
 					const auto errorMessage = e.Message();
+					const auto hr = e.Exception();
 					__debugbreak();
 				}
 			}
