@@ -8,8 +8,6 @@
 #include "Views/MonitorPickerFlyout.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	using namespace XamlAliases;
-
 	struct MonitorPickerFlyoutWatcher final : public Devices::Watcher<Devices::MonitorInfo> {
 		MonitorPickerFlyoutWatcher() :
 			Devices::Watcher<Devices::MonitorInfo>(Windows::Devices::Display::DisplayMonitor::GetDeviceSelector()) { }

@@ -1,16 +1,9 @@
 #pragma once
-#include <Utils/Property.h>
 #include <Utils/Xaml.h>
 
 #include "Controls/EvenStackPanel.g.h"
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
-	using namespace XamlAliases;
-
-	/**
-	 * @brief Shown to the user when the app is launched normally
-	 *        or through the tray icon.
-	*/
 	struct EvenStackPanel : EvenStackPanelT<EvenStackPanel> {
 		EvenStackPanel() { }
 

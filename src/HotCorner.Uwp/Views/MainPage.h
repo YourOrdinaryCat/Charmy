@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <AppSettings.h>
 #include <Controls/EvenStackPanel.h>
+#include <Controls/WrapPanel.h>
 #include <Devices/MonitorInfo.h>
 #include <Devices/Watcher.h>
 #include <Utils/Xaml.h>
@@ -10,8 +11,6 @@
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	using namespace XamlAliases;
-
 	/**
 	 * @brief Shown to the user when the app is launched normally
 	 *        or through the tray icon.

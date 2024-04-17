@@ -6,8 +6,6 @@
 #include "Views/MonitorSettingsPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	using namespace XamlAliases;
-
 	/**
 	 * @brief Shown to the user when a monitor is picked.
 	*/

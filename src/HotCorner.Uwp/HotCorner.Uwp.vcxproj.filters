@@ -21,6 +21,9 @@
     <ClCompile Include="Controls\EvenStackPanel.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Controls\WrapPanel.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="Localization.h" />
     <ClInclude Include="Controls\EvenStackPanel.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls\WrapPanel.h">
       <Filter>Controls</Filter>
     </ClInclude>
   </ItemGroup>
