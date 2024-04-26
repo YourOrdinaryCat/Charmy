@@ -91,7 +91,6 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
                                         <TextBlock
@@ -110,14 +109,6 @@
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             HorizontalAlignment="Stretch" />
-
-                                        <TextBlock
-                                            x:Uid="MainPageThanks"
-                                            Grid.Row="2"
-                                            Grid.ColumnSpan="2"
-                                            Margin="0,6,0,0"
-                                            Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}" />
                                     </Grid>
                                 </ScrollViewer>
                             </PivotItem>
@@ -128,36 +119,42 @@
                                 </PivotItem.Header>
 
                                 <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                    <controls:WrapPanel
-                                        Margin="0,0,0,17"
-                                        HorizontalSpacing="8"
-                                        ItemWidth="144"
-                                        VerticalSpacing="8"
-                                        XYFocusKeyboardNavigation="Enabled">
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageGPL3"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/taviso/hotcorner/blob/master/LICENSE" />
-                                        </StackPanel>
+                                    <StackPanel Margin="0,0,0,17" Spacing="6">
+                                        <controls:WrapPanel
+                                            HorizontalSpacing="8"
+                                            ItemWidth="144"
+                                            VerticalSpacing="8"
+                                            XYFocusKeyboardNavigation="Enabled">
+                                            <StackPanel>
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
+                                                <HyperlinkButton
+                                                    x:Uid="MainPageGPL3"
+                                                    Padding="0"
+                                                    NavigateUri="https://github.com/taviso/hotcorner/blob/master/LICENSE" />
+                                            </StackPanel>
 
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageGPL3"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/release/LICENSE.md" />
-                                        </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
+                                                <HyperlinkButton
+                                                    x:Uid="MainPageGPL3"
+                                                    Padding="0"
+                                                    NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/release/LICENSE.md" />
+                                            </StackPanel>
 
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageMIT"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/main/LICENSE" />
-                                        </StackPanel>
-                                    </controls:WrapPanel>
+                                            <StackPanel>
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
+                                                <HyperlinkButton
+                                                    x:Uid="MainPageMIT"
+                                                    Padding="0"
+                                                    NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/main/LICENSE" />
+                                            </StackPanel>
+                                        </controls:WrapPanel>
+
+                                        <TextBlock
+                                            x:Uid="MainPageThanks"
+                                            Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}" />
+                                    </StackPanel>
                                 </ScrollViewer>
                             </PivotItem>
 
@@ -187,6 +184,14 @@
                                                 Padding="0"
                                                 Content="YourOrdinaryCat"
                                                 NavigateUri="https://github.com/YourOrdinaryCat" />
+                                        </StackPanel>
+
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Português" />
+                                            <HyperlinkButton
+                                                Padding="0"
+                                                Content="DanGLES3"
+                                                NavigateUri="https://github.com/DanGLES3" />
                                         </StackPanel>
                                     </controls:WrapPanel>
                                 </ScrollViewer>
