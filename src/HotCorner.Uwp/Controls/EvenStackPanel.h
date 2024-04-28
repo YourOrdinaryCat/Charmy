@@ -4,6 +4,10 @@
 #include "Controls/EvenStackPanel.g.h"
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
+	/**
+	 * @brief Arranges child elements into a single line that can be oriented
+	 *        horizontally or vertically, giving each element the same size.
+	*/
 	struct EvenStackPanel : EvenStackPanelT<EvenStackPanel> {
 		EvenStackPanel() { }
 
