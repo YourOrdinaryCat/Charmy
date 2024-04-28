@@ -15,6 +15,13 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 			Length(length), Extent(extent) { }
 	};
 
+	/**
+	 * @brief A panel that positions its children vertically or horizontally based on the
+	 *        desired orientation. When the available size is reached, a new row (when
+	 *        oriented horizontally) or column (when oriented vertically) is created to fit
+	 *        new controls. Based on the Windows Community Toolkit control with the same
+	 *        name.
+	*/
 	struct WrapPanel : WrapPanelT<WrapPanel> {
 	private:
 		static void OnLayoutPropertyChanged(
