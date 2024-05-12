@@ -122,6 +122,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::OnMonitorSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&) {
 		if (const auto monitor = MonitorPicker().SelectedItem().try_as<MonitorInfo>()) {
 			SettingsView().SetMonitorId(monitor.Id());
+			MonitorPicker().PlaceholderText(monitor.DisplayName());
 		}
 	}
 
