@@ -1,6 +1,7 @@
 #pragma once
 #include "CornerTracker.h"
-#include "../Tray/TrayIcon.h"
+#include <SettingsManager.h>
+#include <Tray/TrayIcon.h>
 
 namespace winrt::HotCorner::Server::Tracking {
 	class TrayCornerTracker final : public TrayIcon {
@@ -8,8 +9,7 @@ namespace winrt::HotCorner::Server::Tracking {
 		static constexpr uint32_t UntrackMessage = 0x406;
 		static constexpr uint32_t DisplayChangeMessage = WM_DISPLAYCHANGE;
 
-		TrayCornerTracker() noexcept;
-		~TrayCornerTracker() noexcept;
+		CornerTracker m_tracker;
 
 	protected:
 		LRESULT HandleMessage(
@@ -20,9 +20,10 @@ namespace winrt::HotCorner::Server::Tracking {
 		LRESULT HandleTrayMessage(WPARAM wParam, LPARAM lParam) noexcept override final;
 
 	public:
-		static TrayCornerTracker& Current();
+		TrayCornerTracker(HINSTANCE instance, Settings::SettingsManager& settings) noexcept;
+		~TrayCornerTracker() noexcept;
 
-		CornerTracker::StartupResult BeginTracking() const noexcept;
-		CornerTracker::StopResult StopTracking() const noexcept;
+		StartupResult BeginTracking() const noexcept;
+		StopResult StopTracking() const noexcept;
 	};
 }

@@ -1,142 +1,22 @@
 #include "pch.h"
 #include "CornerTracker.h"
 #include "CornerActions.h"
-
 #include <array>
 #include <Devices/Display.h>
 #include <hidusage.h>
-#include <main.h>
 #include <Unknwn.h>
 
-namespace winrt::HotCorner::Server::CornerTracker {
+namespace winrt::HotCorner::Server {
 	using ActionT = Settings::CornerAction;
 	using SettingsT = Settings::MonitorSettings;
 
-	using CornerOffsets = std::array<RECT, 4>;
-	using DisplayCorners = std::pair<std::wstring, CornerOffsets>;
-	using ActiveDisplayCorner = std::pair<std::wstring, ActiveCorner>;
-
-	HANDLE m_cornerEvent = NULL;
-	HANDLE m_waitHandle = INVALID_HANDLE_VALUE;
-
-	bool m_running = false;
-	bool m_shouldRefresh = true;
-
-	std::vector<DisplayCorners> m_displayCorners{};
-	constexpr LONG m_offset = 10;
+	static constexpr LONG m_offset = 10;
 
 	static constexpr bool IsPointWithinRect(const RECT& rect, POINT pt) noexcept {
 		if (pt.x >= rect.left && pt.x < rect.right && pt.y >= rect.top) {
 			return pt.y < rect.bottom;
 		}
 		return false;
-	}
-
-	/**
-	 * @brief Attempts to pin down the hot corner the provided point belongs to.
-	 *
-	 * @returns If the point is not within a hot corner, returns nullopt. Otherwise,
-	 *          a pair that contains the monitor ID and corner the mouse is in.
-	*/
-	static std::optional<ActiveDisplayCorner> GetActiveCorner(POINT pt) {
-		for (auto&& dc : m_displayCorners) {
-			for (uint32_t i = 0; i < dc.second.size(); ++i) {
-				if (IsPointWithinRect(dc.second[i], pt)) {
-					return { { dc.first, static_cast<ActiveCorner>(i) } };
-				}
-			}
-		}
-		return std::nullopt;
-	}
-
-	/**
-	 * @brief Based on the provided monitor RECT, adds monitor corner locations to
-	 *        the hot corner vector.
-	*/
-	static void AddCornerOffsets(std::wstring_view id, const RECT& rect) {
-		const RECT tlo{
-			.left = rect.left - m_offset,
-			.top = rect.top - m_offset,
-			.right = rect.left + m_offset,
-			.bottom = rect.top + m_offset,
-		};
-
-		const RECT tro{
-			.left = rect.right - m_offset,
-			.top = rect.top - m_offset,
-			.right = rect.right + m_offset,
-			.bottom = rect.top + m_offset,
-		};
-
-		const RECT blo{
-			.left = rect.left - m_offset,
-			.top = rect.bottom - m_offset,
-			.right = rect.left + m_offset,
-			.bottom = rect.bottom + m_offset,
-		};
-
-		const RECT bro{
-			.left = rect.right - m_offset,
-			.top = rect.bottom - m_offset,
-			.right = rect.right + m_offset,
-			.bottom = rect.bottom + m_offset,
-		};
-
-		m_displayCorners.emplace_back(id, CornerOffsets{ tlo, tro, blo, bro });
-	}
-
-	/**
-	 * @brief Enumerates the currently connected displays, and replaces the current
-	 *        monitor corner locations.
-	*/
-	static void RefreshDisplays() {
-		m_displayCorners.clear();
-
-		// Enumerate displays that are part of the desktop
-		for (auto&& display : Devices::Displays(Devices::DisplayAttachedToDesktop)) {
-			const auto name = Devices::GetDisplayName(display);
-
-			if (Devices::TrySetDisplayId(name.data(), &display)) {
-				DEVMODE dm{};
-
-				if (Devices::TryGetDisplaySettings(name.data(), &dm)) {
-					const RECT screenRect{
-						.left = dm.dmPosition.x,
-						.top = dm.dmPosition.y,
-						.right = dm.dmPosition.x + static_cast<LONG>(dm.dmPelsWidth),
-						.bottom = dm.dmPosition.y + static_cast<LONG>(dm.dmPelsHeight)
-					};
-
-					AddCornerOffsets(display.DeviceID, screenRect);
-				}
-				else {
-					//TODO: Handle failure
-					OutputDebugString(L"Failed to get display settings\n");
-				}
-			}
-			else {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to get display ID\n");
-			}
-		}
-	}
-
-	/**
-	 * @brief This method runs when the cursor enters the hot corner, after a registered
-	 *        wait with a timeout equivalent to the desired delay. If the wait times
-	 *        out, the corner function is executed. If the object is signaled, the
-	 *        method does nothing.
-	*/
-	static void NTAPI OnHotCornerEntry(PVOID action, BOOLEAN timerOrWaitFired) noexcept {
-		if (timerOrWaitFired == TRUE) {
-			// Nasty, but the callback signature only takes void*
-			const auto act = static_cast<ActionT>(reinterpret_cast<intptr_t>(action));
-
-			if (!Tracking::RunAction(act)) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to perform user-defined action\n");
-			}
-		}
 	}
 
 	static constexpr ActionT GetAction(const SettingsT& settings, ActiveCorner corner) noexcept {
@@ -172,15 +52,93 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		return UINT32_MAX;
 	}
 
-	/**
-	 * @brief Based on the provided display and active corner, begins execution of the
-	 *        associated action (if any).
-	*/
-	static void ProcessActiveCorner(std::wstring_view displayId, ActiveCorner corner) {
-		const auto& setting = Current::Settings().GetSettingOrDefaults(displayId);
-		const auto action = GetAction(setting, corner);
+	void CornerTracker::TriggerCurrentAction() const noexcept {
+		if (!Tracking::RunAction(m_trayIcon, m_currentAction)) {
+			//TODO: Handle failure
+			OutputDebugString(L"Failed to perform user-defined action\n");
+		}
+	}
 
-		if (action != ActionT::None) {
+	std::optional<CornerTracker::ActiveDisplayCorner> CornerTracker::GetActiveCorner(POINT pt) {
+		for (auto&& dc : m_displayCorners) {
+			for (uint32_t i = 0; i < dc.second.size(); ++i) {
+				if (IsPointWithinRect(dc.second[i], pt)) {
+					return { { dc.first, static_cast<ActiveCorner>(i) } };
+				}
+			}
+		}
+		return std::nullopt;
+	}
+
+	void CornerTracker::AddCornerOffsets(std::wstring_view id, const RECT& rect) {
+		const RECT tlo{
+			.left = rect.left - m_offset,
+			.top = rect.top - m_offset,
+			.right = rect.left + m_offset,
+			.bottom = rect.top + m_offset,
+		};
+
+		const RECT tro{
+			.left = rect.right - m_offset,
+			.top = rect.top - m_offset,
+			.right = rect.right + m_offset,
+			.bottom = rect.top + m_offset,
+		};
+
+		const RECT blo{
+			.left = rect.left - m_offset,
+			.top = rect.bottom - m_offset,
+			.right = rect.left + m_offset,
+			.bottom = rect.bottom + m_offset,
+		};
+
+		const RECT bro{
+			.left = rect.right - m_offset,
+			.top = rect.bottom - m_offset,
+			.right = rect.right + m_offset,
+			.bottom = rect.bottom + m_offset,
+		};
+
+		m_displayCorners.emplace_back(id, CornerOffsets{ tlo, tro, blo, bro });
+	}
+
+	void CornerTracker::RefreshDisplays() {
+		m_displayCorners.clear();
+
+		// Enumerate displays that are part of the desktop
+		for (auto&& display : Devices::Displays(Devices::DisplayAttachedToDesktop)) {
+			const auto name = Devices::GetDisplayName(display);
+
+			if (Devices::TrySetDisplayId(name.data(), &display)) {
+				DEVMODE dm{};
+
+				if (Devices::TryGetDisplaySettings(name.data(), &dm)) {
+					const RECT screenRect{
+						.left = dm.dmPosition.x,
+						.top = dm.dmPosition.y,
+						.right = dm.dmPosition.x + static_cast<LONG>(dm.dmPelsWidth),
+						.bottom = dm.dmPosition.y + static_cast<LONG>(dm.dmPelsHeight)
+					};
+
+					AddCornerOffsets(display.DeviceID, screenRect);
+				}
+				else {
+					//TODO: Handle failure
+					OutputDebugString(L"Failed to get display settings\n");
+				}
+			}
+			else {
+				//TODO: Handle failure
+				OutputDebugString(L"Failed to get display ID\n");
+			}
+		}
+	}
+
+	void CornerTracker::ProcessActiveCorner(std::wstring_view displayId, ActiveCorner corner) {
+		const auto& setting = m_settings.GetSettingOrDefaults(displayId);
+		m_currentAction = GetAction(setting, corner);
+
+		if (m_currentAction != ActionT::None) {
 			SetLastError(0);
 			m_cornerEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
@@ -189,9 +147,8 @@ namespace winrt::HotCorner::Server::CornerTracker {
 				const BOOL registered = RegisterWaitForSingleObject(
 					&m_waitHandle,
 					m_cornerEvent,
-					OnHotCornerEntry,
-					// Very nasty cast, but the callback only accepts void*
-					reinterpret_cast<void*>(static_cast<intptr_t>(action)),
+					OnHotCornerTriggered,
+					this,
 					GetDelay(setting, corner),
 					WT_EXECUTEONLYONCE
 				);
@@ -208,7 +165,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		}
 	}
 
-	StartupResult Start(HWND window) noexcept {
+	StartupResult CornerTracker::Start(HWND window) noexcept {
 		if (m_running) {
 			return StartupResult::AlreadyStarted;
 		}
@@ -228,7 +185,7 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		return StartupResult::Failed;
 	}
 
-	StopResult Stop() noexcept {
+	StopResult CornerTracker::Stop() noexcept {
 		if (!m_running) {
 			return StopResult::NotRunning;
 		}
@@ -248,11 +205,11 @@ namespace winrt::HotCorner::Server::CornerTracker {
 		return StopResult::Failed;
 	}
 
-	void RequestRefresh() noexcept {
+	void CornerTracker::RequestRefresh() noexcept {
 		m_shouldRefresh = true;
 	}
 
-	void ProcessCurrentPosition() {
+	void CornerTracker::ProcessCurrentPosition() {
 		// If no hot corner is active, and refreshing has been requested,
 		// update monitors positions
 		if (m_shouldRefresh && m_cornerEvent == NULL) {

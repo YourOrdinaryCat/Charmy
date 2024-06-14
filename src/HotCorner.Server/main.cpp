@@ -1,54 +1,55 @@
 ﻿#include "pch.h"
-#include "main.h"
-#include "server.h"
-
+#include "App.h"
 #include "LifetimeManager.h"
 #include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/msvc_sink.h"
+#include "server.h"
 
-namespace winrt::HotCorner::Server::Current {
-	static HINSTANCE m_instance = nullptr;
-	HINSTANCE Module() noexcept {
-		return m_instance;
-	}
+namespace winrt::HotCorner::Server {
+	namespace impl = implementation;
 
-	static std::filesystem::path GetSettingsPath() {
+	static std::filesystem::path GetRoamingPath() {
 		if (const auto path = AppData::Roaming()) {
 			return *path;
 		}
 		throw_hresult(APPMODEL_ERROR_NO_PACKAGE);
 	}
 
-	static Settings::SettingsManager m_settings{ GetSettingsPath() };
-	Settings::SettingsManager& Settings() noexcept {
-		return m_settings;
-	}
-
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
 		winrt::init_apartment(apartment_type::multi_threaded);
-		if (!m_instance) {
-			m_instance = instance;
-			m_settings.Load();
-		}
 
-		const auto cookie = server::register_class<implementation::LifetimeManager>();
+		const auto logger = std::make_shared<spdlog::logger>(
+			"", std::make_shared<spdlog::sinks::windebug_sink_st>()
+		);
+
+		spdlog::set_formatter(std::make_unique<spdlog::pattern_formatter>(
+			spdlog::pattern_time_type::utc
+		));
+		spdlog::set_level(spdlog::level::trace);
+		spdlog::initialize_logger(logger);
+		spdlog::set_default_logger(logger);
+
+		const auto settings = GetRoamingPath();
+
+		App app{ instance, settings };
+		app.Settings().Load();
+
+		const auto cookie = server::register_class<impl::LifetimeManager, App&>(app);
 		server::resume_class_objects();
 
-		// If auto startup is enabled, we won't get this argument, which means
-		// we have to initialize tracking right away
-		if (wcscmp(pCmdLine, L"-Embedding") != 0) {
-			if (m_settings.TrackingEnabled) {
-				TrackHotCorners();
-			}
-
-			if (m_settings.TrayIconEnabled) {
-				ShowTrayIcon();
-			}
+		if (app.Settings().TrackingEnabled) {
+			TrackHotCorners(app.TrayIcon());
 		}
 
-		const auto result = Tracking::TrayCornerTracker::Current().RunMessageLoop();
+		if (app.Settings().TrayIconEnabled) {
+			ShowTrayIcon(app.TrayIcon());
+		}
+
+		const auto result = app.Run();
 		server::unregister_class(cookie);
 
-		return static_cast<int>(result);
+		return result;
 	}
 }

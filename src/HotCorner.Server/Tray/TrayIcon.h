@@ -1,6 +1,6 @@
 #pragma once
-#include <shellapi.h>
 #include "WindowBase.h"
+#include <shellapi.h>
 #include <wil/resource.h>
 
 namespace winrt::HotCorner::Server {
@@ -65,16 +65,18 @@ namespace winrt::HotCorner::Server {
 		 *
 		 * @param darkIcon The resource ID of a version of the icon for use in dark backgrounds.
 		 * @param lightIcon The resource ID of a version of the icon for use in light backgrounds.
+		 * @param reload Whether to refresh the tray icon immediately - true by default.
 		*/
-		void SetHighContrastIcon(UINT darkIcon, UINT lightIcon) noexcept;
+		void SetHighContrastIcon(UINT darkIcon, UINT lightIcon, bool reload = true) noexcept;
 
 		/**
 		 * @brief Updates the icon shown to the user.
 		 *
 		 * @param darkModeIcon The resource ID of a version of the icon for use in dark mode.
 		 * @param lightModeIcon The resource ID of a version of the icon for use in light mode.
+		 * @param reload Whether to refresh the tray icon immediately - true by default.
 		*/
-		void UpdateIcon(UINT darkModeIcon, UINT lightModeIcon) noexcept;
+		void UpdateIcon(UINT darkModeIcon, UINT lightModeIcon, bool reload = true) noexcept;
 
 		/**
 		 * @brief Whether the icon is being shown in the notification area.

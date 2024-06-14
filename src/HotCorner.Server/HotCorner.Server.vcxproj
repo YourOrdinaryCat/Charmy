@@ -35,6 +35,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="Devices\Display.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="server.h" />
@@ -42,7 +43,6 @@
     <ClInclude Include="Tracking\CornerActions.h" />
     <ClInclude Include="Tracking\CornerTracker.h" />
     <ClInclude Include="LifetimeManager.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resources\ids.h" />
     <ClInclude Include="Tracking\TrayCornerTracker.h" />
