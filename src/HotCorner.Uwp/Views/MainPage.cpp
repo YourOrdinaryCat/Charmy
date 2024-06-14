@@ -79,10 +79,10 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			{ OnTrayIconCheckUpdated(false); }
 		);
 
+		// Start up the server - it will automatically start/stop tracking according to
+		// user's settings
 		co_await winrt::resume_background();
-
-		SwitchTracking(track);
-		SwitchTrayIcon(show);
+		std::ignore = Lifetime::Current();
 	}
 
 	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {
