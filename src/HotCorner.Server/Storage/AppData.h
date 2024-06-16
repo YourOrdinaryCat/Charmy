@@ -4,8 +4,12 @@
 
 namespace winrt::HotCorner::Server::AppData {
 	/**
-	 * @brief Gets the path to the app's Roaming folder. This method expects a packaged
-	 *        environment - if the expectation fails, nullopt is returned.
+	 * @brief Whether the app is running within a packaged environment.
 	*/
-	std::optional<std::filesystem::path> Roaming();
+	bool IsPackaged() noexcept;
+
+	/**
+	 * @brief Gets the path to the app's Roaming folder.
+	*/
+	std::filesystem::path Roaming();
 }

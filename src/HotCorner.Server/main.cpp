@@ -10,15 +10,19 @@
 namespace winrt::HotCorner::Server {
 	namespace impl = implementation;
 
-	static std::filesystem::path GetRoamingPath() {
-		if (const auto path = AppData::Roaming()) {
-			return *path;
-		}
-		throw_hresult(APPMODEL_ERROR_NO_PACKAGE);
-	}
-
-	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
+	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
 		winrt::init_apartment(apartment_type::multi_threaded);
+
+		// We don't support unpackaged execution at the moment - show a short message
+		// explaining that, as a treat
+		if (!AppData::IsPackaged()) {
+#if defined _DEBUG
+			MessageBoxA(NULL, "Set HotCorner.Package as the startup project.", "Unable to launch Charmy", MB_ICONERROR);
+#else
+			MessageBoxA(NULL, "If you tried to open the .exe directly, this is expected. Always launch Charmy from the start menu, and manage auto startup through the Settings app or Task Manager. If this shows up unexpectedly, let the developer know.", "Unable to launch Charmy", MB_ICONERROR);
+#endif
+			return 0;
+		}
 
 		const auto logger = std::make_shared<spdlog::logger>(
 			"", std::make_shared<spdlog::sinks::windebug_sink_st>()
@@ -31,7 +35,7 @@ namespace winrt::HotCorner::Server {
 		spdlog::initialize_logger(logger);
 		spdlog::set_default_logger(logger);
 
-		const auto settings = GetRoamingPath();
+		const auto settings = AppData::Roaming();
 
 		App app{ instance, settings };
 		app.Settings().Load();
