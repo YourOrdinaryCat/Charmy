@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "LifetimeManager.h"
+#include <spdlog/spdlog.h>
 
 namespace winrt::HotCorner::Server {
 	void TrackHotCorners(const Tracking::TrayCornerTracker& tct) noexcept {
@@ -9,8 +10,7 @@ namespace winrt::HotCorner::Server {
 			BumpServer();
 		}
 		else if (result == StartupResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to start corner tracking\n");
+			spdlog::error("Failed to start corner tracking");
 		}
 	}
 
@@ -21,8 +21,7 @@ namespace winrt::HotCorner::Server {
 			ReleaseServer(tct);
 		}
 		else if (result == StopResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to stop corner tracking\n");
+			spdlog::error("Failed to stop corner tracking");
 		}
 	}
 
@@ -47,16 +46,7 @@ namespace winrt::HotCorner::Server::implementation {
 	}
 
 	void LifetimeManager::ReloadSettings() {
-		const auto result = m_app.TrayIcon().StopTracking();
 		m_app.Settings().Load();
-
-		if (result == StopResult::Stopped) {
-			m_app.TrayIcon().BeginTracking();
-		}
-		else if (result == StopResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to stop corner tracking\n");
-		}
 	}
 
 	void LifetimeManager::TrackHotCorners() const noexcept {

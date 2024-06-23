@@ -2,6 +2,7 @@
 #include "TrayCornerTracker.h"
 #include <Resources.h>
 #include <ShlObj.h>
+#include <spdlog/spdlog.h>
 
 namespace winrt::HotCorner::Server::Tracking {
 	static constexpr winrt::guid IconId{ "DFD7D29C-DA63-4B0A-B396-34F656DC7CC2" };
@@ -28,7 +29,7 @@ namespace winrt::HotCorner::Server::Tracking {
 			return static_cast<LRESULT>(m_tracker.Stop());
 
 		case DisplayChangeMessage:
-			OutputDebugString(L"Requesting refresh\n");
+			spdlog::debug("Requesting refresh");
 			m_tracker.RequestRefresh();
 			return 0;
 
@@ -81,8 +82,7 @@ namespace winrt::HotCorner::Server::Tracking {
 			const auto hr = am->ActivateApplication(L"HotCorner_w2v1h8dyp9x88!App", L"", AO_NONE, &pid);
 
 			if (hr != S_OK) {
-				//TODO: Handle failure
-				OutputDebugString(L"Unable to launch Charmy. AUMID: HotCorner_w2v1h8dyp9x88!App");
+				spdlog::error("Unable to launch Charmy. HRESULT: {}", hr);
 			}
 			return 0;
 		}

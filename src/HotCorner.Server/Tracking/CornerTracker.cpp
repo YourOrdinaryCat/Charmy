@@ -4,6 +4,7 @@
 #include <array>
 #include <Devices/Display.h>
 #include <hidusage.h>
+#include <spdlog/spdlog.h>
 #include <Unknwn.h>
 
 namespace winrt::HotCorner::Server {
@@ -54,8 +55,7 @@ namespace winrt::HotCorner::Server {
 
 	void CornerTracker::TriggerCurrentAction() const noexcept {
 		if (!Tracking::RunAction(m_trayIcon, m_currentAction)) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to perform user-defined action\n");
+			spdlog::error("Failed to run user-defined action");
 		}
 	}
 
@@ -123,13 +123,11 @@ namespace winrt::HotCorner::Server {
 					AddCornerOffsets(display.DeviceID, screenRect);
 				}
 				else {
-					//TODO: Handle failure
-					OutputDebugString(L"Failed to get display settings\n");
+					spdlog::error("Failed to get display settings");
 				}
 			}
 			else {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to get display ID\n");
+				spdlog::error("Failed to get display ID");
 			}
 		}
 	}
@@ -154,13 +152,11 @@ namespace winrt::HotCorner::Server {
 				);
 
 				if (registered == FALSE) {
-					//TODO: properly log failure
-					OutputDebugString(L"Unable to register wait\n");
+					spdlog::error("Unable to register wait for corner action. Error: {}", GetLastError());
 				}
 			}
 			else {
-				//TODO: properly log failure
-				OutputDebugString(L"Unable to create event\n");
+				spdlog::error("Unable to create event. Error: {}", GetLastError());
 			}
 		}
 	}
@@ -214,7 +210,7 @@ namespace winrt::HotCorner::Server {
 		// update monitors positions
 		if (m_shouldRefresh && m_cornerEvent == NULL) {
 			m_shouldRefresh = false;
-			OutputDebugString(L"Refreshing displays\n");
+			spdlog::debug("Refreshing displays");
 			RefreshDisplays();
 		}
 
@@ -240,8 +236,7 @@ namespace winrt::HotCorner::Server {
 			}
 		}
 		else {
-			//TODO: properly log failure
-			OutputDebugString(L"Unable to create event\n");
+			spdlog::error("Unable to get current cursor position. Error: {}", GetLastError());
 		}
 	}
 }
