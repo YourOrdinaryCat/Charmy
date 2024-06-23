@@ -1,11 +1,13 @@
 ﻿#include "pch.h"
+#include "server.h"
 #include "App.h"
 #include "LifetimeManager.h"
 #include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/msvc_sink.h"
-#include "server.h"
+#include <format>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/msvc_sink.h>
 
 namespace winrt::HotCorner::Server {
 	namespace impl = implementation;
@@ -24,18 +26,34 @@ namespace winrt::HotCorner::Server {
 			return 0;
 		}
 
-		const auto logger = std::make_shared<spdlog::logger>(
-			"", std::make_shared<spdlog::sinks::windebug_sink_st>()
+		using std::chrono::system_clock;
+		using file_sink = spdlog::sinks::basic_file_sink_mt;
+		using debug_sink = spdlog::sinks::windebug_sink_st;
+
+		const auto settings = AppData::Roaming();
+		const auto logPath = settings / std::format(
+			L"Server-{}.log",
+			system_clock::to_time_t(system_clock::now())
 		);
+
+		auto fileSink = std::make_shared<file_sink>(logPath.string());
+		fileSink->set_level(spdlog::level::warn);
+
+		auto fileLog = std::make_shared<spdlog::logger>("", fileSink);
+		if (IsDebuggerPresent()) {
+			auto debugSink = std::make_shared<debug_sink>();
+			debugSink->set_level(spdlog::level::trace);
+
+			fileLog->sinks().push_back(debugSink);
+		}
 
 		spdlog::set_formatter(std::make_unique<spdlog::pattern_formatter>(
 			spdlog::pattern_time_type::utc
 		));
 		spdlog::set_level(spdlog::level::trace);
-		spdlog::initialize_logger(logger);
-		spdlog::set_default_logger(logger);
-
-		const auto settings = AppData::Roaming();
+		spdlog::flush_on(spdlog::level::trace);
+		spdlog::initialize_logger(fileLog);
+		spdlog::set_default_logger(fileLog);
 
 		App app{ instance, settings };
 		app.Settings().Load();
@@ -52,7 +70,9 @@ namespace winrt::HotCorner::Server {
 		}
 
 		const auto result = app.Run();
+
 		server::unregister_class(cookie);
+		spdlog::shutdown();
 
 		return result;
 	}
