@@ -1,8 +1,9 @@
 #pragma once
+#include <EnumFlags.h>
+#include <spdlog/spdlog.h>
 #include <winrt/Windows.Devices.Enumeration.h>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
-#include <EnumFlags.h>
 
 namespace winrt::HotCorner::Uwp::Devices {
 	namespace wde = Windows::Devices::Enumeration;
@@ -125,7 +126,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			}
 
 			if (m_watcher.Status() != wde::DeviceWatcherStatus::Stopped) {
-				OutputDebugString(L"Device enumeration has stopped unexpectedly\n");
+				spdlog::warn("Device enumeration has stopped unexpectedly");
 			}
 
 			if (m_restartRequested) {

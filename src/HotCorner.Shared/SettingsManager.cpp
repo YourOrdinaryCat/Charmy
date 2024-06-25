@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "SettingsManager.h"
 #include <array>
-#include <debugapi.h>
 #include <io.h>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
+#include <spdlog/spdlog.h>
 
 namespace json = rapidjson;
 namespace jh = winrt::HotCorner::Json;
@@ -28,7 +28,7 @@ namespace winrt::HotCorner::Settings {
 			fclose(file);
 		}
 		else {
-			OutputDebugString(L"Unable to open save file\n");
+			spdlog::warn("Unable to open save file");
 		}
 
 		return err == 0;
@@ -43,7 +43,7 @@ namespace winrt::HotCorner::Settings {
 			fclose(file);
 		}
 		else {
-			OutputDebugString(L"Unable to create or open save file\n");
+			spdlog::error("Unable to create or open save file");
 		}
 
 		return err == 0;
@@ -91,8 +91,7 @@ namespace winrt::HotCorner::Settings {
 			Monitors.clear();
 		}
 		else {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to parse document\n");
+			spdlog::warn("Failed to parse document");
 		}
 	}
 
