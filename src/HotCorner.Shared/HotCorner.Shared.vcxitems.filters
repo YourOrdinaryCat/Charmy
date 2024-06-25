@@ -13,6 +13,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingsManager.h">
       <Filter>Settings</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Logging.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Settings">
