@@ -16,11 +16,13 @@ namespace winrt::HotCorner::Server::Undocumented {
 
 		// https://github.com/TranslucentTB/TranslucentTB/blob/0726b0afbdf83eb579537d59bb36076a9071ec06/TranslucentTB/dynamicloader.hpp#L26C4-L26C4
 		if (!m_UxTheme) {
+			SetLastError(0);
 			m_UxTheme.reset(LoadLibraryEx(L"uxtheme.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32));
 		}
 
 		if (m_UxTheme) {
 			if (!m_Ssudm) {
+				SetLastError(0);
 				m_Ssudm = reinterpret_cast<PFN_SHOULD_SYSTEM_USE_DARK_MODE>(
 					GetProcAddress(m_UxTheme.get(), MAKEINTRESOURCEA(138)));
 			}

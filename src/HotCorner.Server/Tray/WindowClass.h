@@ -48,6 +48,7 @@ namespace winrt::HotCorner::Server {
 		}
 
 		inline bool TryRegister() noexcept {
+			SetLastError(0);
 			cookie = RegisterClassEx(&cls);
 			return cookie != 0;
 		}
@@ -55,6 +56,8 @@ namespace winrt::HotCorner::Server {
 		inline bool TryUnregister() noexcept {
 			const auto atom = ClassAtom();
 			cookie = 0;
+
+			SetLastError(0);
 			return UnregisterClass(atom, cls.hInstance);
 		}
 

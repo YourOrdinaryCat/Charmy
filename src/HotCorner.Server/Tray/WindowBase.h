@@ -45,7 +45,9 @@ namespace winrt::HotCorner::Server {
 		 *        Tends to be used for communication between different applications.
 		*/
 		std::optional<UINT> RegisterMessage(std::wstring_view message) const noexcept {
+			SetLastError(0);
 			const UINT msg = RegisterWindowMessage(message.data());
+
 			if (msg) {
 				return msg;
 			}
@@ -143,6 +145,7 @@ namespace winrt::HotCorner::Server {
 		 *        in destruction of the window.
 		*/
 		void Close() noexcept {
+			SetLastError(0);
 			const bool result = Post(WM_CLOSE);
 
 			if (result) {
