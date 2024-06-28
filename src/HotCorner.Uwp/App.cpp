@@ -1,8 +1,8 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
-
 #include <AppSettings.h>
+#include <spdlog/spdlog.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -16,18 +16,16 @@ namespace winrt::HotCorner::Uwp::implementation {
 	static constexpr wf::Size MainViewSize{ 500, 375 };
 
 	App::App() {
-#if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
 		UnhandledException([this](const IInspectable&, const wux::UnhandledExceptionEventArgs& e)
 			{
-				if (IsDebuggerPresent()) {
-					//TODO: logging
-					const auto errorMessage = e.Message();
-					const auto hr = e.Exception();
-					__debugbreak();
-				}
+				const auto hr = e.Exception();
+				const auto errorMessage = e.Message();
+
+				spdlog::critical("Unhandled exception detected - the process will now terminate");
+				spdlog::critical("HRESULT: {}", hr);
+				spdlog::critical("Message: {}", errorMessage);
 			}
 		);
-#endif
 	}
 
 	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
