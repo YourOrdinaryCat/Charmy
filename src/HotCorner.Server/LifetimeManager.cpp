@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "LifetimeManager.h"
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
 	void TrackHotCorners(const Tracking::TrayCornerTracker& tct) noexcept {
@@ -10,7 +10,7 @@ namespace winrt::HotCorner::Server {
 			BumpServer();
 		}
 		else if (result == StartupResult::Failed) {
-			spdlog::error("Failed to start corner tracking");
+			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to start corner tracking");
 		}
 	}
 
@@ -21,7 +21,7 @@ namespace winrt::HotCorner::Server {
 			ReleaseServer(tct);
 		}
 		else if (result == StopResult::Failed) {
-			spdlog::error("Failed to stop corner tracking");
+			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to stop corner tracking");
 		}
 	}
 

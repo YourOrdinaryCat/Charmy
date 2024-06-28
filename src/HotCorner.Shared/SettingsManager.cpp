@@ -28,7 +28,7 @@ namespace winrt::HotCorner::Settings {
 			fclose(file);
 		}
 		else {
-			spdlog::warn("Unable to open save file");
+			spdlog::info("Unable to open save file. Error: {}", err);
 		}
 
 		return err == 0;
@@ -43,7 +43,7 @@ namespace winrt::HotCorner::Settings {
 			fclose(file);
 		}
 		else {
-			spdlog::error("Unable to create or open save file");
+			spdlog::error("Unable to create or open save file. Error: {}", err);
 		}
 
 		return err == 0;
