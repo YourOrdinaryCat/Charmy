@@ -1,3 +1,4 @@
+#pragma once
 #include <chrono>
 #include <errhandlingapi.h>
 #include <filesystem>
