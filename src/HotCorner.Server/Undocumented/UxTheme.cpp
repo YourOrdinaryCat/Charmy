@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "UxTheme.h"
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 #include <Version.h>
 #include <wil/resource.h>
 
@@ -29,10 +29,10 @@ namespace winrt::HotCorner::Server::Undocumented {
 				return m_Ssudm() ? ShellTheme::Dark : ShellTheme::Light;
 			}
 
-			spdlog::warn("Failed to get address of ShouldSystemUseDarkMode. Error: {}", GetLastError());
+			SPDLOG_LAST_ERROR(spdlog::level::warn, "Failed to get address of ShouldSystemUseDarkMode");
 		}
 		else {
-			spdlog::warn("Unable to load uxtheme.dll. Error: {}", GetLastError());
+			SPDLOG_LAST_ERROR(spdlog::level::warn, "Unable to load uxtheme.dll");
 		}
 
 		return ShellTheme::Unknown;

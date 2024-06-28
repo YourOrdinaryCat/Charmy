@@ -1,6 +1,6 @@
 #pragma once
 #include "WindowClass.h"
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
 	/**
@@ -50,7 +50,7 @@ namespace winrt::HotCorner::Server {
 				return msg;
 			}
 			else {
-				spdlog::error("Failed to register window message");
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to register window message");
 				return std::nullopt;
 			}
 		}
@@ -67,7 +67,7 @@ namespace winrt::HotCorner::Server {
 		{
 			if (message == WM_DESTROY) [[unlikely]] {
 				PostQuitMessage(0);
-				}
+			}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
 		}
@@ -89,7 +89,7 @@ namespace winrt::HotCorner::Server {
 			))
 		{
 			if (!m_window) {
-				spdlog::critical("Failed to create window. Error: {}", GetLastError());
+				SPDLOG_LAST_ERROR(spdlog::level::critical, "Failed to create window");
 			}
 		}
 
@@ -130,7 +130,7 @@ namespace winrt::HotCorner::Server {
 					DispatchMessage(&msg);
 				}
 				else {
-					spdlog::critical("Unspecified failure in window message loop. Error: {}", GetLastError());
+					SPDLOG_LAST_ERROR(spdlog::level::critical, "Unspecified failure in window message loop");
 					break;
 				}
 			}
@@ -149,7 +149,7 @@ namespace winrt::HotCorner::Server {
 				m_closed = true;
 			}
 			else {
-				spdlog::error("Failed to close window. Error: {}", GetLastError());
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to close window");
 			}
 		}
 	};

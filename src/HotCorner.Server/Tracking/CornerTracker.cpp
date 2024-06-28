@@ -4,7 +4,7 @@
 #include <array>
 #include <Devices/Display.h>
 #include <hidusage.h>
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 #include <Unknwn.h>
 
 namespace winrt::HotCorner::Server {
@@ -152,11 +152,11 @@ namespace winrt::HotCorner::Server {
 				);
 
 				if (registered == FALSE) {
-					spdlog::error("Unable to register wait for corner action. Error: {}", GetLastError());
+					SPDLOG_LAST_ERROR(spdlog::level::err, "Unable to register wait for corner action");
 				}
 			}
 			else {
-				spdlog::error("Unable to create event. Error: {}", GetLastError());
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Unable to create event");
 			}
 		}
 	}
@@ -236,7 +236,7 @@ namespace winrt::HotCorner::Server {
 			}
 		}
 		else {
-			spdlog::error("Unable to get current cursor position. Error: {}", GetLastError());
+			SPDLOG_LAST_ERROR(spdlog::level::err, "Unable to get current cursor position");
 		}
 	}
 }

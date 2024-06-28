@@ -1,5 +1,5 @@
 #pragma once
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
 	/**
@@ -23,14 +23,14 @@ namespace winrt::HotCorner::Server {
 			cookie(0)
 		{
 			if (!TryRegister()) {
-				spdlog::critical("Failed to register window class. Error: {}", GetLastError());
+				SPDLOG_LAST_ERROR(spdlog::level::critical, "Failed to register window class");
 			}
 		}
 
 		inline ~WindowClass() noexcept {
 			if (IsRegistered()) {
 				if (!TryUnregister()) {
-					spdlog::error("Failed to unregister window class. Error: {}", GetLastError());
+					SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to unregister window class");
 				}
 			}
 		}

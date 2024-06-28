@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringHash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Logging.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingsManager.cpp" />
   </ItemGroup>
 </Project>

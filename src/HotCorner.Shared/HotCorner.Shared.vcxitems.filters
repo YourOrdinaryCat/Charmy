@@ -24,5 +24,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingsManager.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Logging.cpp" />
   </ItemGroup>
 </Project>
