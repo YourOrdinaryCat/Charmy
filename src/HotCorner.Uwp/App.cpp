@@ -2,7 +2,7 @@
 #include "App.h"
 #include "Views/MainPage.h"
 #include <AppSettings.h>
-#include <spdlog/spdlog.h>
+#include <Logging.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -22,8 +22,7 @@ namespace winrt::HotCorner::Uwp::implementation {
 				const auto errorMessage = e.Message();
 
 				spdlog::critical("Unhandled exception detected - the process will now terminate");
-				spdlog::critical("HRESULT: {}", hr);
-				spdlog::critical("Message: {}", errorMessage);
+				spdlog::critical("HRESULT: {}", hr.value);
 			}
 		);
 	}
@@ -35,7 +34,9 @@ namespace winrt::HotCorner::Uwp::implementation {
 		const auto window = wux::Window::Current();
 
 		if (!window.Content()) {
-			// Load settings only when creating the initial view
+			// Initialize these only when creating the initial view
+			Logging::Start(L"Settings", SettingsPath);
+
 			if (!AppSettings().Load()) {
 				// Only resize the view if the settings aren't there - in practical
 				// terms, this means it will only be resized on first startup
