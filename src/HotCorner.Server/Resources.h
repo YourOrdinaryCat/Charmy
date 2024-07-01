@@ -16,7 +16,7 @@ namespace winrt::HotCorner::Server::Resources {
 		return LoadIconMetric(instance, MAKEINTRESOURCE(id), LIM_SMALL, icon);
 	}
 
-	inline HRESULT GetSmallIcon(HINSTANCE instance, std::wstring_view id, HICON* icon) noexcept {
-		return LoadIconMetric(instance, id.data(), LIM_SMALL, icon);
+	inline HRESULT GetSmallIcon(HINSTANCE instance, PCWSTR id, HICON* icon) noexcept {
+		return LoadIconMetric(instance, id, LIM_SMALL, icon);
 	}
 }
