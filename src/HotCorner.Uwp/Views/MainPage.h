@@ -30,6 +30,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		void OnMonitorSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
 		void OnCopyVersionClick(const IInspectable&, const wux::RoutedEventArgs&);
+		winrt::fire_and_forget OnOpenLogFolderClick(const IInspectable&, const wux::RoutedEventArgs&);
 
 	private:
 		void Save() const;

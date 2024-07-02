@@ -3,7 +3,7 @@
 
 namespace winrt::HotCorner::Uwp {
 	Settings::SettingsManager& AppSettings() {
-		static Settings::SettingsManager m_settings{ SettingsPath };
+		static Settings::SettingsManager m_settings{ SettingsFolder.Path().c_str() };
 		return m_settings;
 	}
 }

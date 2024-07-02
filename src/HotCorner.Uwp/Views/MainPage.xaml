@@ -94,6 +94,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
                                     <TextBlock
@@ -112,6 +113,12 @@
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         HorizontalAlignment="Stretch" />
+
+                                    <HyperlinkButton
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Stretch"
+                                        Click="OnOpenLogFolderClick"
+                                        Content="Open logs folder" />
                                 </Grid>
                             </ScrollViewer>
                         </PivotItem>
