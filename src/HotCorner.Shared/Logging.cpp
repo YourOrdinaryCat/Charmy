@@ -3,13 +3,21 @@
 #include <chrono>
 #include <debugapi.h>
 #include <format>
-#include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/msvc_sink.h>
 
 namespace winrt::HotCorner::Logging {
+	static std::weak_ptr<lazy_file_sink_mt> m_fileSink{};
+
+	std::shared_ptr<lazy_file_sink_mt> FileSink() noexcept {
+		if (auto sink = m_fileSink.lock()) {
+			return sink;
+		}
+		return nullptr;
+	}
+
 	void Start(std::wstring_view name, const std::filesystem::path& path) {
 		using std::chrono::system_clock;
-		using file_sink = spdlog::sinks::basic_file_sink_mt;
+		using file_sink = lazy_file_sink_mt;
 		using debug_sink = spdlog::sinks::windebug_sink_st;
 
 		const auto logPath = path / std::format(
@@ -17,10 +25,12 @@ namespace winrt::HotCorner::Logging {
 			system_clock::to_time_t(system_clock::now())
 		);
 
-		auto fileSink = std::make_shared<file_sink>(logPath.string());
+		auto fileSink = std::make_shared<file_sink>(logPath);
 		fileSink->set_level(spdlog::level::warn);
 
+		m_fileSink = fileSink;
 		auto fileLog = std::make_shared<spdlog::logger>("", fileSink);
+
 		if (IsDebuggerPresent()) {
 			auto debugSink = std::make_shared<debug_sink>();
 			debugSink->set_level(spdlog::level::trace);

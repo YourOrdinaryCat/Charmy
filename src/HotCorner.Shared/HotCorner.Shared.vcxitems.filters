@@ -13,17 +13,30 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingsManager.h">
       <Filter>Settings</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Logging.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Logging.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)lazy_file_sink.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Settings">
       <UniqueIdentifier>{de13f59c-08f4-4e6c-8c79-6066a2874cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{b112627e-4b9e-4713-8c55-cf2c31148c6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingsManager.cpp">
       <Filter>Settings</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Logging.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Logging.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)lazy_file_sink.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

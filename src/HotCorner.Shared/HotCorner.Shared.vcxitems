@@ -16,6 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CornerAction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EnumFlags.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)lazy_file_sink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Logging.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MonitorSettings.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonHelper.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringHash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)lazy_file_sink.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Logging.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingsManager.cpp" />
   </ItemGroup>
