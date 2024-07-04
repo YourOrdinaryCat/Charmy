@@ -21,7 +21,7 @@ namespace winrt::HotCorner::Settings {
 
 	bool SettingsManager::Load() {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"r");
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"rbS");
 
 		if (err == 0) {
 			LoadFrom(file);
@@ -36,7 +36,7 @@ namespace winrt::HotCorner::Settings {
 
 	bool SettingsManager::Save() const {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"w");
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"wbS");
 
 		if (err == 0) {
 			SaveTo(file);
@@ -68,6 +68,9 @@ namespace winrt::HotCorner::Settings {
 				}
 				else if (key == TrayIconEnabledKey) {
 					jh::ReadValue(member->value, TrayIconEnabled);
+				}
+				else if (key == LogVerbosityKey) {
+					jh::ReadMappedValue(member->value, LogVerbosityMapping, LogVerbosity);
 				}
 				else if (key == MonitorsKey) {
 					DefaultSettings = {};
@@ -112,6 +115,7 @@ namespace winrt::HotCorner::Settings {
 		jh::KeyValuePair(writer, SchemaKey, Schema);
 		jh::KeyValuePair(writer, TrackingEnabledKey, TrackingEnabled);
 		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
+		jh::MappedKVP(writer, LogVerbosityKey, LogVerbosityMapping, LogVerbosity);
 
 		jh::Key(writer, MonitorsKey);
 		writer.StartObject();

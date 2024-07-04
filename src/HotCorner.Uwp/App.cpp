@@ -43,6 +43,7 @@ namespace winrt::HotCorner::Uwp::implementation {
 				view.TryResizeView(MainViewSize);
 			}
 
+			Logging::FileSink()->set_level(AppSettings().LogVerbosity);
 			window.Content(Views::MainPage());
 		}
 

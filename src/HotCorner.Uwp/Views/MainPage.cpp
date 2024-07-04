@@ -109,6 +109,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	void MainPage::Save() const {
 		AppSettings().Save();
+		Logging::FileSink()->set_level(AppSettings().LogVerbosity);
+
 		Lifetime::Current().ReloadSettings();
 	}
 
@@ -156,5 +158,22 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 				spdlog::error("Failed to open log folder");
 			}
 		}
+	}
+
+	void MainPage::OnLogVerbosityFlyoutOpening(const IInspectable& sender, const IInspectable&) {
+		const auto currLevel = AppSettings().LogVerbosity;
+		for (auto&& item : sender.as<wuxc::MenuFlyout>().Items()) {
+			if (const auto rmfi = item.try_as<muxc::RadioMenuFlyoutItem>()) {
+				if (rmfi.Tag().as<int32_t>() == currLevel) {
+					rmfi.IsChecked(true);
+					break;
+				}
+			}
+		}
+	}
+
+	void MainPage::OnLogLevelClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		AppSettings().LogVerbosity = static_cast<spdlog::level::level_enum>
+			(sender.as<muxc::RadioMenuFlyoutItem>().Tag().as<int32_t>());
 	}
 }

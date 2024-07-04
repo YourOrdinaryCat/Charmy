@@ -29,6 +29,8 @@ namespace winrt::HotCorner::Server {
 		App app{ instance, settings };
 		app.Settings().Load();
 
+		Logging::FileSink()->set_level(app.Settings().LogVerbosity);
+
 		const auto cookie = server::register_class<impl::LifetimeManager, App&>(app);
 		server::resume_class_objects();
 
