@@ -58,35 +58,40 @@ namespace winrt::HotCorner::Settings {
 		const json::ParseResult result = doc.ParseStream<json::kParseCommentsFlag, json::UTF16LE<>>(in);
 
 		if (result) {
-			// Remove the schema key to avoid a false unknown key warning
-			doc.RemoveMember(jh::GetValue(SchemaKey));
+			try {
+				// Remove the schema key to avoid a false unknown key warning
+				doc.RemoveMember(jh::GetValue(SchemaKey));
 
-			for (auto member = doc.MemberBegin(); member != doc.MemberEnd(); ++member) {
-				const auto key = jh::GetStringView(member->name);
-				if (key == TrackingEnabledKey) {
-					jh::ReadValue(member->value, TrackingEnabled);
-				}
-				else if (key == TrayIconEnabledKey) {
-					jh::ReadValue(member->value, TrayIconEnabled);
-				}
-				else if (key == LogVerbosityKey) {
-					jh::ReadMappedValue(member->value, LogVerbosityMapping, LogVerbosity);
-				}
-				else if (key == MonitorsKey) {
-					DefaultSettings = {};
-					Monitors.clear();
+				for (auto member = doc.MemberBegin(); member != doc.MemberEnd(); ++member) {
+					const auto key = jh::GetStringView(member->name);
+					if (key == TrackingEnabledKey) {
+						jh::ReadValue(member->value, key, TrackingEnabled);
+					}
+					else if (key == TrayIconEnabledKey) {
+						jh::ReadValue(member->value, key, TrayIconEnabled);
+					}
+					else if (key == LogVerbosityKey) {
+						jh::ReadMappedValue(member->value, LogVerbosityMapping, key, LogVerbosity);
+					}
+					else if (key == MonitorsKey) {
+						DefaultSettings = {};
+						Monitors.clear();
 
-					const auto val = member->value.GetObj();
-					for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
-						const auto id = jh::GetStringView(monitor->name);
-						if (!id.empty()) {
-							Monitors.emplace(id, monitor->value);
-						}
-						else {
-							DefaultSettings.Deserialize(monitor->value);
+						const auto val = member->value.GetObj();
+						for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
+							const auto id = jh::GetStringView(monitor->name);
+							if (!id.empty()) {
+								Monitors.emplace(id, monitor->value);
+							}
+							else {
+								DefaultSettings.Deserialize(monitor->value);
+							}
 						}
 					}
 				}
+			}
+			catch (std::logic_error err) {
+				spdlog::error("Something went wrong while trying to parse document. Error: {}", err.what());
 			}
 		}
 		else if (result.Code() == json::kParseErrorDocumentEmpty) {
@@ -115,7 +120,7 @@ namespace winrt::HotCorner::Settings {
 		jh::KeyValuePair(writer, SchemaKey, Schema);
 		jh::KeyValuePair(writer, TrackingEnabledKey, TrackingEnabled);
 		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
-		jh::MappedKVP(writer, LogVerbosityKey, LogVerbosityMapping, LogVerbosity);
+		jh::MappedKVP(writer, LogVerbosityMapping, LogVerbosityKey, LogVerbosity);
 
 		jh::Key(writer, MonitorsKey);
 		writer.StartObject();

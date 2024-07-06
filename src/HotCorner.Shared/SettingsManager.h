@@ -16,7 +16,7 @@ namespace winrt::HotCorner::Settings {
 		static constexpr std::wstring_view LogVerbosityKey = L"verbosity";
 		static constexpr std::wstring_view MonitorsKey = L"monitors";
 
-		static constexpr std::array<std::wstring_view, 7> LogVerbosityMapping = {
+		static constexpr Json::type_mapping<7> LogVerbosityMapping = {
 			L"trace",
 			L"debug",
 			L"information",

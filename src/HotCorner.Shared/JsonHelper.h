@@ -1,4 +1,10 @@
 #pragma once
+#include "Logging.h"
+#include "String.h"
+#include <array>
+#include <format>
+#define RAPIDJSON_NO_SIZETYPEDEFINE
+namespace rapidjson { typedef ::std::size_t SizeType; }
 #include <rapidjson/document.h>
 #include <rapidjson/encodings.h>
 #include <string_view>
@@ -7,6 +13,19 @@ namespace winrt::HotCorner::Json {
 	using type = rapidjson::Type;
 	using value_t = rapidjson::GenericValue<rapidjson::UTF16LE<>>;
 
+	template<size_t Count>
+	using type_mapping = std::array<std::wstring_view, Count>;
+
+	static constexpr std::array<std::string_view, 7> JsonTypesMapping = {
+		"null",
+		"bool",
+		"bool",
+		"object",
+		"array",
+		"string",
+		"number"
+	};
+
 	constexpr bool AreEqual(type left, type right) noexcept {
 		return left == right ||
 			(left == type::kFalseType && right == type::kTrueType) ||
@@ -14,12 +33,35 @@ namespace winrt::HotCorner::Json {
 	}
 
 	/**
-	 * @brief Asserts whether the provided types match.
+	 * @brief Asserts whether the provided types match - if they don't, throws an
+	 *        exception.
 	*/
 	inline void AssertMatch(type expected, type toMatch) {
 		if (!AreEqual(expected, toMatch)) [[unlikely]] {
-			//TODO: Handle failure
-			__debugbreak();
+			throw std::logic_error{
+				std::format(
+					"Expected {} but found {}",
+					JsonTypesMapping.at(expected),
+					JsonTypesMapping.at(toMatch)
+				)
+			};
+		}
+	}
+
+	/**
+	 * @brief Asserts whether the provided types match - if they don't, throws an
+	 *        exception.
+	*/
+	inline void AssertMatch(type expected, type toMatch, std::wstring_view key) {
+		if (!AreEqual(expected, toMatch)) [[unlikely]] {
+			throw std::logic_error{
+				std::format(
+					"Expected {} but found {} while deserializing '{}'",
+					JsonTypesMapping.at(expected),
+					JsonTypesMapping.at(toMatch),
+					ToMultiByte(key.data())
+				)
+			};
 		}
 	}
 
@@ -34,15 +76,17 @@ namespace winrt::HotCorner::Json {
 	/**
 	 * @brief Creates a JSON value from the provided wide string view.
 	*/
-	inline value_t GetValue(std::wstring_view str) {
-		return { str.data(), static_cast<rapidjson::SizeType>(str.length()) };
+	inline value_t GetValue(std::wstring_view str) noexcept {
+		return { str.data(), str.length() };
 	}
 
-	inline void ReadValue(const value_t& json, bool& value) {
+	inline void ReadValue(const value_t& json, std::wstring_view key, bool& value) {
+		AssertMatch(type::kTrueType, json.GetType(), key);
 		value = json.GetBool();
 	}
 
-	inline void ReadValue(const value_t& json, unsigned int& value) {
+	inline void ReadValue(const value_t& json, std::wstring_view key, unsigned int& value) {
+		AssertMatch(type::kNumberType, json.GetType(), key);
 		value = json.GetUint();
 	}
 
@@ -58,30 +102,37 @@ namespace winrt::HotCorner::Json {
 	template<std::size_t MappingSize, class T> requires std::is_enum_v<T>
 	inline void ReadMappedValue(
 		const value_t& json,
-		const std::array<std::wstring_view, MappingSize>& mappings,
+		const type_mapping<MappingSize>& mappings,
+		std::wstring_view key,
 		T& value)
 	{
-		AssertMatch(type::kStringType, json.GetType());
+		AssertMatch(type::kStringType, json.GetType(), key);
 
 		const auto mapped = GetStringView(json);
-		const auto key = std::find(mappings.begin(), mappings.end(), mapped);
+		const auto found = std::find(mappings.begin(), mappings.end(), mapped);
 
-		if (key != mappings.end()) {
-			value = static_cast<T>(std::distance(mappings.begin(), key));
+		if (found != mappings.end()) {
+			value = static_cast<T>(std::distance(mappings.begin(), found));
 		}
 		else {
-			//TODO: Handle failure
+			throw std::logic_error{
+				std::format(
+					"Invalid enum string detected ('{}') while deserializing '{}'",
+					ToMultiByte(mapped.data()),
+					ToMultiByte(key.data())
+				)
+			};
 		}
 	}
 
 	template<class Writer>
 	inline void Key(Writer& writer, std::wstring_view key) {
-		writer.Key(key.data(), static_cast<rapidjson::SizeType>(key.length()));
+		writer.Key(key.data(), key.length());
 	}
 
 	template<class Writer>
 	inline void String(Writer& writer, std::wstring_view value) {
-		writer.String(value.data(), static_cast<rapidjson::SizeType>(value.length()));
+		writer.String(value.data(), value.length());
 	}
 
 	template<class Writer, std::same_as<bool> T>
@@ -108,8 +159,8 @@ namespace winrt::HotCorner::Json {
 	template<class Writer, std::size_t MappingSize, class T> requires std::is_enum_v<T>
 	inline void MappedKVP(
 		Writer& writer,
+		const type_mapping<MappingSize>& mappings,
 		std::wstring_view key,
-		const std::array<std::wstring_view, MappingSize>& mappings,
 		T value)
 	{
 		const auto index = static_cast<std::size_t>(value);
