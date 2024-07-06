@@ -3,6 +3,7 @@
 #include "Views/MainPage.h"
 #include <AppSettings.h>
 #include <Logging.h>
+#include <String.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -23,6 +24,7 @@ namespace winrt::HotCorner::Uwp::implementation {
 
 				spdlog::critical("Unhandled exception detected - the process will now terminate");
 				spdlog::critical("HRESULT: {}", hr.value);
+				spdlog::critical("Message: {}", ToMultiByte(errorMessage.data()));
 			}
 		);
 	}
