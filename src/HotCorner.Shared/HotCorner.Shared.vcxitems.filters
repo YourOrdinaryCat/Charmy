@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)lazy_file_sink.h">
       <Filter>Logging</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)String.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Settings">
