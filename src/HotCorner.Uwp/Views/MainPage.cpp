@@ -164,7 +164,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		const auto currLevel = AppSettings().LogVerbosity;
 		for (auto&& item : sender.as<wuxc::MenuFlyout>().Items()) {
 			if (const auto rmfi = item.try_as<muxc::RadioMenuFlyoutItem>()) {
-				if (rmfi.Tag().as<int32_t>() == currLevel) {
+				if (rmfi.Tag().as<int>() == currLevel) {
 					rmfi.IsChecked(true);
 					break;
 				}
@@ -174,6 +174,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	void MainPage::OnLogLevelClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
 		AppSettings().LogVerbosity = static_cast<spdlog::level::level_enum>
-			(sender.as<muxc::RadioMenuFlyoutItem>().Tag().as<int32_t>());
+			(sender.as<muxc::RadioMenuFlyoutItem>().Tag().as<int>());
 	}
 }
