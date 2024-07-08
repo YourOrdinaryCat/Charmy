@@ -226,10 +226,17 @@ namespace winrt::HotCorner::Server {
 			}
 			else if (m_cornerEvent != NULL) {
 				// The corner is cold, but was previously hot
-				//TODO: failure here is critical, we likely want to abort here
-				SetEvent(m_cornerEvent);
-				CloseHandle(m_cornerEvent);
-				(void)UnregisterWait(m_waitHandle);
+				if (!SetEvent(m_cornerEvent)) {
+					SPDLOG_LAST_ERROR(spdlog::level::critical, "Unable to set corner event");
+				}
+
+				if (!UnregisterWaitEx(m_waitHandle, INVALID_HANDLE_VALUE)) {
+					SPDLOG_LAST_ERROR(spdlog::level::critical, "Unable to unregister corner tracking wait handle");
+				}
+
+				if (!CloseHandle(m_cornerEvent)) {
+					SPDLOG_LAST_ERROR(spdlog::level::critical, "Unable to close corner event");
+				}
 
 				m_cornerEvent = NULL;
 				m_waitHandle = INVALID_HANDLE_VALUE;
