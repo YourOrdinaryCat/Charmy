@@ -8,7 +8,10 @@
 
 #define SPDLOG_LAST_ERROR(LEVEL, MESSAGE) \
 const auto lastErrorCode = GetLastError(); \
-spdlog::log(LEVEL, MESSAGE ". Error: {}", lastErrorCode)
+spdlog::log(LEVEL, MESSAGE ". Error: {}", lastErrorCode); \
+if constexpr (LEVEL == spdlog::level::critical) { \
+	__fastfail(FAST_FAIL_FATAL_APP_EXIT); \
+}
 
 namespace winrt::HotCorner::Logging {
 	std::shared_ptr<lazy_file_sink_mt> FileSink() noexcept;
