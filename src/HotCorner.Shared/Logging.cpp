@@ -15,6 +15,13 @@ namespace winrt::HotCorner::Logging {
 		return nullptr;
 	}
 
+	static void OnLoggerError(const std::string& message) {
+		if (IsDebuggerPresent()) {
+			static std::atomic_size_t counter = 0;
+			OutputDebugStringA(std::format("[*** LOG ERROR {:04} ***] {}\n", counter++, message).c_str());
+		}
+	}
+
 	void Start(std::wstring_view name, const std::filesystem::path& path) {
 		using std::chrono::system_clock;
 		using file_sink = lazy_file_sink_mt;
@@ -43,6 +50,7 @@ namespace winrt::HotCorner::Logging {
 		));
 		spdlog::set_level(spdlog::level::trace);
 		spdlog::flush_on(spdlog::level::trace);
+		spdlog::set_error_handler(OnLoggerError);
 		spdlog::initialize_logger(fileLog);
 		spdlog::set_default_logger(fileLog);
 	}
