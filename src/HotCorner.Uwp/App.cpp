@@ -18,16 +18,28 @@ namespace winrt::HotCorner::Uwp::implementation {
 	static constexpr wf::Size MainViewSize{ 500, 375 };
 
 	App::App() {
-		UnhandledException([this](const IInspectable&, const wux::UnhandledExceptionEventArgs& e)
-			{
-				const auto hr = e.Exception();
-				const auto errorMessage = e.Message();
+		wamc::CoreApplication::UnhandledErrorDetected([this](const IInspectable&, const wamc::UnhandledErrorDetectedEventArgs& e) {
+			try {
+				e.UnhandledError().Propagate();
+			}
+			catch (const winrt::hresult_error& err) {
+				const auto hr = err.code();
+				const auto extra = err.try_as<IRestrictedErrorInfo>().get();
+
+				if (extra) {
+					const auto errorSet = SetRestrictedErrorInfo(extra);
+					if (errorSet == S_OK) {
+						RoFailFastWithErrorContext(hr.value);
+					}
+				}
+
+				const auto msg = err.message();
 
 				spdlog::critical("Unhandled exception detected - the process will now terminate");
 				spdlog::critical("HRESULT: {}", hr.value);
-				spdlog::critical("Message: {}", ToMultiByte(errorMessage.data()));
+				spdlog::critical("Message: {}", ToMultiByte(msg.data()));
 			}
-		);
+		});
 	}
 
 	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
