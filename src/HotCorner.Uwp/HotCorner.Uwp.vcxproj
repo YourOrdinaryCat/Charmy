@@ -36,7 +36,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="HotCorner.Server">
-      <HintPath>..\HotCorner.Server\Out\$(Platform)\$(Configuration)\HotCorner.Server.winmd</HintPath>
+      <HintPath>..\HotCorner.Server\Out\$(Configuration)\$(Platform)\HotCorner.Server.winmd</HintPath>
       <IsWinMDFile>true</IsWinMDFile>
     </Reference>
   </ItemGroup>
