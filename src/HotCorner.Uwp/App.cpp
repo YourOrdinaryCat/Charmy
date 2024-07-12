@@ -3,7 +3,8 @@
 #include "Views/MainPage.h"
 #include <AppSettings.h>
 #include <Logging.h>
-#include <String.h>
+#include <roerrorapi.h>
+#include <Unicode.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;

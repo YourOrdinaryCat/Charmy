@@ -1,6 +1,6 @@
 #pragma once
 #include "Logging.h"
-#include "String.h"
+#include "Unicode.h"
 #include <array>
 #include <format>
 #define RAPIDJSON_NO_SIZETYPEDEFINE

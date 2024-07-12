@@ -21,7 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MonitorSettings.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonHelper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingsManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)String.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Unicode.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringHash.h" />
   </ItemGroup>
   <ItemGroup>
