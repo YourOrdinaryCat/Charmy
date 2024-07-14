@@ -95,8 +95,20 @@ namespace winrt::HotCorner::Server::Devices {
 			return a.m_hasMore == b.m_hasMore;
 		}
 
-		constexpr DISPLAY_DEVICE operator*() const noexcept {
+		constexpr DISPLAY_DEVICE& operator*() noexcept {
 			return m_device;
+		}
+
+		constexpr const DISPLAY_DEVICE& operator*() const noexcept {
+			return m_device;
+		}
+
+		constexpr DISPLAY_DEVICE* operator->() noexcept {
+			return &m_device;
+		}
+
+		constexpr const DISPLAY_DEVICE* operator->() const noexcept {
+			return &m_device;
 		}
 	};
 
