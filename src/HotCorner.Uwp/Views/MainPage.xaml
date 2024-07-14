@@ -98,41 +98,44 @@
 
                                         <HyperlinkButton x:Uid="MainPageChangelog" HorizontalAlignment="Stretch" />
 
-                                        <HyperlinkButton
-                                            HorizontalAlignment="Stretch"
-                                            Click="OnOpenLogFolderClick"
-                                            Content="Open logs folder" />
+                                        <HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
+                                            <TextBlock
+                                                x:Uid="MainPageLogsFolder"
+                                                TextAlignment="Center"
+                                                TextDecorations="Underline"
+                                                TextWrapping="WrapWholeWords" />
+                                        </HyperlinkButton>
                                     </controls:WrapPanel>
 
-                                    <muxc:DropDownButton HorizontalAlignment="Stretch" Content="Log verbosity">
+                                    <muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
                                         <muxc:DropDownButton.Flyout>
                                             <MenuFlyout Opening="OnLogVerbosityFlyoutOpening">
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Trace">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>0</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
                                                 </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Debug">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>1</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
                                                 </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Information">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>2</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
                                                 </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Warning">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>3</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
                                                 </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Error">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>4</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
                                                 </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Critical">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>5</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
@@ -140,7 +143,7 @@
 
                                                 <MenuFlyoutSeparator />
 
-                                                <muxc:RadioMenuFlyoutItem Click="OnLogLevelClick" Text="Off">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
                                                     <muxc:RadioMenuFlyoutItem.Tag>
                                                         <x:Int32>6</x:Int32>
                                                     </muxc:RadioMenuFlyoutItem.Tag>
