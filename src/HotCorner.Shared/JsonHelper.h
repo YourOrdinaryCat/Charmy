@@ -1,10 +1,10 @@
 #pragma once
+namespace rapidjson { typedef ::std::size_t SizeType; }
+
 #include "Logging.h"
 #include "Unicode.h"
 #include <array>
 #include <format>
-#define RAPIDJSON_NO_SIZETYPEDEFINE
-namespace rapidjson { typedef ::std::size_t SizeType; }
 #include <rapidjson/document.h>
 #include <rapidjson/encodings.h>
 #include <string_view>
