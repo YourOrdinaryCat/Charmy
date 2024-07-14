@@ -1,4 +1,5 @@
 #pragma once
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
 	/**
@@ -22,76 +23,77 @@ namespace winrt::HotCorner::Server {
 			cookie(0)
 		{
 			if (!TryRegister()) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to register window class\n");
+				SPDLOG_LAST_ERROR(spdlog::level::critical, "Failed to register window class");
 			}
 		}
 
 		inline ~WindowClass() noexcept {
 			if (IsRegistered()) {
 				if (!TryUnregister()) {
-					//TODO: Handle failure
-					OutputDebugString(L"Failed to unregister window class\n");
+					SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to unregister window class");
 				}
 			}
 		}
 
-		inline const WNDCLASSEXW& Get() const noexcept {
+		constexpr const WNDCLASSEXW& Get() const noexcept {
 			return cls;
 		}
 
-		inline bool IsRegistered() const noexcept {
+		constexpr bool IsRegistered() const noexcept {
 			return cookie != 0;
 		}
 
-		inline LPCWSTR ClassAtom() const noexcept {
-			return MAKEINTATOM(cookie);
+		inline LPCTSTR ClassAtom() const noexcept {
+			return reinterpret_cast<LPCTSTR>(static_cast<INT_PTR>(cookie));
 		}
 
 		inline bool TryRegister() noexcept {
+			SetLastError(0);
 			cookie = RegisterClassEx(&cls);
 			return cookie != 0;
 		}
 
 		inline bool TryUnregister() noexcept {
-			const auto atom = MAKEINTATOM(cookie);
+			const auto atom = ClassAtom();
 			cookie = 0;
-			return UnregisterClassW(atom, cls.hInstance);
+
+			SetLastError(0);
+			return UnregisterClass(atom, cls.hInstance);
 		}
 
-		inline LPCWSTR ClassName() const noexcept {
+		constexpr LPCWSTR ClassName() const noexcept {
 			return cls.lpszClassName;
 		}
 
-		inline WNDPROC WindowProcedure() const noexcept {
+		constexpr WNDPROC WindowProcedure() const noexcept {
 			return cls.lpfnWndProc;
 		}
 
-		inline HINSTANCE Instance() const noexcept {
+		constexpr HINSTANCE Instance() const noexcept {
 			return cls.hInstance;
 		}
 
-		inline uint32_t Styles() const noexcept {
+		constexpr uint32_t Styles() const noexcept {
 			return cls.style;
 		}
 
-		inline std::optional<HICON> Icon() const noexcept {
+		constexpr HICON Icon() const noexcept {
 			return cls.hIcon;
 		}
 
-		inline std::optional<HICON> SmallIcon() const noexcept {
+		constexpr HICON SmallIcon() const noexcept {
 			return cls.hIconSm;
 		}
 
-		inline std::optional<HCURSOR> Cursor() const noexcept {
+		constexpr HCURSOR Cursor() const noexcept {
 			return cls.hCursor;
 		}
 
-		inline std::optional<HBRUSH> BackgroundBrush() const noexcept {
+		constexpr HBRUSH BackgroundBrush() const noexcept {
 			return cls.hbrBackground;
 		}
 
-		inline std::optional<LPCWSTR> MenuName() const noexcept {
+		constexpr LPCWSTR MenuName() const noexcept {
 			return cls.lpszMenuName;
 		}
 	};

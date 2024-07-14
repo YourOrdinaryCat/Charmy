@@ -33,7 +33,7 @@ namespace winrt::HotCorner::Server::Tracking {
 	std::array<INPUT, 4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
 	std::array<INPUT, 4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
 
-	bool RunAction(const Settings::CornerAction action) noexcept {
+	bool RunAction(const TrayIcon& icon, Settings::CornerAction action) noexcept {
 		using ActionT = Settings::CornerAction;
 		using TCT = Tracking::TrayCornerTracker;
 
@@ -42,7 +42,7 @@ namespace winrt::HotCorner::Server::Tracking {
 			return Inject(TaskViewInput);
 
 		case ActionT::Start:
-			return TCT::Current().Post(WM_SYSCOMMAND, SC_TASKLIST);
+			return icon.Post(WM_SYSCOMMAND, SC_TASKLIST);
 
 		case ActionT::Search:
 			return Inject(SearchInput);

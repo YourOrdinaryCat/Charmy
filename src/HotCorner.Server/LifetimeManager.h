@@ -1,23 +1,24 @@
 #pragma once
 #include "LifetimeManager.g.h"
+#include "App.h"
 #include "Tracking/TrayCornerTracker.h"
 
 // Implementation outside of the LifetimeManager, to allow usage within the
 // server itself
 namespace winrt::HotCorner::Server {
-	void TrackHotCorners() noexcept;
-	void StopTracking() noexcept;
+	void TrackHotCorners(const Tracking::TrayCornerTracker&) noexcept;
+	void StopTracking(Tracking::TrayCornerTracker&) noexcept;
 
-	void ShowTrayIcon() noexcept;
-	void HideTrayIcon() noexcept;
+	void ShowTrayIcon(Tracking::TrayCornerTracker&) noexcept;
+	void HideTrayIcon(Tracking::TrayCornerTracker&) noexcept;
 
 	inline void BumpServer() noexcept {
 		CoAddRefServerProcess();
 	}
 
-	inline void ReleaseServer() noexcept {
+	inline void ReleaseServer(Tracking::TrayCornerTracker& tct) noexcept {
 		if (CoReleaseServerProcess() == 0) {
-			Tracking::TrayCornerTracker::Current().Close();
+			tct.Close();
 		}
 	}
 }
@@ -27,7 +28,7 @@ namespace winrt::HotCorner::Server::implementation {
 		__declspec(uuid("898F12B7-4BB0-4279-B3B1-126440D7CB7A"))
 		LifetimeManager : LifetimeManagerT<LifetimeManager>
 	{
-		LifetimeManager() noexcept;
+		LifetimeManager(App& app) noexcept;
 
 		void ReloadSettings();
 
@@ -38,5 +39,8 @@ namespace winrt::HotCorner::Server::implementation {
 		void HideTrayIcon() const noexcept;
 
 		~LifetimeManager() noexcept;
+
+	private:
+		App& m_app;
 	};
 }

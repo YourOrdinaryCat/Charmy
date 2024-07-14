@@ -1,83 +1,69 @@
 #include "pch.h"
 #include "LifetimeManager.h"
-#include "main.h"
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
-	using TCT = Tracking::TrayCornerTracker;
+	void TrackHotCorners(const Tracking::TrayCornerTracker& tct) noexcept {
+		const auto result = tct.BeginTracking();
 
-	void TrackHotCorners() noexcept {
-		const auto result = TCT::Current().BeginTracking();
-
-		if (result == CornerTracker::StartupResult::Started) {
+		if (result == StartupResult::Started) {
 			BumpServer();
 		}
-		else if (result == CornerTracker::StartupResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to start corner tracking\n");
+		else if (result == StartupResult::Failed) {
+			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to start corner tracking");
 		}
 	}
 
-	void StopTracking() noexcept {
-		const auto result = TCT::Current().StopTracking();
+	void StopTracking(Tracking::TrayCornerTracker& tct) noexcept {
+		const auto result = tct.StopTracking();
 
-		if (result == CornerTracker::StopResult::Stopped) {
-			ReleaseServer();
+		if (result == StopResult::Stopped) {
+			ReleaseServer(tct);
 		}
-		else if (result == CornerTracker::StopResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to stop corner tracking\n");
+		else if (result == StopResult::Failed) {
+			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to stop corner tracking");
 		}
 	}
 
-	void ShowTrayIcon() noexcept {
-		auto& icon = TCT::Current();
-		if (!icon.Visible()) {
-			icon.Show();
+	void ShowTrayIcon(Tracking::TrayCornerTracker& tct) noexcept {
+		if (!tct.Visible()) {
+			tct.Show();
 			BumpServer();
 		}
 	}
 
-	void HideTrayIcon() noexcept {
-		auto& icon = TCT::Current();
-		if (icon.Visible()) {
-			icon.Hide();
-			ReleaseServer();
+	void HideTrayIcon(Tracking::TrayCornerTracker& tct) noexcept {
+		if (tct.Visible()) {
+			tct.Hide();
+			ReleaseServer(tct);
 		}
 	}
 }
 
 namespace winrt::HotCorner::Server::implementation {
-	LifetimeManager::LifetimeManager() noexcept {
+	LifetimeManager::LifetimeManager(App& app) noexcept : m_app(app) {
 		BumpServer();
 	}
 
 	void LifetimeManager::ReloadSettings() {
-		const auto result = TCT::Current().StopTracking();
-		Current::Settings().Load();
-
-		if (result == CornerTracker::StopResult::Stopped) {
-			TCT::Current().BeginTracking();
-		}
-		else if (result == CornerTracker::StopResult::Failed) {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to stop corner tracking\n");
-		}
+		m_app.Settings().Load();
+		Logging::FileSink()->set_level(m_app.Settings().LogVerbosity);
 	}
 
 	void LifetimeManager::TrackHotCorners() const noexcept {
-		Server::TrackHotCorners();
+		Server::TrackHotCorners(m_app.TrayIcon());
 	}
 	void LifetimeManager::StopTracking() const noexcept {
-		Server::StopTracking();
+		Server::StopTracking(m_app.TrayIcon());
 	}
 	void LifetimeManager::ShowTrayIcon() const noexcept {
-		Server::ShowTrayIcon();
+		Server::ShowTrayIcon(m_app.TrayIcon());
 	}
 	void LifetimeManager::HideTrayIcon() const noexcept {
-		Server::HideTrayIcon();
+		Server::HideTrayIcon(m_app.TrayIcon());
 	}
 
 	LifetimeManager::~LifetimeManager() noexcept {
-		ReleaseServer();
+		ReleaseServer(m_app.TrayIcon());
 	}
 }

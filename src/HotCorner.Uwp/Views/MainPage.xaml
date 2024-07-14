@@ -81,38 +81,77 @@
                             </PivotItem.Header>
 
                             <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                <Grid
+                                <StackPanel
                                     Margin="0,0,0,17"
-                                    ColumnSpacing="8"
-                                    RowSpacing="8"
+                                    Spacing="6"
                                     XYFocusKeyboardNavigation="Enabled">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.0.0" />
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                                    <controls:WrapPanel
+                                        HorizontalSpacing="8"
+                                        ItemWidth="144"
+                                        VerticalSpacing="8">
+                                        <Button
+                                            x:Uid="MainPageCopyVersion"
+                                            HorizontalAlignment="Stretch"
+                                            Style="{StaticResource AccentButtonStyle}" />
 
-                                    <TextBlock
-                                        Grid.ColumnSpan="2"
-                                        Style="{StaticResource BodyStrongTextBlockStyle}"
-                                        Text="Charmy - UAP v1.0.0" />
+                                        <HyperlinkButton x:Uid="MainPageChangelog" HorizontalAlignment="Stretch" />
 
-                                    <Button
-                                        x:Uid="MainPageCopyVersion"
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Stretch"
-                                        Style="{StaticResource AccentButtonStyle}" />
+                                        <HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
+                                            <TextBlock
+                                                x:Uid="MainPageLogsFolder"
+                                                TextAlignment="Center"
+                                                TextDecorations="Underline"
+                                                TextWrapping="WrapWholeWords" />
+                                        </HyperlinkButton>
+                                    </controls:WrapPanel>
 
-                                    <HyperlinkButton
-                                        x:Uid="MainPageChangelog"
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Stretch" />
-                                </Grid>
+                                    <muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
+                                        <muxc:DropDownButton.Flyout>
+                                            <MenuFlyout Opening="OnLogVerbosityFlyoutOpening">
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>0</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>1</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>2</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>3</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>4</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>5</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+
+                                                <MenuFlyoutSeparator />
+
+                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
+                                                    <muxc:RadioMenuFlyoutItem.Tag>
+                                                        <x:Int32>6</x:Int32>
+                                                    </muxc:RadioMenuFlyoutItem.Tag>
+                                                </muxc:RadioMenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </muxc:DropDownButton.Flyout>
+                                    </muxc:DropDownButton>
+                                </StackPanel>
                             </ScrollViewer>
                         </PivotItem>
 

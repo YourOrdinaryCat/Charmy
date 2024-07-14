@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "TrayIcon.h"
-#include "../Resources.h"
-
-#include "../Undocumented/UxTheme.h"
+#include <Resources.h>
+#include <Undocumented/UxTheme.h>
 
 namespace winrt::HotCorner::Server {
 	//TODO: Code signing, so that we can identify the icon by its GUID
@@ -31,18 +30,22 @@ namespace winrt::HotCorner::Server {
 		m_data.uFlags |= NIF_SHOWTIP | NIF_TIP;
 	}
 
-	void TrayIcon::SetHighContrastIcon(UINT darkIcon, UINT lightIcon) noexcept {
+	void TrayIcon::SetHighContrastIcon(UINT darkIcon, UINT lightIcon, bool reload) noexcept {
 		m_darkHcIcon = MAKEINTRESOURCE(darkIcon);
 		m_lightHcIcon = MAKEINTRESOURCE(lightIcon);
 
-		ReloadIcon(m_canAdd);
+		if (reload) {
+			ReloadIcon(m_canAdd);
+		}
 	}
 
-	void TrayIcon::UpdateIcon(UINT darkModeIcon, UINT lightModeIcon) noexcept {
+	void TrayIcon::UpdateIcon(UINT darkModeIcon, UINT lightModeIcon, bool reload) noexcept {
 		m_darkIcon = MAKEINTRESOURCE(darkModeIcon);
 		m_lightIcon = MAKEINTRESOURCE(lightModeIcon);
 
-		ReloadIcon(m_canAdd);
+		if (reload) {
+			ReloadIcon(m_canAdd);
+		}
 	}
 
 	void TrayIcon::Show() noexcept {
@@ -96,17 +99,17 @@ namespace winrt::HotCorner::Server {
 			);
 
 			if (isDark) {
-				Resources::GetSmallIcon(m_lightHcIcon, m_currentIcon.put());
+				Resources::GetSmallIcon(m_windowClass.Instance(), m_lightHcIcon, m_currentIcon.put());
 			}
 			else {
-				Resources::GetSmallIcon(m_darkHcIcon, m_currentIcon.put());
+				Resources::GetSmallIcon(m_windowClass.Instance(), m_darkHcIcon, m_currentIcon.put());
 			}
 		}
 		else if (Undocumented::GetCurrentShellTheme() == Undocumented::ShellTheme::Dark) {
-			Resources::GetSmallIcon(m_darkIcon, m_currentIcon.put());
+			Resources::GetSmallIcon(m_windowClass.Instance(), m_darkIcon, m_currentIcon.put());
 		}
 		else {
-			Resources::GetSmallIcon(m_lightIcon, m_currentIcon.put());
+			Resources::GetSmallIcon(m_windowClass.Instance(), m_lightIcon, m_currentIcon.put());
 		}
 
 		m_data.hIcon = m_currentIcon.get();

@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "App.h"
 #include "Views/MainPage.h"
-
 #include <AppSettings.h>
+#include <Logging.h>
+#include <roerrorapi.h>
+#include <Unicode.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wama = winrt::Windows::ApplicationModel::Activation;
@@ -16,18 +18,28 @@ namespace winrt::HotCorner::Uwp::implementation {
 	static constexpr wf::Size MainViewSize{ 500, 375 };
 
 	App::App() {
-#if defined _DEBUG && !defined DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION
-		UnhandledException([this](const IInspectable&, const wux::UnhandledExceptionEventArgs& e)
-			{
-				if (IsDebuggerPresent()) {
-					//TODO: logging
-					const auto errorMessage = e.Message();
-					const auto hr = e.Exception();
-					__debugbreak();
-				}
+		wamc::CoreApplication::UnhandledErrorDetected([this](const IInspectable&, const wamc::UnhandledErrorDetectedEventArgs& e) {
+			try {
+				e.UnhandledError().Propagate();
 			}
-		);
-#endif
+			catch (const winrt::hresult_error& err) {
+				const auto hr = err.code();
+				const auto extra = err.try_as<IRestrictedErrorInfo>().get();
+
+				if (extra) {
+					const auto errorSet = SetRestrictedErrorInfo(extra);
+					if (errorSet == S_OK) {
+						RoFailFastWithErrorContext(hr.value);
+					}
+				}
+
+				const auto msg = err.message();
+
+				spdlog::critical("Unhandled exception detected - the process will now terminate");
+				spdlog::critical("HRESULT: {}", hr.value);
+				spdlog::critical("Message: {}", ToMultiByte(msg.data()));
+			}
+		});
 	}
 
 	void App::OnLaunched(const wama::LaunchActivatedEventArgs&) const {
@@ -37,13 +49,16 @@ namespace winrt::HotCorner::Uwp::implementation {
 		const auto window = wux::Window::Current();
 
 		if (!window.Content()) {
-			// Load settings only when creating the initial view
+			// Initialize these only when creating the initial view
+			Logging::Start(L"Settings", SettingsFolder.Path().c_str());
+
 			if (!AppSettings().Load()) {
 				// Only resize the view if the settings aren't there - in practical
 				// terms, this means it will only be resized on first startup
 				view.TryResizeView(MainViewSize);
 			}
 
+			Logging::FileSink()->set_level(AppSettings().LogVerbosity);
 			window.Content(Views::MainPage());
 		}
 

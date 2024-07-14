@@ -33,10 +33,10 @@ namespace winrt::HotCorner::Settings {
 			Json::KeyValuePair(writer, EnabledKey, Enabled);
 			Json::KeyValuePair(writer, DelayEnabledKey, DelayEnabled);
 
-			Json::MappedKVP(writer, TopLeftActionKey, CornerActionMapping, TopLeftAction);
-			Json::MappedKVP(writer, TopRightActionKey, CornerActionMapping, TopRightAction);
-			Json::MappedKVP(writer, BottomLeftActionKey, CornerActionMapping, BottomLeftAction);
-			Json::MappedKVP(writer, BottomRightActionKey, CornerActionMapping, BottomRightAction);
+			Json::MappedKVP(writer, CornerActionMapping, TopLeftActionKey, TopLeftAction);
+			Json::MappedKVP(writer, CornerActionMapping, TopRightActionKey, TopRightAction);
+			Json::MappedKVP(writer, CornerActionMapping, BottomLeftActionKey, BottomLeftAction);
+			Json::MappedKVP(writer, CornerActionMapping, BottomRightActionKey, BottomRightAction);
 
 			Json::KeyValuePair(writer, TopLeftDelayKey, TopLeftDelay);
 			Json::KeyValuePair(writer, TopRightDelayKey, TopRightDelay);
@@ -53,34 +53,34 @@ namespace winrt::HotCorner::Settings {
 					DisplayName = Json::GetStringView(member->value);
 				}
 				else if (key == EnabledKey) {
-					Json::ReadValue(member->value, Enabled);
+					Json::ReadValue(member->value, key, Enabled);
 				}
 				else if (key == DelayEnabledKey) {
-					Json::ReadValue(member->value, DelayEnabled);
+					Json::ReadValue(member->value, key, DelayEnabled);
 				}
 				else if (key == TopLeftActionKey) {
-					Json::ReadMappedValue(member->value, CornerActionMapping, TopLeftAction);
+					Json::ReadMappedValue(member->value, CornerActionMapping, key, TopLeftAction);
 				}
 				else if (key == TopRightActionKey) {
-					Json::ReadMappedValue(member->value, CornerActionMapping, TopRightAction);
+					Json::ReadMappedValue(member->value, CornerActionMapping, key, TopRightAction);
 				}
 				else if (key == BottomLeftActionKey) {
-					Json::ReadMappedValue(member->value, CornerActionMapping, BottomLeftAction);
+					Json::ReadMappedValue(member->value, CornerActionMapping, key, BottomLeftAction);
 				}
 				else if (key == BottomRightActionKey) {
-					Json::ReadMappedValue(member->value, CornerActionMapping, BottomRightAction);
+					Json::ReadMappedValue(member->value, CornerActionMapping, key, BottomRightAction);
 				}
 				else if (key == TopLeftDelayKey) {
-					Json::ReadValue(member->value, TopLeftDelay);
+					Json::ReadValue(member->value, key, TopLeftDelay);
 				}
 				else if (key == TopRightDelayKey) {
-					Json::ReadValue(member->value, TopRightDelay);
+					Json::ReadValue(member->value, key, TopRightDelay);
 				}
 				else if (key == BottomLeftDelayKey) {
-					Json::ReadValue(member->value, BottomLeftDelay);
+					Json::ReadValue(member->value, key, BottomLeftDelay);
 				}
 				else if (key == BottomRightDelayKey) {
-					Json::ReadValue(member->value, BottomRightDelay);
+					Json::ReadValue(member->value, key, BottomRightDelay);
 				}
 			}
 		}
@@ -108,7 +108,7 @@ namespace winrt::HotCorner::Settings {
 		static constexpr std::wstring_view BottomLeftDelayKey = L"bottom_left_delay";
 		static constexpr std::wstring_view BottomRightDelayKey = L"bottom_right_delay";
 
-		static constexpr std::array<std::wstring_view, 6> CornerActionMapping = {
+		static constexpr Json::type_mapping<6> CornerActionMapping = {
 			L"none",
 			L"task_view",
 			L"start",

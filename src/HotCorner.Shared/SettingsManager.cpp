@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "SettingsManager.h"
 #include <array>
-#include <debugapi.h>
 #include <io.h>
 #include <rapidjson/encodedstream.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
+#include <spdlog/spdlog.h>
 
 namespace json = rapidjson;
 namespace jh = winrt::HotCorner::Json;
@@ -21,14 +21,14 @@ namespace winrt::HotCorner::Settings {
 
 	bool SettingsManager::Load() {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"r");
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"rbS");
 
 		if (err == 0) {
 			LoadFrom(file);
 			fclose(file);
 		}
 		else {
-			OutputDebugString(L"Unable to open save file\n");
+			spdlog::info("Unable to open save file. Error: {}", err);
 		}
 
 		return err == 0;
@@ -36,14 +36,14 @@ namespace winrt::HotCorner::Settings {
 
 	bool SettingsManager::Save() const {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"w");
+		const auto err = _wfopen_s(&file, m_path.c_str(), L"wbS");
 
 		if (err == 0) {
 			SaveTo(file);
 			fclose(file);
 		}
 		else {
-			OutputDebugString(L"Unable to create or open save file\n");
+			spdlog::error("Unable to create or open save file. Error: {}", err);
 		}
 
 		return err == 0;
@@ -58,32 +58,40 @@ namespace winrt::HotCorner::Settings {
 		const json::ParseResult result = doc.ParseStream<json::kParseCommentsFlag, json::UTF16LE<>>(in);
 
 		if (result) {
-			// Remove the schema key to avoid a false unknown key warning
-			doc.RemoveMember(jh::GetValue(SchemaKey));
+			try {
+				// Remove the schema key to avoid a false unknown key warning
+				doc.RemoveMember(jh::GetValue(SchemaKey));
 
-			for (auto member = doc.MemberBegin(); member != doc.MemberEnd(); ++member) {
-				const auto key = jh::GetStringView(member->name);
-				if (key == TrackingEnabledKey) {
-					jh::ReadValue(member->value, TrackingEnabled);
-				}
-				else if (key == TrayIconEnabledKey) {
-					jh::ReadValue(member->value, TrayIconEnabled);
-				}
-				else if (key == MonitorsKey) {
-					DefaultSettings = {};
-					Monitors.clear();
+				for (auto member = doc.MemberBegin(); member != doc.MemberEnd(); ++member) {
+					const auto key = jh::GetStringView(member->name);
+					if (key == TrackingEnabledKey) {
+						jh::ReadValue(member->value, key, TrackingEnabled);
+					}
+					else if (key == TrayIconEnabledKey) {
+						jh::ReadValue(member->value, key, TrayIconEnabled);
+					}
+					else if (key == LogVerbosityKey) {
+						jh::ReadMappedValue(member->value, LogVerbosityMapping, key, LogVerbosity);
+					}
+					else if (key == MonitorsKey) {
+						DefaultSettings = {};
+						Monitors.clear();
 
-					const auto val = member->value.GetObj();
-					for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
-						const auto id = jh::GetStringView(monitor->name);
-						if (!id.empty()) {
-							Monitors.emplace(id, monitor->value);
-						}
-						else {
-							DefaultSettings.Deserialize(monitor->value);
+						const auto val = member->value.GetObj();
+						for (auto monitor = val.MemberBegin(); monitor != val.MemberEnd(); ++monitor) {
+							const auto id = jh::GetStringView(monitor->name);
+							if (!id.empty()) {
+								Monitors.emplace(id, monitor->value);
+							}
+							else {
+								DefaultSettings.Deserialize(monitor->value);
+							}
 						}
 					}
 				}
+			}
+			catch (std::logic_error err) {
+				spdlog::error("Something went wrong while trying to parse document. Error: {}", err.what());
 			}
 		}
 		else if (result.Code() == json::kParseErrorDocumentEmpty) {
@@ -91,8 +99,7 @@ namespace winrt::HotCorner::Settings {
 			Monitors.clear();
 		}
 		else {
-			//TODO: Handle failure
-			OutputDebugString(L"Failed to parse document\n");
+			spdlog::warn("Failed to parse document");
 		}
 	}
 
@@ -113,6 +120,7 @@ namespace winrt::HotCorner::Settings {
 		jh::KeyValuePair(writer, SchemaKey, Schema);
 		jh::KeyValuePair(writer, TrackingEnabledKey, TrackingEnabled);
 		jh::KeyValuePair(writer, TrayIconEnabledKey, TrayIconEnabled);
+		jh::MappedKVP(writer, LogVerbosityMapping, LogVerbosityKey, LogVerbosity);
 
 		jh::Key(writer, MonitorsKey);
 		writer.StartObject();

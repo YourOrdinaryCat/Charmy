@@ -1,5 +1,6 @@
 #pragma once
 #include "WindowClass.h"
+#include <Logging.h>
 
 namespace winrt::HotCorner::Server {
 	/**
@@ -44,13 +45,14 @@ namespace winrt::HotCorner::Server {
 		 *        Tends to be used for communication between different applications.
 		*/
 		std::optional<UINT> RegisterMessage(std::wstring_view message) const noexcept {
+			SetLastError(0);
 			const UINT msg = RegisterWindowMessage(message.data());
+
 			if (msg) {
 				return msg;
 			}
 			else {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to register window message\n");
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to register window message");
 				return std::nullopt;
 			}
 		}
@@ -89,8 +91,7 @@ namespace winrt::HotCorner::Server {
 			))
 		{
 			if (!m_window) {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to create window\n");
+				SPDLOG_LAST_ERROR(spdlog::level::critical, "Failed to create window");
 			}
 		}
 
@@ -131,8 +132,7 @@ namespace winrt::HotCorner::Server {
 					DispatchMessage(&msg);
 				}
 				else {
-					//TODO: Handle failure
-					OutputDebugString(L"Unspecified failure in window message loop\n");
+					SPDLOG_LAST_ERROR(spdlog::level::critical, "Unspecified failure in window message loop");
 					break;
 				}
 			}
@@ -145,14 +145,14 @@ namespace winrt::HotCorner::Server {
 		 *        in destruction of the window.
 		*/
 		void Close() noexcept {
+			SetLastError(0);
 			const bool result = Post(WM_CLOSE);
 
 			if (result) {
 				m_closed = true;
 			}
 			else {
-				//TODO: Handle failure
-				OutputDebugString(L"Failed to close window\n");
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to close window");
 			}
 		}
 	};

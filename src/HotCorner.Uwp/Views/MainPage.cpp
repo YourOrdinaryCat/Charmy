@@ -3,11 +3,17 @@
 #include "Views/MainPage.g.cpp"
 
 #include <Localization.h>
+#include <Logging.h>
 #include <Server/Lifetime.h>
 #include <winrt/Windows.ApplicationModel.DataTransfer.h>
+#include <winrt/Windows.Storage.h>
+#include <winrt/Windows.System.h>
 #include <winrt/Windows.UI.ViewManagement.h>
 
 namespace wamdt = winrt::Windows::ApplicationModel::DataTransfer;
+namespace wf = winrt::Windows::Foundation;
+namespace wst = winrt::Windows::Storage;
+namespace wsys = winrt::Windows::System;
 namespace wuvm = winrt::Windows::UI::ViewManagement;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
@@ -79,10 +85,10 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			{ OnTrayIconCheckUpdated(false); }
 		);
 
+		// Start up the server - it will automatically start/stop tracking according to
+		// user's settings
 		co_await winrt::resume_background();
-
-		SwitchTracking(track);
-		SwitchTrayIcon(show);
+		std::ignore = Lifetime::Current();
 	}
 
 	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {
@@ -103,6 +109,8 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 	void MainPage::Save() const {
 		AppSettings().Save();
+		Logging::FileSink()->set_level(AppSettings().LogVerbosity);
+
 		Lifetime::Current().ReloadSettings();
 	}
 
@@ -132,5 +140,40 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		dp.SetText(L"Charmy - UAP v1.0.0");
 
 		wamdt::Clipboard::SetContent(dp);
+	}
+
+	winrt::fire_and_forget MainPage::OnOpenLogFolderClick(const IInspectable&, const wux::RoutedEventArgs&) {
+		using enum Logging::lazy_sink_state;
+		const auto sink = Logging::FileSink();
+
+		if (const auto sink = Logging::FileSink()) {
+			const wsys::FolderLauncherOptions opt{};
+
+			if (sink->state() == opened) {
+				const auto file = sink->file().filename();
+				opt.ItemsToSelect().Append(co_await SettingsFolder.TryGetItemAsync(file.c_str()));
+			}
+
+			if (!(co_await wsys::Launcher::LaunchFolderAsync(SettingsFolder, opt))) {
+				spdlog::error("Failed to open log folder");
+			}
+		}
+	}
+
+	void MainPage::OnLogVerbosityFlyoutOpening(const IInspectable& sender, const IInspectable&) {
+		const auto currLevel = AppSettings().LogVerbosity;
+		for (auto&& item : sender.as<wuxc::MenuFlyout>().Items()) {
+			if (const auto rmfi = item.try_as<muxc::RadioMenuFlyoutItem>()) {
+				if (rmfi.Tag().as<int>() == currLevel) {
+					rmfi.IsChecked(true);
+					break;
+				}
+			}
+		}
+	}
+
+	void MainPage::OnLogLevelClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		AppSettings().LogVerbosity = static_cast<spdlog::level::level_enum>
+			(sender.as<muxc::RadioMenuFlyoutItem>().Tag().as<int>());
 	}
 }

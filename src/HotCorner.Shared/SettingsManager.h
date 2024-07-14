@@ -2,6 +2,7 @@
 #include "MonitorSettings.h"
 #include "StringHash.h"
 #include <filesystem>
+#include <spdlog/spdlog.h>
 #include <unordered_map>
 
 namespace winrt::HotCorner::Settings {
@@ -12,7 +13,18 @@ namespace winrt::HotCorner::Settings {
 		static constexpr std::wstring_view SchemaKey = L"$schema";
 		static constexpr std::wstring_view TrackingEnabledKey = L"enabled";
 		static constexpr std::wstring_view TrayIconEnabledKey = L"show_tray_icon";
+		static constexpr std::wstring_view LogVerbosityKey = L"verbosity";
 		static constexpr std::wstring_view MonitorsKey = L"monitors";
+
+		static constexpr Json::type_mapping<7> LogVerbosityMapping = {
+			L"trace",
+			L"debug",
+			L"information",
+			L"warning",
+			L"error",
+			L"critical",
+			L"off"
+		};
 
 		const std::filesystem::path m_path;
 
@@ -24,6 +36,7 @@ namespace winrt::HotCorner::Settings {
 
 		bool TrackingEnabled = true;
 		bool TrayIconEnabled = false;
+		spdlog::level::level_enum LogVerbosity = spdlog::level::warn;
 
 		MonitorSettings DefaultSettings{};
 		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
