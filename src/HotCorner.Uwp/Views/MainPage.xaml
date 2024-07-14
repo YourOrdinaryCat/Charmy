@@ -264,7 +264,8 @@
                 x:Uid="MainPageAddButton"
                 Padding="4"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                VerticalAlignment="Stretch"
+                ToolTipService.Placement="Bottom">
                 <FontIcon FontSize="14" Glyph="&#xE710;" />
 
                 <Button.Flyout>
