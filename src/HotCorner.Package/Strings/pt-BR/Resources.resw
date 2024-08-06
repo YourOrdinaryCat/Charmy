@@ -171,7 +171,6 @@
   <data name="MainPageCopyVersion.Content" xml:space="preserve">
     <value>Copiar informação de versão</value>
   </data>
-  </data>
   <data name="MainPageCritical.Text" xml:space="preserve">
     <value>Critico</value>
   </data>
@@ -180,6 +179,7 @@
   </data>
   <data name="MainPageError.Text" xml:space="preserve">
     <value>Erro</value>
+  </data>
   <data name="MainPageGeneral.Text" xml:space="preserve">
     <value>Geral</value>
   </data>
