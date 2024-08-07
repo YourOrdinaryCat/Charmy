@@ -76,6 +76,18 @@
     <Filter Include="Controls">
       <UniqueIdentifier>{58951cb2-760a-4b72-a7bf-0880fdf3656d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Strings">
+      <UniqueIdentifier>{2ae6d0b5-5360-4f7c-bd9d-fbba8660c627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Strings\en-US">
+      <UniqueIdentifier>{d2e74d50-109b-4fe8-b156-1d4f442b22ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Strings\es-US">
+      <UniqueIdentifier>{9856a47f-98e8-4ec8-bd41-d43d532521d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Strings\pt-BR">
+      <UniqueIdentifier>{bd128e90-7174-494e-b7de-f8a218b33131}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json">
@@ -109,5 +121,16 @@
     <Midl Include="Controls\Controls.idl">
       <Filter>Controls</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\Resources.resw">
+      <Filter>Strings\en-US</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\es-US\Resources.resw">
+      <Filter>Strings\es-US</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\pt-BR\Resources.resw">
+      <Filter>Strings\pt-BR</Filter>
+    </PRIResource>
   </ItemGroup>
 </Project>

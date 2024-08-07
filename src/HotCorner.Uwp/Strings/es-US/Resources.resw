@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConnectionKindInternal" xml:space="preserve">
+    <value>Pantalla interna</value>
+  </data>
+  <data name="ConnectionKindVirtual" xml:space="preserve">
+    <value>Pantalla virtual</value>
+  </data>
+  <data name="ConnectionKindWireless" xml:space="preserve">
+    <value>Pantalla inalámbrica</value>
+  </data>
+  <data name="CornerActionGoToDesktop" xml:space="preserve">
+    <value>Mostrar el escritorio</value>
+  </data>
+  <data name="CornerActionNone" xml:space="preserve">
+    <value>Ninguna</value>
+  </data>
+  <data name="CornerActionQuickSettings" xml:space="preserve">
+    <value>Abrir configuración rápida</value>
+  </data>
+  <data name="CornerActionSearch" xml:space="preserve">
+    <value>Abrir búsqueda</value>
+  </data>
+  <data name="CornerActionStart" xml:space="preserve">
+    <value>Abrir Inicio</value>
+  </data>
+  <data name="CornerActionTaskView" xml:space="preserve">
+    <value>Abrir Vista de tareas</value>
+  </data>
+  <data name="DefaultSettings" xml:space="preserve">
+    <value>Ajustes por defecto</value>
+  </data>
+  <data name="GenericDisplay" xml:space="preserve">
+    <value>Monitor genérico</value>
+  </data>
+  <data name="MainPageAbout.Text" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="MainPageAddButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Añadir configuración para otro monitor</value>
+  </data>
+  <data name="MainPageApplyButton.Content" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="MainPageCancelButton.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="MainPageChangelog.Content" xml:space="preserve">
+    <value>Lista de cambios</value>
+  </data>
+  <data name="MainPageCopyVersion.Content" xml:space="preserve">
+    <value>Copiar versión</value>
+  </data>
+  <data name="MainPageCritical.Text" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="MainPageDebug.Text" xml:space="preserve">
+    <value>Depurar</value>
+  </data>
+  <data name="MainPageError.Text" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MainPageGeneral.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MainPageGeneralTip.Text" xml:space="preserve">
+    <value>Estos ajustes tienen efecto instantáneo, pero igual tienes que presionar el botón de Aplicar para guardarlos</value>
+  </data>
+  <data name="MainPageGlobalCheck.Content" xml:space="preserve">
+    <value>Habilitar Charmy</value>
+  </data>
+  <data name="MainPageGPL3.Content" xml:space="preserve">
+    <value>Licencia GPL-v3</value>
+  </data>
+  <data name="MainPageInformation.Text" xml:space="preserve">
+    <value>Información</value>
+  </data>
+  <data name="MainPageLicenses.Text" xml:space="preserve">
+    <value>Licencias</value>
+  </data>
+  <data name="MainPageLogsFolder.Text" xml:space="preserve">
+    <value>Abrir carpeta con registros</value>
+  </data>
+  <data name="MainPageLogVerbosity.Content" xml:space="preserve">
+    <value>Verbosidad de registro</value>
+  </data>
+  <data name="MainPageManageAutoStartup.Content" xml:space="preserve">
+    <value>Configurar inicio automático</value>
+  </data>
+  <data name="MainPageMIT.Content" xml:space="preserve">
+    <value>Licencia MIT</value>
+  </data>
+  <data name="MainPageOff.Text" xml:space="preserve">
+    <value>Apagado</value>
+  </data>
+  <data name="MainPageOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MainPageThanks.Text" xml:space="preserve">
+    <value>Charmy se ha vuelto mejor gracias a los proyectos listados aquí - ¡les doy las gracias! ¡Y gracias a ti por usar Charmy!</value>
+  </data>
+  <data name="MainPageTrace.Text" xml:space="preserve">
+    <value>Rastro</value>
+  </data>
+  <data name="MainPageTranslations.Text" xml:space="preserve">
+    <value>Traducciones</value>
+  </data>
+  <data name="MainPageTrayIconCheck.Content" xml:space="preserve">
+    <value>Habilitar icono de notificación</value>
+  </data>
+  <data name="MainPageWarning.Text" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="MonitorPickerFlyoutNoMonitorsInfo.Title" xml:space="preserve">
+    <value>Para añadir una nueva configuración, conecta un monitor que aún no hayas configurado</value>
+  </data>
+  <data name="MonitorSettingsActionBottomLeft.PlaceholderText" xml:space="preserve">
+    <value>Inferior izquierda</value>
+  </data>
+  <data name="MonitorSettingsActionBottomRight.PlaceholderText" xml:space="preserve">
+    <value>Inferior derecha</value>
+  </data>
+  <data name="MonitorSettingsActionTopLeft.PlaceholderText" xml:space="preserve">
+    <value>Superior izquierda</value>
+  </data>
+  <data name="MonitorSettingsActionTopRight.PlaceholderText" xml:space="preserve">
+    <value>Superior derecha</value>
+  </data>
+  <data name="MonitorSettingsConfigureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Configurar</value>
+  </data>
+  <data name="MonitorSettingsDelayBottomLeft.Header" xml:space="preserve">
+    <value>Inferior izquierda</value>
+  </data>
+  <data name="MonitorSettingsDelayBottomRight.Header" xml:space="preserve">
+    <value>Inferior derecha</value>
+  </data>
+  <data name="MonitorSettingsDelayCheck.Content" xml:space="preserve">
+    <value>Retrasar acción</value>
+  </data>
+  <data name="MonitorSettingsDelayInfo.Text" xml:space="preserve">
+    <value>Estos retrasos son en milisegundos (ms) - esto es, 1 segundo cada 1000ms</value>
+  </data>
+  <data name="MonitorSettingsDelayTopLeft.Header" xml:space="preserve">
+    <value>Superior izquierda</value>
+  </data>
+  <data name="MonitorSettingsDelayTopRight.Header" xml:space="preserve">
+    <value>Superior derecha</value>
+  </data>
+  <data name="MonitorSettingsGlobalCheck.Content" xml:space="preserve">
+    <value>Habilitar Charmy en este monitor</value>
+  </data>
+  <data name="MonitorSettingsRemoveConfig.Text" xml:space="preserve">
+    <value>Eliminar esta configuración</value>
+  </data>
+  <data name="PhysicalConnectorAnalogTV" xml:space="preserve">
+    <value>Monitor vídeo componente</value>
+  </data>
+  <data name="PhysicalConnectorDisplayPort" xml:space="preserve">
+    <value>Monitor DisplayPort</value>
+  </data>
+  <data name="PhysicalConnectorDvi" xml:space="preserve">
+    <value>Monitor DVI</value>
+  </data>
+  <data name="PhysicalConnectorHD15" xml:space="preserve">
+    <value>Monitor VGA</value>
+  </data>
+  <data name="PhysicalConnectorHdmi" xml:space="preserve">
+    <value>Monitor HDMI</value>
+  </data>
+  <data name="PhysicalConnectorLvds" xml:space="preserve">
+    <value>Monitor LVDS</value>
+  </data>
+  <data name="PhysicalConnectorSdi" xml:space="preserve">
+    <value>Monitor SDI</value>
+  </data>
+</root>
