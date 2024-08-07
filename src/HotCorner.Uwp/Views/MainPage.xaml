@@ -8,6 +8,8 @@
     xmlns:hcuv="using:HotCorner.Uwp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:nouac14="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 14)"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DesignHeight="360"
     d:DesignWidth="480"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
@@ -101,8 +103,8 @@
                                         <HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
                                             <TextBlock
                                                 x:Uid="MainPageLogsFolder"
+                                                nouac14:TextDecorations="Underline"
                                                 TextAlignment="Center"
-                                                TextDecorations="Underline"
                                                 TextWrapping="WrapWholeWords" />
                                         </HyperlinkButton>
                                     </controls:WrapPanel>
@@ -262,11 +264,13 @@
 
             <Button
                 x:Uid="MainPageAddButton"
-                Padding="4"
+                Padding="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
                 ToolTipService.Placement="Bottom">
-                <FontIcon FontSize="14" Glyph="&#xE710;" />
+                <FontIcon FontSize="16" Glyph="&#xE710;" />
 
                 <Button.Flyout>
                     <hcuv:MonitorPickerFlyout x:Name="AddConfigFlyout" SettingAdded="OnSettingAdded" />
