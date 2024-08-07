@@ -181,7 +181,7 @@
     <value>General</value>
   </data>
   <data name="MainPageGeneralTip.Text" xml:space="preserve">
-    <value>Estos ajustes tienen efecto instantáneo, pero igual tienes que presionar el botón de Aplicar para guardarlos</value>
+    <value>Estos ajustes tienen efecto inmediatamente - aún así, tienes que presionar el botón de Aplicar para guardarlos</value>
   </data>
   <data name="MainPageGlobalCheck.Content" xml:space="preserve">
     <value>Habilitar Charmy</value>
@@ -214,7 +214,7 @@
     <value>OK</value>
   </data>
   <data name="MainPageThanks.Text" xml:space="preserve">
-    <value>Charmy se ha vuelto mejor gracias a los proyectos listados aquí - ¡les doy las gracias! ¡Y gracias a ti por usar Charmy!</value>
+    <value>Charmy ha mejorado gracias a los proyectos listados aquí - ¡les doy las gracias! ¡Y gracias a ti por usar Charmy!</value>
   </data>
   <data name="MainPageTrace.Text" xml:space="preserve">
     <value>Rastro</value>
