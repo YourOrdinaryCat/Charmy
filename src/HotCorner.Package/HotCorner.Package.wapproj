@@ -41,15 +41,10 @@
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\HotCorner.Uwp\HotCorner.Uwp.vcxproj</EntryPointProjectUniqueName>
-    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
-    <RemoteDebugEnabled>False</RemoteDebugEnabled>
     <DebuggerType>NativeOnly</DebuggerType>
     <BackgroundTaskDebugEngines>NativeOnly</BackgroundTaskDebugEngines>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
