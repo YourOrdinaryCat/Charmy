@@ -1,330 +1,330 @@
 ﻿<UserControl
-    x:Class="HotCorner.Uwp.Views.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:HotCorner.Uwp.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:hcud="using:HotCorner.Uwp.Devices"
-    xmlns:hcuv="using:HotCorner.Uwp.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:nouac14="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 14)"
-    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DesignHeight="360"
-    d:DesignWidth="480"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    Loaded="OnPageLoaded"
-    mc:Ignorable="d">
+	x:Class="HotCorner.Uwp.Views.MainPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:HotCorner.Uwp.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:hcud="using:HotCorner.Uwp.Devices"
+	xmlns:hcuv="using:HotCorner.Uwp.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	xmlns:nouac14="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 14)"
+	d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	d:DesignHeight="360"
+	d:DesignWidth="480"
+	muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+	Loaded="OnPageLoaded"
+	mc:Ignorable="d">
 
-    <Grid
-        Padding="8"
-        Background="{x:Bind Background, Mode=OneWay}"
-        ColumnSpacing="8"
-        RowSpacing="8"
-        XYFocusKeyboardNavigation="Enabled">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+	<Grid
+		Padding="8"
+		Background="{x:Bind Background, Mode=OneWay}"
+		ColumnSpacing="8"
+		RowSpacing="8"
+		XYFocusKeyboardNavigation="Enabled">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="1*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="1*" />
+		</Grid.ColumnDefinitions>
 
-        <!--  Top Navigation  -->
-        <muxc:DropDownButton>
-            <StackPanel Orientation="Horizontal" Spacing="6">
-                <FontIcon FontSize="16" Glyph="&#xE713;" />
-                <TextBlock x:Uid="MainPageGeneral" />
-            </StackPanel>
+		<!--  Top Navigation  -->
+		<muxc:DropDownButton>
+			<StackPanel Orientation="Horizontal" Spacing="6">
+				<FontIcon FontSize="16" Glyph="&#xE713;" />
+				<TextBlock x:Uid="MainPageGeneral" />
+			</StackPanel>
 
-            <muxc:DropDownButton.Flyout>
-                <Flyout>
-                    <StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
-                        <CheckBox x:Name="GlobalCheck" x:Uid="MainPageGlobalCheck" />
-                        <CheckBox x:Name="TrayIconCheck" x:Uid="MainPageTrayIconCheck" />
+			<muxc:DropDownButton.Flyout>
+				<Flyout>
+					<StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
+						<CheckBox x:Name="GlobalCheck" x:Uid="MainPageGlobalCheck" />
+						<CheckBox x:Name="TrayIconCheck" x:Uid="MainPageTrayIconCheck" />
 
-                        <HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
+						<HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
 
-                        <TextBlock
-                            x:Uid="MainPageGeneralTip"
-                            Margin="0,8,0,0"
-                            Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}" />
-                    </StackPanel>
-                </Flyout>
-            </muxc:DropDownButton.Flyout>
-        </muxc:DropDownButton>
+						<TextBlock
+							x:Uid="MainPageGeneralTip"
+							Margin="0,8,0,0"
+							Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+							Style="{StaticResource CaptionTextBlockStyle}" />
+					</StackPanel>
+				</Flyout>
+			</muxc:DropDownButton.Flyout>
+		</muxc:DropDownButton>
 
-        <muxc:DropDownButton Grid.Column="1">
-            <StackPanel Orientation="Horizontal" Spacing="6">
-                <FontIcon FontSize="16" Glyph="&#xE946;" />
-                <TextBlock x:Uid="MainPageAbout" />
-            </StackPanel>
+		<muxc:DropDownButton Grid.Column="1">
+			<StackPanel Orientation="Horizontal" Spacing="6">
+				<FontIcon FontSize="16" Glyph="&#xE946;" />
+				<TextBlock x:Uid="MainPageAbout" />
+			</StackPanel>
 
-            <muxc:DropDownButton.Flyout>
-                <Flyout>
-                    <Flyout.FlyoutPresenterStyle>
-                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                            <Setter Property="Padding" Value="0,15,0,0" />
-                        </Style>
-                    </Flyout.FlyoutPresenterStyle>
+			<muxc:DropDownButton.Flyout>
+				<Flyout>
+					<Flyout.FlyoutPresenterStyle>
+						<Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+							<Setter Property="Padding" Value="0,15,0,0" />
+						</Style>
+					</Flyout.FlyoutPresenterStyle>
 
-                    <Pivot
-                        Width="328"
-                        Height="240"
-                        Style="{StaticResource DesktopPivotStyle}">
-                        <PivotItem>
-                            <PivotItem.Header>
-                                <TextBlock x:Uid="MainPageAbout" Style="{StaticResource SubtitleTextBlockStyle}" />
-                            </PivotItem.Header>
+					<Pivot
+						Width="328"
+						Height="240"
+						Style="{StaticResource DesktopPivotStyle}">
+						<PivotItem>
+							<PivotItem.Header>
+								<TextBlock x:Uid="MainPageAbout" Style="{StaticResource SubtitleTextBlockStyle}" />
+							</PivotItem.Header>
 
-                            <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                <StackPanel
-                                    Margin="0,0,0,17"
-                                    Spacing="6"
-                                    XYFocusKeyboardNavigation="Enabled">
-                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.0.0" />
+							<ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+								<StackPanel
+									Margin="0,0,0,17"
+									Spacing="6"
+									XYFocusKeyboardNavigation="Enabled">
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.0.0" />
 
-                                    <controls:WrapPanel
-                                        HorizontalSpacing="8"
-                                        ItemWidth="144"
-                                        VerticalSpacing="8">
-                                        <Button
-                                            x:Uid="MainPageCopyVersion"
-                                            HorizontalAlignment="Stretch"
-                                            Style="{StaticResource AccentButtonStyle}" />
+									<controls:WrapPanel
+										HorizontalSpacing="8"
+										ItemWidth="144"
+										VerticalSpacing="8">
+										<Button
+											x:Uid="MainPageCopyVersion"
+											HorizontalAlignment="Stretch"
+											Style="{StaticResource AccentButtonStyle}" />
 
-                                        <HyperlinkButton x:Uid="MainPageChangelog" HorizontalAlignment="Stretch" />
+										<HyperlinkButton x:Uid="MainPageChangelog" HorizontalAlignment="Stretch" />
 
-                                        <HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
-                                            <TextBlock
-                                                x:Uid="MainPageLogsFolder"
-                                                nouac14:TextDecorations="Underline"
-                                                TextAlignment="Center"
-                                                TextWrapping="WrapWholeWords" />
-                                        </HyperlinkButton>
-                                    </controls:WrapPanel>
+										<HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
+											<TextBlock
+												x:Uid="MainPageLogsFolder"
+												nouac14:TextDecorations="Underline"
+												TextAlignment="Center"
+												TextWrapping="WrapWholeWords" />
+										</HyperlinkButton>
+									</controls:WrapPanel>
 
-                                    <muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
-                                        <muxc:DropDownButton.Flyout>
-                                            <MenuFlyout Opening="OnLogVerbosityFlyoutOpening">
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>0</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>1</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>2</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>3</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>4</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>5</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
+									<muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
+										<muxc:DropDownButton.Flyout>
+											<MenuFlyout Opening="OnLogVerbosityFlyoutOpening">
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>0</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>1</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>2</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>3</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>4</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>5</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
 
-                                                <MenuFlyoutSeparator />
+												<MenuFlyoutSeparator />
 
-                                                <muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
-                                                    <muxc:RadioMenuFlyoutItem.Tag>
-                                                        <x:Int32>6</x:Int32>
-                                                    </muxc:RadioMenuFlyoutItem.Tag>
-                                                </muxc:RadioMenuFlyoutItem>
-                                            </MenuFlyout>
-                                        </muxc:DropDownButton.Flyout>
-                                    </muxc:DropDownButton>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </PivotItem>
+												<muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
+													<muxc:RadioMenuFlyoutItem.Tag>
+														<x:Int32>6</x:Int32>
+													</muxc:RadioMenuFlyoutItem.Tag>
+												</muxc:RadioMenuFlyoutItem>
+											</MenuFlyout>
+										</muxc:DropDownButton.Flyout>
+									</muxc:DropDownButton>
+								</StackPanel>
+							</ScrollViewer>
+						</PivotItem>
 
-                        <PivotItem>
-                            <PivotItem.Header>
-                                <TextBlock x:Uid="MainPageLicenses" Style="{StaticResource SubtitleTextBlockStyle}" />
-                            </PivotItem.Header>
+						<PivotItem>
+							<PivotItem.Header>
+								<TextBlock x:Uid="MainPageLicenses" Style="{StaticResource SubtitleTextBlockStyle}" />
+							</PivotItem.Header>
 
-                            <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                <StackPanel Margin="0,0,0,17" Spacing="6">
-                                    <controls:WrapPanel
-                                        HorizontalSpacing="8"
-                                        ItemWidth="144"
-                                        VerticalSpacing="8"
-                                        XYFocusKeyboardNavigation="Enabled">
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageGPL3"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/taviso/hotcorner/blob/2db56ece0106972de6da3a6a83ee0a2cf5959874/LICENSE" />
-                                        </StackPanel>
+							<ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+								<StackPanel Margin="0,0,0,17" Spacing="6">
+									<controls:WrapPanel
+										HorizontalSpacing="8"
+										ItemWidth="144"
+										VerticalSpacing="8"
+										XYFocusKeyboardNavigation="Enabled">
+										<StackPanel>
+											<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
+											<HyperlinkButton
+												x:Uid="MainPageGPL3"
+												Padding="0"
+												NavigateUri="https://github.com/taviso/hotcorner/blob/2db56ece0106972de6da3a6a83ee0a2cf5959874/LICENSE" />
+										</StackPanel>
 
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageGPL3"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/6320ce5b0834f853d0c9466e0a3e694b7c0c2910/LICENSE.md" />
-                                        </StackPanel>
+										<StackPanel>
+											<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="TranslucentTB" />
+											<HyperlinkButton
+												x:Uid="MainPageGPL3"
+												Padding="0"
+												NavigateUri="https://github.com/TranslucentTB/TranslucentTB/blob/6320ce5b0834f853d0c9466e0a3e694b7c0c2910/LICENSE.md" />
+										</StackPanel>
 
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Windows Community Toolkit" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageMIT"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/CommunityToolkit/Windows/blob/f3eb9038934d7a0909bc34b650ac70bd97348cab/License.md" />
-                                        </StackPanel>
+										<StackPanel>
+											<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Windows Community Toolkit" />
+											<HyperlinkButton
+												x:Uid="MainPageMIT"
+												Padding="0"
+												NavigateUri="https://github.com/CommunityToolkit/Windows/blob/f3eb9038934d7a0909bc34b650ac70bd97348cab/License.md" />
+										</StackPanel>
 
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
-                                            <HyperlinkButton
-                                                x:Uid="MainPageMIT"
-                                                Padding="0"
-                                                NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/ca3626124ede563608b691e00c9b06873ef20e3e/LICENSE" />
-                                        </StackPanel>
-                                    </controls:WrapPanel>
+										<StackPanel>
+											<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
+											<HyperlinkButton
+												x:Uid="MainPageMIT"
+												Padding="0"
+												NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/ca3626124ede563608b691e00c9b06873ef20e3e/LICENSE" />
+										</StackPanel>
+									</controls:WrapPanel>
 
-                                    <TextBlock
-                                        x:Uid="MainPageThanks"
-                                        Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}" />
-                                </StackPanel>
-                            </ScrollViewer>
-                        </PivotItem>
+									<TextBlock
+										x:Uid="MainPageThanks"
+										Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+										Style="{StaticResource CaptionTextBlockStyle}" />
+								</StackPanel>
+							</ScrollViewer>
+						</PivotItem>
 
-                        <PivotItem>
-                            <PivotItem.Header>
-                                <TextBlock x:Uid="MainPageTranslations" Style="{StaticResource SubtitleTextBlockStyle}" />
-                            </PivotItem.Header>
+						<PivotItem>
+							<PivotItem.Header>
+								<TextBlock x:Uid="MainPageTranslations" Style="{StaticResource SubtitleTextBlockStyle}" />
+							</PivotItem.Header>
 
-                            <ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
-                                <controls:WrapPanel
-                                    Margin="0,0,0,17"
-                                    HorizontalSpacing="8"
-                                    ItemWidth="144"
-                                    VerticalSpacing="8"
-                                    XYFocusKeyboardNavigation="Enabled">
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="English" />
-                                        <HyperlinkButton
-                                            Padding="0"
-                                            Content="YourOrdinaryCat"
-                                            NavigateUri="https://github.com/YourOrdinaryCat" />
-                                    </StackPanel>
+							<ScrollViewer Padding="16,0" VerticalScrollBarVisibility="Auto">
+								<controls:WrapPanel
+									Margin="0,0,0,17"
+									HorizontalSpacing="8"
+									ItemWidth="144"
+									VerticalSpacing="8"
+									XYFocusKeyboardNavigation="Enabled">
+									<StackPanel>
+										<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="English" />
+										<HyperlinkButton
+											Padding="0"
+											Content="YourOrdinaryCat"
+											NavigateUri="https://github.com/YourOrdinaryCat" />
+									</StackPanel>
 
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Español" />
-                                        <HyperlinkButton
-                                            Padding="0"
-                                            Content="YourOrdinaryCat"
-                                            NavigateUri="https://github.com/YourOrdinaryCat" />
-                                    </StackPanel>
+									<StackPanel>
+										<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Español" />
+										<HyperlinkButton
+											Padding="0"
+											Content="YourOrdinaryCat"
+											NavigateUri="https://github.com/YourOrdinaryCat" />
+									</StackPanel>
 
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Português" />
-                                        <HyperlinkButton
-                                            Padding="0"
-                                            Content="DanGLES3"
-                                            NavigateUri="https://github.com/DanGLES3" />
-                                    </StackPanel>
-                                </controls:WrapPanel>
-                            </ScrollViewer>
-                        </PivotItem>
-                    </Pivot>
-                </Flyout>
-            </muxc:DropDownButton.Flyout>
-        </muxc:DropDownButton>
+									<StackPanel>
+										<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Português" />
+										<HyperlinkButton
+											Padding="0"
+											Content="DanGLES3"
+											NavigateUri="https://github.com/DanGLES3" />
+									</StackPanel>
+								</controls:WrapPanel>
+							</ScrollViewer>
+						</PivotItem>
+					</Pivot>
+				</Flyout>
+			</muxc:DropDownButton.Flyout>
+		</muxc:DropDownButton>
 
-        <Grid
-            Grid.Column="2"
-            HorizontalAlignment="Right"
-            ColumnSpacing="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="32" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
+		<Grid
+			Grid.Column="2"
+			HorizontalAlignment="Right"
+			ColumnSpacing="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="32" />
+				<ColumnDefinition Width="1*" />
+			</Grid.ColumnDefinitions>
 
-            <Button
-                x:Uid="MainPageAddButton"
-                Padding="0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                ToolTipService.Placement="Bottom">
-                <FontIcon FontSize="16" Glyph="&#xE710;" />
+			<Button
+				x:Uid="MainPageAddButton"
+				Padding="0"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center"
+				ToolTipService.Placement="Bottom">
+				<FontIcon FontSize="16" Glyph="&#xE710;" />
 
-                <Button.Flyout>
-                    <hcuv:MonitorPickerFlyout x:Name="AddConfigFlyout" SettingAdded="OnSettingAdded" />
-                </Button.Flyout>
-            </Button>
+				<Button.Flyout>
+					<hcuv:MonitorPickerFlyout x:Name="AddConfigFlyout" SettingAdded="OnSettingAdded" />
+				</Button.Flyout>
+			</Button>
 
-            <ComboBox
-                x:Name="MonitorPicker"
-                Grid.Column="1"
-                VerticalAlignment="Stretch"
-                SelectedIndex="0"
-                SelectionChanged="OnMonitorSelected">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="hcud:MonitorInfo">
-                        <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </Grid>
+			<ComboBox
+				x:Name="MonitorPicker"
+				Grid.Column="1"
+				VerticalAlignment="Stretch"
+				SelectedIndex="0"
+				SelectionChanged="OnMonitorSelected">
+				<ComboBox.ItemTemplate>
+					<DataTemplate x:DataType="hcud:MonitorInfo">
+						<TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</Grid>
 
-        <!--  Monitor Settings  -->
-        <Border
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            Background="{ThemeResource LayerFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            CornerRadius="{ThemeResource ControlCornerRadius}"
-            XYFocusKeyboardNavigation="Disabled">
-            <hcuv:MonitorSettingsPage x:Name="SettingsView" SettingRemoved="OnSettingRemoved" />
-        </Border>
+		<!--  Monitor Settings  -->
+		<Border
+			Grid.Row="1"
+			Grid.ColumnSpan="3"
+			HorizontalAlignment="Stretch"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="{ThemeResource ControlCornerRadius}"
+			XYFocusKeyboardNavigation="Disabled">
+			<hcuv:MonitorSettingsPage x:Name="SettingsView" SettingRemoved="OnSettingRemoved" />
+		</Border>
 
-        <!--  Bottom Row  -->
-        <controls:EvenStackPanel
-            Grid.Row="2"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="8">
-            <Button
-                x:Uid="MainPageOKButton"
-                HorizontalAlignment="Stretch"
-                Click="OnOKButtonClick" />
-            <Button
-                x:Uid="MainPageCancelButton"
-                HorizontalAlignment="Stretch"
-                Click="OnCancelButtonClick" />
+		<!--  Bottom Row  -->
+		<controls:EvenStackPanel
+			Grid.Row="2"
+			Grid.ColumnSpan="3"
+			HorizontalAlignment="Right"
+			Orientation="Horizontal"
+			Spacing="8">
+			<Button
+				x:Uid="MainPageOKButton"
+				HorizontalAlignment="Stretch"
+				Click="OnOKButtonClick" />
+			<Button
+				x:Uid="MainPageCancelButton"
+				HorizontalAlignment="Stretch"
+				Click="OnCancelButtonClick" />
 
-            <Button
-                x:Uid="MainPageApplyButton"
-                HorizontalAlignment="Stretch"
-                Click="OnApplyButtonClick"
-                Style="{StaticResource AccentButtonStyle}" />
-        </controls:EvenStackPanel>
-    </Grid>
+			<Button
+				x:Uid="MainPageApplyButton"
+				HorizontalAlignment="Stretch"
+				Click="OnApplyButtonClick"
+				Style="{StaticResource AccentButtonStyle}" />
+		</controls:EvenStackPanel>
+	</Grid>
 </UserControl>
