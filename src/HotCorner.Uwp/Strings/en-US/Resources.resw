@@ -165,7 +165,7 @@
   <data name="MainPageChangelog.Content" xml:space="preserve">
     <value>Changelog</value>
   </data>
-  <data name="MainPageCopyVersion.Content" xml:space="preserve">
+  <data name="MainPageCopyVersion.Text" xml:space="preserve">
     <value>Copy version info</value>
   </data>
   <data name="MainPageCritical.Text" xml:space="preserve">
