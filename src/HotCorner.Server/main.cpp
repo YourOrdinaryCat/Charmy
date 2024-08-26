@@ -1,24 +1,31 @@
-﻿#include "pch.h"
-#include "server.h"
-#include "App.h"
+﻿#include "App.h"
 #include "LifetimeManager.h"
 #include "Logging.h"
+#include "pch.h"
+#include "server.h"
 #include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
 
 namespace winrt::HotCorner::Server {
 	namespace impl = implementation;
 
+	static constexpr std::wstring_view InstanceMutexName
+		= L"HotCorner_w2v1h8dyp9x88!ServerMutex";
+
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
+		const auto instanceMutex = CreateMutex(NULL, TRUE, InstanceMutexName.data());
+		if (GetLastError() == ERROR_ALREADY_EXISTS) {
+			return 1;
+		}
+
 		winrt::init_apartment(apartment_type::multi_threaded);
 
 		// We don't support unpackaged execution at the moment - show a short message
-		// explaining that, as a treat
+		// explaining that, in case a developer accidentally sets this project as the
+		// startup one
 		if (!AppData::IsPackaged()) {
 #if defined _DEBUG
 			MessageBoxA(NULL, "Set HotCorner.Package as the startup project.", "Unable to launch Charmy", MB_ICONERROR);
-#else
-			MessageBoxA(NULL, "If you tried to open the .exe directly, this is expected. Always launch Charmy from the start menu, and manage auto startup through the Settings app or Task Manager. If this shows up unexpectedly, let the developer know.", "Unable to launch Charmy", MB_ICONERROR);
 #endif
 			return 0;
 		}
