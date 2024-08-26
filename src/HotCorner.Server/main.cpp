@@ -1,7 +1,8 @@
-﻿#include "App.h"
+﻿#include "pch.h"
+
+#include "App.h"
 #include "LifetimeManager.h"
 #include "Logging.h"
-#include "pch.h"
 #include "server.h"
 #include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
