@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "WrapPanel.h"
+
 #include "Controls/WrapPanel.g.cpp"
 
 namespace wf = winrt::Windows::Foundation;
@@ -58,7 +59,12 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 					child = children.GetAt(++i);
 				}
 
-				child.Arrange(rect);
+				child.Arrange({
+					rect.X,
+					rect.Y,
+					isHorizontal ? rect.Width : group.Extent,
+					isHorizontal ? group.Extent : rect.Height
+				});
 				++i;
 			}
 		}

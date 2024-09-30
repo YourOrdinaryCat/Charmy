@@ -93,14 +93,20 @@
 										HorizontalSpacing="8"
 										ItemWidth="144"
 										VerticalSpacing="8">
-										<Button HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}">
+										<Button
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Stretch"
+											Style="{StaticResource AccentButtonStyle}">
 											<TextBlock
 												x:Uid="MainPageCopyVersion"
 												TextAlignment="Center"
 												TextWrapping="WrapWholeWords" />
 										</Button>
 
-										<HyperlinkButton HorizontalAlignment="Stretch" Click="OnOpenLogFolderClick">
+										<HyperlinkButton
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Stretch"
+											Click="OnOpenLogFolderClick">
 											<TextBlock
 												x:Uid="MainPageLogsFolder"
 												nouac14:TextDecorations="Underline"
