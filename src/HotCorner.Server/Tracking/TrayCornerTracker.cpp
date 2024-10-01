@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "TrayCornerTracker.h"
+#include <appmodel.h>
 #include <Resources.h>
 #include <ShlObj.h>
 #include <spdlog/spdlog.h>
@@ -66,6 +67,22 @@ namespace winrt::HotCorner::Server::Tracking {
 		return TrayIcon::HandleMessage(message, wParam, lParam);
 	}
 
+	static std::wstring GetAumid() {
+		UINT32 length = 0;
+		auto ret = GetCurrentApplicationUserModelId(&length, NULL);
+
+		if (ret == ERROR_INSUFFICIENT_BUFFER) {
+			std::wstring aumid(length - 1, '\0');
+			ret = GetCurrentApplicationUserModelId(&length, aumid.data());
+
+			if (ret == ERROR_SUCCESS) {
+				return aumid;
+			}
+		}
+
+		throw_hresult(ret);
+	}
+
 	LRESULT TrayCornerTracker::HandleTrayMessage(WPARAM wParam, LPARAM lParam) noexcept {
 		switch (LOWORD(lParam)) {
 		case WM_CONTEXTMENU:
@@ -78,8 +95,10 @@ namespace winrt::HotCorner::Server::Tracking {
 				)
 			};
 
+			const auto aumid = GetAumid();
+
 			DWORD pid;
-			const auto hr = am->ActivateApplication(L"HotCorner_w2v1h8dyp9x88!App", L"", AO_NONE, &pid);
+			const auto hr = am->ActivateApplication(aumid.data(), L"", AO_NONE, &pid);
 
 			if (hr != S_OK) {
 				spdlog::error("Unable to launch Charmy. HRESULT: {}", hr);
