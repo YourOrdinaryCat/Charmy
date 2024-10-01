@@ -1,0 +1,12 @@
+Throughout this document, $APP will refer to Charmy (listed in the Microsoft Store as "Charmy: Hot Corners for Windows"), and $DEV will refer to the developer, Omar Plata Salas (also known as YourOrdinaryCat).
+
+$APP won't collect any personal data on its own. It may generate a log file, which shouldn't contain personal data - and even if it somehow did (for example, through external manipulation), $APP won't ever upload it anywhere on its own.
+
+Additionally, if $APP crashes, and it was installed from the Microsoft Store, $DEV might get anonymized information that may include:
+
+- Stack trace
+- System specs
+- Process list at the time of the crash
+- A memory dump of the app's two processes
+
+$DEV will only use the information if necessary for the debugging process of $APP. Additionally, this data will be deleted as soon as $DEV is able to.
