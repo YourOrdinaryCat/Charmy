@@ -53,9 +53,6 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" PrivateAssets="all" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\HotCorner.Server\HotCorner.Server.vcxproj" />
     <ProjectReference Include="..\HotCorner.Uwp\HotCorner.Uwp.vcxproj" />
   </ItemGroup>
