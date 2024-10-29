@@ -108,13 +108,15 @@ namespace winrt::HotCorner::Settings {
 		static constexpr std::wstring_view BottomLeftDelayKey = L"bottom_left_delay";
 		static constexpr std::wstring_view BottomRightDelayKey = L"bottom_right_delay";
 
-		static constexpr Json::type_mapping<6> CornerActionMapping = {
+		static constexpr Json::type_mapping<8> CornerActionMapping = {
 			L"none",
 			L"task_view",
 			L"start",
 			L"search",
 			L"go_to_desktop",
-			L"quick_settings"
+			L"quick_settings",
+			L"previous_virtual_desktop",
+			L"next_virtual_desktop"
 		};
 	};
 }
