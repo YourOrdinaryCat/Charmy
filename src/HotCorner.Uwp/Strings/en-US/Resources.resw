@@ -291,4 +291,10 @@
   <data name="PhysicalConnectorSdi" xml:space="preserve">
     <value>SDI display</value>
   </data>
+  <data name="CornerActionPreviousVirtualDesktop" xml:space="preserve">
+    <value>Previous desktop</value>
+  </data>
+  <data name="CornerActionNextVirtualDesktop" xml:space="preserve">
+    <value>Next desktop</value>
+  </data>
 </root>
