@@ -14,13 +14,12 @@ namespace winrt::HotCorner::Server::Tracking {
 		};
 	}
 
-	template<size_t InputSize>
+	template<UINT InputSize>
 	using InputSequence = std::array<INPUT, InputSize>;
-	
-	template<size_t InputSize>
-	inline bool Inject(InputSequence<InputSize>& input) {
-		const auto inSize = static_cast<UINT>(InputSize);
-		return SendInput(inSize, input.data(), sizeof(INPUT)) == inSize;
+
+	template<UINT InputSize>
+	inline bool Inject(InputSequence<InputSize>& input) noexcept {
+		return SendInput(InputSize, input.data(), sizeof(INPUT)) == InputSize;
 	}
 
 #define KEYBOARD_INPUT(NAME, VKCODE) constexpr INPUT NAME##Down{ VirtualKeyInput(VKCODE) }; constexpr INPUT NAME##Up{ VirtualKeyInput(VKCODE, KEYEVENTF_KEYUP) }
