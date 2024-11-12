@@ -14,7 +14,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			box_value(StringLoader().GetString(L"CornerActionStart")),
 			box_value(StringLoader().GetString(L"CornerActionSearch")),
 			box_value(StringLoader().GetString(L"CornerActionGoToDesktop")),
-			box_value(StringLoader().GetString(L"CornerActionQuickSettings"))
+			box_value(StringLoader().GetString(L"CornerActionQuickSettings")),
+			box_value(StringLoader().GetString(L"CornerActionPreviousVirtualDesktop")),
+			box_value(StringLoader().GetString(L"CornerActionNextVirtualDesktop"))
 		});
 		return m_cornerActions.GetView();
 	}

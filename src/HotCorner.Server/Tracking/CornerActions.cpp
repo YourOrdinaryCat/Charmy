@@ -14,44 +14,57 @@ namespace winrt::HotCorner::Server::Tracking {
 		};
 	}
 
-	template<size_t InputSize>
-	inline bool Inject(std::array<INPUT, InputSize>& input) {
-		const auto inSize = static_cast<UINT>(InputSize);
-		return SendInput(inSize, input.data(), sizeof(INPUT)) == inSize;
+	template<UINT InputSize>
+	using InputSequence = std::array<INPUT, InputSize>;
+
+	template<UINT InputSize>
+	inline bool Inject(InputSequence<InputSize>& input) noexcept {
+		return SendInput(InputSize, input.data(), sizeof(INPUT)) == InputSize;
 	}
 
 #define KEYBOARD_INPUT(NAME, VKCODE) constexpr INPUT NAME##Down{ VirtualKeyInput(VKCODE) }; constexpr INPUT NAME##Up{ VirtualKeyInput(VKCODE, KEYEVENTF_KEYUP) }
 
 	KEYBOARD_INPUT(LWin, VK_LWIN);
 	KEYBOARD_INPUT(Tab, VK_TAB);
+	KEYBOARD_INPUT(Ctrl, VK_CONTROL);
+	KEYBOARD_INPUT(Right, VK_RIGHT);
+	KEYBOARD_INPUT(Left, VK_LEFT);
 	KEYBOARD_INPUT(AKey, 0x41);
 	KEYBOARD_INPUT(DKey, 0x44);
 	KEYBOARD_INPUT(SKey, 0x53);
 
-	std::array<INPUT, 4> QuickSettingsInput = { LWinDown, AKeyDown, AKeyUp, LWinUp, };
-	std::array<INPUT, 4> SearchInput = { LWinDown, SKeyDown, SKeyUp, LWinUp, };
-	std::array<INPUT, 4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
-	std::array<INPUT, 4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
+	InputSequence<4> QuickSettingsInput = { LWinDown, AKeyDown, AKeyUp, LWinUp, };
+	InputSequence<4> SearchInput = { LWinDown, SKeyDown, SKeyUp, LWinUp, };
+	InputSequence<4> ShowDesktopInput = { LWinDown, DKeyDown, DKeyUp, LWinUp, };
+	InputSequence<4> TaskViewInput = { LWinDown, TabDown, TabUp, LWinUp, };
+	InputSequence<6> PreviousVirtualDesktopInput = { LWinDown, CtrlDown, LeftDown, LeftUp, CtrlUp, LWinUp, };
+	InputSequence<6> NextVirtualDesktopInput = { LWinDown, CtrlDown, RightDown, RightUp, CtrlUp, LWinUp, };
 
 	bool RunAction(const TrayIcon& icon, Settings::CornerAction action) noexcept {
-		using ActionT = Settings::CornerAction;
+		using enum Settings::CornerAction;
 		using TCT = Tracking::TrayCornerTracker;
 
 		switch (action) {
-		case ActionT::TaskView:
+		case TaskView:
 			return Inject(TaskViewInput);
 
-		case ActionT::Start:
+		case Start:
 			return icon.Post(WM_SYSCOMMAND, SC_TASKLIST);
 
-		case ActionT::Search:
+		case Search:
 			return Inject(SearchInput);
 
-		case ActionT::GoToDesktop:
+		case GoToDesktop:
 			return Inject(ShowDesktopInput);
 
-		case ActionT::QuickSettings:
+		case QuickSettings:
 			return Inject(QuickSettingsInput);
+
+		case PreviousVirtualDesktop:
+			return Inject(PreviousVirtualDesktopInput);
+
+		case NextVirtualDesktop:
+			return Inject(NextVirtualDesktopInput);
 		}
 		return false;
 	}
