@@ -6,12 +6,18 @@
 #include "server.h"
 #include "Storage/AppData.h"
 #include "Tracking/TrayCornerTracker.h"
+#include <cstdlib>
 
 namespace winrt::HotCorner::Server {
 	namespace impl = implementation;
 
 	static constexpr std::wstring_view InstanceMutexName
 		= L"HotCorner_w2v1h8dyp9x88!ServerMutex";
+
+	static void OnExit() {
+		spdlog::debug("Standard shutdown started");
+		spdlog::shutdown();
+	}
 
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
 		const auto instanceMutex = CreateMutex(NULL, TRUE, InstanceMutexName.data());
@@ -38,6 +44,7 @@ namespace winrt::HotCorner::Server {
 		app.Settings().Load();
 
 		Logging::FileSink()->set_level(app.Settings().LogVerbosity);
+		std::atexit(OnExit);
 
 		const auto cookie = server::register_class<impl::LifetimeManager, App&>(app);
 		server::resume_class_objects();
@@ -51,9 +58,7 @@ namespace winrt::HotCorner::Server {
 		}
 
 		const auto result = app.Run();
-
 		server::unregister_class(cookie);
-		spdlog::shutdown();
 
 		return result;
 	}
