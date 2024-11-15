@@ -13,14 +13,13 @@
 	d:DesignHeight="360"
 	d:DesignWidth="480"
 	muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-	Loaded="OnPageLoaded"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<Flyout x:Key="GeneralFlyout">
 			<StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
-				<CheckBox x:Name="GlobalCheck" x:Uid="MainPageGlobalCheck" />
-				<CheckBox x:Name="TrayIconCheck" x:Uid="MainPageTrayIconCheck" />
+				<CheckBox x:Uid="MainPageGlobalCheck" Loaded="OnGlobalCheckLoaded" />
+				<CheckBox x:Uid="MainPageTrayIconCheck" Loaded="OnTrayIconCheckLoaded" />
 
 				<HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
 

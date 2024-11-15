@@ -16,10 +16,12 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	 *        or through the tray icon.
 	*/
 	struct MainPage : MainPageT<MainPage> {
-		MainPage() { }
+		MainPage() {}
 
-		void InitializeComponent();
-		winrt::fire_and_forget OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&);
+		winrt::fire_and_forget InitializeComponent();
+
+		void OnGlobalCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnTrayIconCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
 
 		void OnSettingAdded(const hstring&, const hstring&);
 		void OnSettingRemoved(const hstring&);

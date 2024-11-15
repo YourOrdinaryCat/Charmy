@@ -19,7 +19,7 @@ namespace wuvm = winrt::Windows::UI::ViewManagement;
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	void MainPage::InitializeComponent() {
+	winrt::fire_and_forget MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
 		const auto connected = m_watcher.ConnectedDevices();
@@ -31,6 +31,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		MonitorPicker().ItemsSource(connected);
 		m_watcher.Start();
+
+		// Start up the server in the background - it will automatically start/stop
+		// tracking according to user preferences
+		co_await winrt::resume_background();
+		std::ignore = Lifetime::Current();
 	}
 
 	static void SwitchTracking(bool track) {
@@ -61,15 +66,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		SwitchTrayIcon(checked);
 	}
 
-	winrt::fire_and_forget MainPage::OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&) {
-		const bool track = AppSettings().TrackingEnabled;
-		const bool show = AppSettings().TrayIconEnabled;
-
-		const auto gc = GlobalCheck();
-		const auto tic = TrayIconCheck();
-
-		gc.IsChecked(track);
-		tic.IsChecked(show);
+	void MainPage::OnGlobalCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto gc = sender.as<wuxc::CheckBox>();
+		gc.IsChecked(AppSettings().TrackingEnabled);
 
 		gc.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnGlobalCheckUpdated(true); }
@@ -77,6 +76,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		gc.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnGlobalCheckUpdated(false); }
 		);
+	}
+
+	void MainPage::OnTrayIconCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto tic = sender.as<wuxc::CheckBox>();
+		tic.IsChecked(AppSettings().TrayIconEnabled);
 
 		tic.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnTrayIconCheckUpdated(true); }
@@ -84,11 +88,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		tic.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnTrayIconCheckUpdated(false); }
 		);
-
-		// Start up the server - it will automatically start/stop tracking according to
-		// user's settings
-		co_await winrt::resume_background();
-		std::ignore = Lifetime::Current();
 	}
 
 	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {
