@@ -107,7 +107,7 @@
     <Page Include="Views\MonitorSettingsPage.xaml">
       <Filter>Views</Filter>
     </Page>
-    <Page Include="Views\MonitorPickerFlyout.xaml">
+    <Page Include="Views\NoMonitorsFlyout.xaml">
       <Filter>Views</Filter>
     </Page>
   </ItemGroup>

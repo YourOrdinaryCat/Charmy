@@ -60,8 +60,8 @@
     </ClInclude>
     <ClInclude Include="Utils\Midl.h" />
     <ClInclude Include="Utils\Property.h" />
-    <ClInclude Include="Views\MonitorPickerFlyout.h">
-      <DependentUpon>Views\MonitorPickerFlyout.xaml</DependentUpon>
+    <ClInclude Include="Views\NoMonitorsFlyout.h">
+      <DependentUpon>Views\NoMonitorsFlyout.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Views\MonitorSettingsPage.h">
@@ -97,8 +97,8 @@
       <DependentUpon>Views\MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Views\MonitorPickerFlyout.cpp">
-      <DependentUpon>Views\MonitorPickerFlyout.xaml</DependentUpon>
+    <ClCompile Include="Views\NoMonitorsFlyout.cpp">
+      <DependentUpon>Views\NoMonitorsFlyout.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Views\MonitorSettingsPage.cpp">
@@ -115,7 +115,7 @@
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MonitorPickerFlyout.xaml">
+    <Page Include="Views\NoMonitorsFlyout.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MonitorSettingsPage.xaml">

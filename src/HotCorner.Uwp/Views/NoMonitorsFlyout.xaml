@@ -1,0 +1,24 @@
+﻿<Flyout
+	x:Class="HotCorner.Uwp.Views.NoMonitorsFlyout"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	mc:Ignorable="d">
+
+	<Flyout.FlyoutPresenterStyle>
+		<Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+			<Setter Property="MinHeight" Value="0" />
+			<Setter Property="Padding" Value="4" />
+		</Style>
+	</Flyout.FlyoutPresenterStyle>
+
+	<muxc:InfoBar
+		x:Uid="MonitorPickerFlyoutNoMonitorsInfo"
+		MaxWidth="300"
+		CornerRadius="4"
+		IsClosable="False"
+		IsOpen="True"
+		Severity="Informational" />
+</Flyout>
