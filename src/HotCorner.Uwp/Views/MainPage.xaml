@@ -225,7 +225,7 @@
 
 	<Grid
 		Padding="8"
-		Background="{x:Bind Background, Mode=OneWay}"
+		Background="{x:Bind Background}"
 		ColumnSpacing="8"
 		RowSpacing="8"
 		XYFocusKeyboardNavigation="Enabled">
