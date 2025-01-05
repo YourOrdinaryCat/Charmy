@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "MonitorSettingsPage.h"
 #include <AppSettings.h>
 #include <Controls/EvenStackPanel.h>
 #include <Controls/WrapPanel.h>
@@ -6,8 +7,8 @@
 #include <Devices/Watcher.h>
 #include <Utils/Xaml.h>
 #include <winrt/Windows.Devices.Display.h>
+#include <winrt/Windows.System.h>
 
-#include "MonitorSettingsPage.h"
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
@@ -42,6 +43,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		Devices::Watcher<Devices::MonitorInfo> m_watcher{
 			Windows::Devices::Display::DisplayMonitor::GetDeviceSelector(),
+			Windows::System::DispatcherQueue::GetForCurrentThread(),
 			Devices::DeviceWatcherEvent::None
 		};
 	};

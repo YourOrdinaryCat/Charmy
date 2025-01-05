@@ -170,10 +170,11 @@ namespace winrt::HotCorner::Uwp::Devices {
 	public:
 		Watcher(
 			const hstring& selector,
+			const Windows::System::DispatcherQueue& dispatcher,
 			const DeviceWatcherEvent handledEvents = DeviceWatcherEvent::Add | DeviceWatcherEvent::Remove
 		) :
 			m_watcher(wde::DeviceInformation::CreateWatcher(selector)),
-			m_dispatcher(Windows::System::DispatcherQueue::GetForCurrentThread()),
+			m_dispatcher(dispatcher),
 			m_handledEvents(handledEvents),
 			m_addToken(m_watcher.Added({ this, &Watcher::OnDeviceAdded })),
 			m_removeToken(m_watcher.Removed({ this, &Watcher::OnDeviceRemoved })),
