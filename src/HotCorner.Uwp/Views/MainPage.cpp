@@ -1,7 +1,9 @@
 ﻿#include "pch.h"
+
 #include "MainPage.h"
 #include "Views/MainPage.g.cpp"
 
+#include "NoMonitorsFlyout.h"
 #include <Localization.h>
 #include <Logging.h>
 #include <Server/Lifetime.h>
@@ -9,17 +11,22 @@
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.System.h>
 #include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.UI.Xaml.Input.h>
 
 namespace wamdt = winrt::Windows::ApplicationModel::DataTransfer;
+namespace wdd = winrt::Windows::Devices::Display;
+namespace wde = winrt::Windows::Devices::Enumeration;
 namespace wf = winrt::Windows::Foundation;
 namespace wst = winrt::Windows::Storage;
 namespace wsys = winrt::Windows::System;
 namespace wuvm = winrt::Windows::UI::ViewManagement;
+namespace wuxi = winrt::Windows::UI::Xaml::Input;
+namespace wuxcp = winrt::Windows::UI::Xaml::Controls::Primitives;
 
 using winrt::HotCorner::Uwp::Devices::MonitorInfo;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
-	void MainPage::InitializeComponent() {
+	winrt::fire_and_forget MainPage::InitializeComponent() {
 		MainPageT::InitializeComponent();
 
 		const auto connected = m_watcher.ConnectedDevices();
@@ -31,6 +38,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		MonitorPicker().ItemsSource(connected);
 		m_watcher.Start();
+
+		// Start up the server in the background - it will automatically start/stop
+		// tracking according to user preferences
+		co_await winrt::resume_background();
+		std::ignore = Lifetime::Current();
 	}
 
 	static void SwitchTracking(bool track) {
@@ -61,15 +73,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		SwitchTrayIcon(checked);
 	}
 
-	winrt::fire_and_forget MainPage::OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&) {
-		const bool track = AppSettings().TrackingEnabled;
-		const bool show = AppSettings().TrayIconEnabled;
-
-		const auto gc = GlobalCheck();
-		const auto tic = TrayIconCheck();
-
-		gc.IsChecked(track);
-		tic.IsChecked(show);
+	void MainPage::OnGlobalCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto gc = sender.as<wuxc::CheckBox>();
+		gc.IsChecked(AppSettings().TrackingEnabled);
 
 		gc.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnGlobalCheckUpdated(true); }
@@ -77,6 +83,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		gc.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnGlobalCheckUpdated(false); }
 		);
+	}
+
+	void MainPage::OnTrayIconCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto tic = sender.as<wuxc::CheckBox>();
+		tic.IsChecked(AppSettings().TrayIconEnabled);
 
 		tic.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnTrayIconCheckUpdated(true); }
@@ -84,26 +95,57 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		tic.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
 			{ OnTrayIconCheckUpdated(false); }
 		);
-
-		// Start up the server - it will automatically start/stop tracking according to
-		// user's settings
-		co_await winrt::resume_background();
-		std::ignore = Lifetime::Current();
 	}
 
-	void MainPage::OnSettingAdded(const hstring& monitorId, const hstring& monitorName) {
-		m_watcher.ConnectedDevices().Append({ monitorId, monitorName });
-		MonitorPicker().SelectedIndex(m_watcher.ConnectedDevices().Size() - 1);
+	winrt::fire_and_forget MainPage::OnAddButtonClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto btn = sender.as<wuxc::Button>();
+		const wde::DeviceInformationCollection devices{
+			co_await wde::DeviceInformation::FindAllAsync(wdd::DisplayMonitor::GetDeviceSelector())
+		};
 
-		AddConfigFlyout().RestartWatcher();
+		const wuxc::MenuFlyout mf{};
+		for (auto&& info : devices) {
+			if (!AppSettings().Monitors.contains(info.Id())) {
+				const Devices::MonitorInfo monitor{
+					co_await Devices::MonitorInfo::FromDeviceAsync(info)
+				};
+
+				const wuxc::MenuFlyoutItem mfi{};
+				mfi.Text(monitor.DisplayName());
+				mfi.Tag(monitor);
+				mfi.Click({ this, &MainPage::OnMonitorClick });
+				mf.Items().Append(mfi);
+			}
+		}
+
+		if (mf.Items().Size() != 0) {
+			const wuxcp::FlyoutShowOptions opts{};
+			opts.Placement(wuxcp::FlyoutPlacementMode::Bottom);
+			mf.ShowAt(btn, opts);
+		}
+		else {
+			const Views::NoMonitorsFlyout nmf{};
+			nmf.ShowAt(btn);
+		}
+	}
+
+	void MainPage::OnMonitorClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const auto monitor = sender.as<wuxc::MenuFlyoutItem>().Tag().as<MonitorInfo>();
+
+		// Copy default settings and update the name
+		Settings::MonitorSettings ns = AppSettings().DefaultSettings;
+		ns.DisplayName = monitor.DisplayName();
+
+		AppSettings().Monitors.insert({ std::wstring{ monitor.Id() }, ns });
+
+		m_watcher.ConnectedDevices().Append(monitor);
+		MonitorPicker().SelectedIndex(m_watcher.ConnectedDevices().Size() - 1);
 	}
 
 	void MainPage::OnSettingRemoved(const hstring& monitorId) {
 		if (const auto index = m_watcher.TryGetDeviceIndex(monitorId)) {
 			MonitorPicker().SelectedIndex(*index - 1);
 			m_watcher.ConnectedDevices().RemoveAt(*index);
-
-			AddConfigFlyout().RestartWatcher();
 		}
 	}
 

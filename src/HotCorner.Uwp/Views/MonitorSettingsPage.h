@@ -32,6 +32,11 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnRemoveConfigClick(const IInspectable&, const wux::RoutedEventArgs&);
 
 		//TODO: Refactor?
+		void OnTopLeftDelayLoaded(const IInspectable&, const IInspectable&);
+		void OnTopRightDelayLoaded(const IInspectable&, const IInspectable&);
+		void OnBottomLeftDelayLoaded(const IInspectable&, const IInspectable&);
+		void OnBottomRightDelayLoaded(const IInspectable&, const IInspectable&);
+
 		void OnTopLeftActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
 		void OnTopRightActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);
 		void OnBottomLeftActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&);

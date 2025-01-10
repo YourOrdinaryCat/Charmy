@@ -8,6 +8,60 @@
 	xmlns:uac8="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
 	mc:Ignorable="d">
 
+	<UserControl.Resources>
+		<Flyout
+			x:Key="DelayFlyout"
+			uac8:ShouldConstrainToRootBounds="False"
+			Placement="Right">
+			<StackPanel MaxWidth="200" Spacing="8">
+				<muxc:NumberBox
+					x:Uid="MonitorSettingsDelayTopLeft"
+					LargeChange="100"
+					Loaded="OnTopLeftDelayLoaded"
+					Maximum="4294967294"
+					Minimum="0"
+					SmallChange="10"
+					SpinButtonPlacementMode="Inline"
+					ValueChanged="OnTopLeftDelayChanged" />
+
+				<muxc:NumberBox
+					x:Uid="MonitorSettingsDelayTopRight"
+					LargeChange="100"
+					Loaded="OnTopRightDelayLoaded"
+					Maximum="4294967294"
+					Minimum="0"
+					SmallChange="10"
+					SpinButtonPlacementMode="Inline"
+					ValueChanged="OnTopRightDelayChanged" />
+
+				<muxc:NumberBox
+					x:Uid="MonitorSettingsDelayBottomLeft"
+					LargeChange="100"
+					Loaded="OnBottomLeftDelayLoaded"
+					Maximum="4294967294"
+					Minimum="0"
+					SmallChange="10"
+					SpinButtonPlacementMode="Inline"
+					ValueChanged="OnBottomLeftDelayChanged" />
+
+				<muxc:NumberBox
+					x:Uid="MonitorSettingsDelayBottomRight"
+					LargeChange="100"
+					Loaded="OnBottomRightDelayLoaded"
+					Maximum="4294967294"
+					Minimum="0"
+					SmallChange="10"
+					SpinButtonPlacementMode="Inline"
+					ValueChanged="OnBottomRightDelayChanged" />
+
+				<TextBlock
+					x:Uid="MonitorSettingsDelayInfo"
+					Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+					Style="{StaticResource CaptionTextBlockStyle}" />
+			</StackPanel>
+		</Flyout>
+	</UserControl.Resources>
+
 	<RelativePanel MaxHeight="400" Padding="16">
 		<ComboBox
 			x:Name="TopLeftCorner"
@@ -39,59 +93,11 @@
 					Checked="OnDelayToggleChecked"
 					Unchecked="OnDelayToggleUnchecked" />
 
-				<Button x:Uid="MonitorSettingsConfigureButton" Padding="4">
+				<Button
+					x:Uid="MonitorSettingsConfigureButton"
+					Padding="4"
+					Flyout="{StaticResource DelayFlyout}">
 					<FontIcon FontSize="16" Glyph="&#xE713;" />
-
-					<Button.Flyout>
-						<Flyout uac8:ShouldConstrainToRootBounds="False" Placement="Right">
-							<StackPanel MaxWidth="200" Spacing="8">
-								<muxc:NumberBox
-									x:Name="TopLeftDelay"
-									x:Uid="MonitorSettingsDelayTopLeft"
-									LargeChange="100"
-									Maximum="4294967294"
-									Minimum="0"
-									SmallChange="10"
-									SpinButtonPlacementMode="Inline"
-									ValueChanged="OnTopLeftDelayChanged" />
-
-								<muxc:NumberBox
-									x:Name="TopRightDelay"
-									x:Uid="MonitorSettingsDelayTopRight"
-									LargeChange="100"
-									Maximum="4294967294"
-									Minimum="0"
-									SmallChange="10"
-									SpinButtonPlacementMode="Inline"
-									ValueChanged="OnTopRightDelayChanged" />
-
-								<muxc:NumberBox
-									x:Name="BottomLeftDelay"
-									x:Uid="MonitorSettingsDelayBottomLeft"
-									LargeChange="100"
-									Maximum="4294967294"
-									Minimum="0"
-									SmallChange="10"
-									SpinButtonPlacementMode="Inline"
-									ValueChanged="OnBottomLeftDelayChanged" />
-
-								<muxc:NumberBox
-									x:Name="BottomRightDelay"
-									x:Uid="MonitorSettingsDelayBottomRight"
-									LargeChange="100"
-									Maximum="4294967294"
-									Minimum="0"
-									SmallChange="10"
-									SpinButtonPlacementMode="Inline"
-									ValueChanged="OnBottomRightDelayChanged" />
-
-								<TextBlock
-									x:Uid="MonitorSettingsDelayInfo"
-									Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
-									Style="{StaticResource CaptionTextBlockStyle}" />
-							</StackPanel>
-						</Flyout>
-					</Button.Flyout>
 				</Button>
 			</StackPanel>
 

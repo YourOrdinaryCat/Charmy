@@ -17,7 +17,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 			box_value(StringLoader().GetString(L"CornerActionQuickSettings")),
 			box_value(StringLoader().GetString(L"CornerActionPreviousVirtualDesktop")),
 			box_value(StringLoader().GetString(L"CornerActionNextVirtualDesktop"))
-		});
+			});
 		return m_cornerActions.GetView();
 	}
 
@@ -54,11 +54,6 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		UpdateSelection(TopRightCorner(), setting.TopRightAction);
 		UpdateSelection(BottomLeftCorner(), setting.BottomLeftAction);
 		UpdateSelection(BottomRightCorner(), setting.BottomRightAction);
-
-		TopLeftDelay().Value(static_cast<double>(setting.TopLeftDelay));
-		TopRightDelay().Value(static_cast<double>(setting.TopRightDelay));
-		BottomLeftDelay().Value(static_cast<double>(setting.BottomLeftDelay));
-		BottomRightDelay().Value(static_cast<double>(setting.BottomRightDelay));
 	}
 
 	event_token MonitorSettingsPage::SettingRemoved(const SettingRemovedEventHandler& handler) {
@@ -93,6 +88,19 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		const auto newAction = index < 1 ?
 			Settings::CornerAction::None : static_cast<Settings::CornerAction>(index);
 		action = newAction;
+	}
+
+	void MonitorSettingsPage::OnTopLeftDelayLoaded(const IInspectable& sender, const IInspectable&) {
+		sender.as<muxc::NumberBox>().Value(static_cast<double>(CurrentSettings().TopLeftDelay));
+	}
+	void MonitorSettingsPage::OnTopRightDelayLoaded(const IInspectable& sender, const IInspectable&) {
+		sender.as<muxc::NumberBox>().Value(static_cast<double>(CurrentSettings().TopRightDelay));
+	}
+	void MonitorSettingsPage::OnBottomLeftDelayLoaded(const IInspectable& sender, const IInspectable&) {
+		sender.as<muxc::NumberBox>().Value(static_cast<double>(CurrentSettings().BottomLeftDelay));
+	}
+	void MonitorSettingsPage::OnBottomRightDelayLoaded(const IInspectable& sender, const IInspectable&) {
+		sender.as<muxc::NumberBox>().Value(static_cast<double>(CurrentSettings().BottomRightDelay));
 	}
 
 	void MonitorSettingsPage::OnTopLeftActionSelected(const IInspectable&, const wuxc::SelectionChangedEventArgs&) {

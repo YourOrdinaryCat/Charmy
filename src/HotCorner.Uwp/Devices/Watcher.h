@@ -1,9 +1,11 @@
 #pragma once
 #include <EnumFlags.h>
 #include <spdlog/spdlog.h>
+#include <wil/cppwinrt_helpers.h>
 #include <winrt/Windows.Devices.Enumeration.h>
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.System.h>
 
 namespace winrt::HotCorner::Uwp::Devices {
 	namespace wde = Windows::Devices::Enumeration;
@@ -68,8 +70,8 @@ namespace winrt::HotCorner::Uwp::Devices {
 		const event_token m_stoppedToken;
 
 		// Caller might expect updates to be dispatched to the context
-		// under which watching started
-		apartment_context m_startContext{ nullptr };
+		// under which the watcher was created
+		const Windows::System::DispatcherQueue m_dispatcher;
 		bool m_running = false;
 
 		bool m_clearRequested = false;
@@ -81,14 +83,14 @@ namespace winrt::HotCorner::Uwp::Devices {
 			if (const auto index = TryGetDeviceIndex(device.Id())) {
 				const auto info = m_connected.GetAt(*index);
 
-				co_await m_startContext;
+				co_await wil::resume_foreground(m_dispatcher);
 				co_await info.RefreshAsync(device);
 			}
 			else if (HasFlag(m_handledEvents, DeviceWatcherEvent::Add)) {
 				const Info toAdd = co_await Info::FromDeviceAsync(device);
 
 				if (AddingDeviceOverride(toAdd)) {
-					co_await m_startContext;
+					co_await wil::resume_foreground(m_dispatcher);
 					m_connected.Append(toAdd);
 				}
 			}
@@ -99,7 +101,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 				if (const auto index = TryGetDeviceIndex(update.Id())) {
 					const auto device = m_connected.GetAt(*index);
 					if (RemovingDeviceOverride(device)) {
-						co_await m_startContext;
+						co_await wil::resume_foreground(m_dispatcher);
 						m_connected.RemoveAt(*index);
 					}
 				}
@@ -112,7 +114,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			if (const auto index = TryGetDeviceIndex(id)) {
 				const auto info = m_connected.GetAt(*index);
 
-				co_await m_startContext;
+				co_await wil::resume_foreground(m_dispatcher);
 				co_await info.RefreshAsync(update);
 			}
 		}
@@ -121,7 +123,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 			if (m_clearRequested) {
 				m_clearRequested = false;
 
-				co_await m_startContext;
+				co_await wil::resume_foreground(m_dispatcher);
 				m_connected.Clear();
 			}
 
@@ -168,9 +170,11 @@ namespace winrt::HotCorner::Uwp::Devices {
 	public:
 		Watcher(
 			const hstring& selector,
+			const Windows::System::DispatcherQueue& dispatcher,
 			const DeviceWatcherEvent handledEvents = DeviceWatcherEvent::Add | DeviceWatcherEvent::Remove
 		) :
 			m_watcher(wde::DeviceInformation::CreateWatcher(selector)),
+			m_dispatcher(dispatcher),
 			m_handledEvents(handledEvents),
 			m_addToken(m_watcher.Added({ this, &Watcher::OnDeviceAdded })),
 			m_removeToken(m_watcher.Removed({ this, &Watcher::OnDeviceRemoved })),
@@ -189,9 +193,7 @@ namespace winrt::HotCorner::Uwp::Devices {
 
 		void Start() {
 			if (!m_running) {
-				m_startContext = {};
 				m_watcher.Start();
-
 				m_running = true;
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "MonitorSettingsPage.h"
 #include <AppSettings.h>
 #include <Controls/EvenStackPanel.h>
 #include <Controls/WrapPanel.h>
@@ -6,8 +7,8 @@
 #include <Devices/Watcher.h>
 #include <Utils/Xaml.h>
 #include <winrt/Windows.Devices.Display.h>
+#include <winrt/Windows.System.h>
 
-#include "MonitorSettingsPage.h"
 #include "Views/MainPage.g.h"
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
@@ -16,12 +17,15 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	 *        or through the tray icon.
 	*/
 	struct MainPage : MainPageT<MainPage> {
-		MainPage() { }
+		MainPage() {}
 
-		void InitializeComponent();
-		winrt::fire_and_forget OnPageLoaded(const IInspectable&, const wux::RoutedEventArgs&);
+		winrt::fire_and_forget InitializeComponent();
 
-		void OnSettingAdded(const hstring&, const hstring&);
+		void OnGlobalCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnTrayIconCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
+
+		winrt::fire_and_forget OnAddButtonClick(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnMonitorClick(const IInspectable&, const wux::RoutedEventArgs&);
 		void OnSettingRemoved(const hstring&);
 
 		void OnApplyButtonClick(const IInspectable&, const wux::RoutedEventArgs&);
@@ -39,6 +43,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		Devices::Watcher<Devices::MonitorInfo> m_watcher{
 			Windows::Devices::Display::DisplayMonitor::GetDeviceSelector(),
+			Windows::System::DispatcherQueue::GetForCurrentThread(),
 			Devices::DeviceWatcherEvent::None
 		};
 	};
