@@ -2,7 +2,8 @@
 
 namespace HotCorner.Uwp.Devices {
 	[default_interface]
-	runtimeclass MonitorInfo : XAML.Data.INotifyPropertyChanged {
+	[bindable]
+	runtimeclass MonitorInfo : XAML.Data.INotifyPropertyChanged, Windows.Foundation.IStringable {
 		[noexcept]
 		MonitorInfo(String id, String name);
 

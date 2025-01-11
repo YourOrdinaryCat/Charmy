@@ -281,14 +281,9 @@
 				x:Name="MonitorPicker"
 				Grid.Column="1"
 				VerticalAlignment="Stretch"
+				DisplayMemberPath="DisplayName"
 				SelectedIndex="0"
-				SelectionChanged="OnMonitorSelected">
-				<ComboBox.ItemTemplate>
-					<DataTemplate x:DataType="hcud:MonitorInfo">
-						<TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+				SelectionChanged="OnMonitorSelected" />
 		</Grid>
 
 		<!--  Monitor Settings  -->

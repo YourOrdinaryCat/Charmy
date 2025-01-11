@@ -1,6 +1,6 @@
 #pragma once
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Devices.Enumeration.h>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
 
 #include "Devices/MonitorInfo.g.h"
@@ -40,6 +40,10 @@ namespace winrt::HotCorner::Uwp::Devices::implementation {
 				m_name = value;
 				m_propertyChanged(*this, Windows::UI::Xaml::Data::PropertyChangedEventArgs{ L"DisplayName" });
 			}
+		}
+
+		inline hstring ToString() const noexcept {
+			return m_name;
 		}
 
 		winrt::event_token PropertyChanged(const Windows::UI::Xaml::Data::PropertyChangedEventHandler& value) {
