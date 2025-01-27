@@ -1,0 +1,9 @@
+#include "Utils/Midl.h"
+
+namespace HotCorner.Uwp {
+	[default_interface]
+	[webhosthidden]
+	runtimeclass App : XAML.Application {
+		App();
+	}
+}

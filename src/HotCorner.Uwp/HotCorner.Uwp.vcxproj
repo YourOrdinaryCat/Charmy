@@ -30,6 +30,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <PreprocessorDefinitions>DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
@@ -52,6 +53,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="App.base.h">
+      <DependentUpon>App.h</DependentUpon>
     </ClInclude>
     <ClInclude Include="Utils\Xaml.h" />
     <ClInclude Include="Views\MainPage.h">
@@ -123,6 +127,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="App.idl">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Midl>
     <Midl Include="Controls\Controls.idl" />
     <Midl Include="Devices\Devices.idl" />
     <Midl Include="Views\Views.idl" />

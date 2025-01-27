@@ -1,9 +1,10 @@
 ﻿#pragma once
-#include "App.xaml.g.h"
+#include "App.base.h"
+
 #include <winrt/Windows.ApplicationModel.Activation.h>
 
 namespace winrt::HotCorner::Uwp::implementation {
-	struct App : AppT<App> {
+	struct App : AppT2<App> {
 		/**
 		 * @brief Creates the singleton application object.
 		*/
@@ -15,5 +16,10 @@ namespace winrt::HotCorner::Uwp::implementation {
 		 * @param args Details about the launch request and process.
 		*/
 		void OnLaunched(const Windows::ApplicationModel::Activation::LaunchActivatedEventArgs&) const;
+	};
+}
+
+namespace winrt::HotCorner::Uwp::factory_implementation {
+	class App : public AppT<App, implementation::App> {
 	};
 }

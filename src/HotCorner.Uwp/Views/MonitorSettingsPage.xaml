@@ -6,6 +6,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:uac8="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+	d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	d:DesignHeight="375"
+	d:DesignWidth="500"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -67,14 +70,31 @@
 			x:Name="TopLeftCorner"
 			x:Uid="MonitorSettingsActionTopLeft"
 			Width="216"
+			d:PlaceholderText="Top left"
 			SelectionChanged="OnTopLeftActionSelected" />
-
 		<ComboBox
 			x:Name="TopRightCorner"
 			x:Uid="MonitorSettingsActionTopRight"
 			Width="216"
+			d:PlaceholderText="Top right"
 			RelativePanel.AlignRightWithPanel="True"
 			SelectionChanged="OnTopRightActionSelected" />
+
+		<ComboBox
+			x:Name="BottomLeftCorner"
+			x:Uid="MonitorSettingsActionBottomLeft"
+			Width="216"
+			d:PlaceholderText="Bottom left"
+			RelativePanel.AlignBottomWithPanel="True"
+			SelectionChanged="OnBottomLeftActionSelected" />
+		<ComboBox
+			x:Name="BottomRightCorner"
+			x:Uid="MonitorSettingsActionBottomRight"
+			Width="216"
+			d:PlaceholderText="Bottom right"
+			RelativePanel.AlignBottomWithPanel="True"
+			RelativePanel.AlignRightWithPanel="True"
+			SelectionChanged="OnBottomRightActionSelected" />
 
 		<StackPanel
 			RelativePanel.AlignHorizontalCenterWithPanel="True"
@@ -83,6 +103,7 @@
 			<CheckBox
 				x:Name="GlobalCheck"
 				x:Uid="MonitorSettingsGlobalCheck"
+				d:Content="Enable Charmy on this monitor"
 				Checked="OnGlobalToggleChecked"
 				Unchecked="OnGlobalToggleUnchecked" />
 
@@ -90,6 +111,7 @@
 				<CheckBox
 					x:Name="DelayCheck"
 					x:Uid="MonitorSettingsDelayCheck"
+					d:Content="Delayed response"
 					Checked="OnDelayToggleChecked"
 					Unchecked="OnDelayToggleUnchecked" />
 
@@ -111,23 +133,9 @@
 						FontSize="16"
 						Foreground="{ThemeResource SystemFillColorCriticalBrush}"
 						Glyph="&#xE74D;" />
-					<TextBlock x:Uid="MonitorSettingsRemoveConfig" />
+					<TextBlock x:Uid="MonitorSettingsRemoveConfig" d:Text="Remove this configuration" />
 				</StackPanel>
 			</Button>
 		</StackPanel>
-
-		<ComboBox
-			x:Name="BottomLeftCorner"
-			x:Uid="MonitorSettingsActionBottomLeft"
-			Width="216"
-			RelativePanel.AlignBottomWithPanel="True"
-			SelectionChanged="OnBottomLeftActionSelected" />
-		<ComboBox
-			x:Name="BottomRightCorner"
-			x:Uid="MonitorSettingsActionBottomRight"
-			Width="216"
-			RelativePanel.AlignBottomWithPanel="True"
-			RelativePanel.AlignRightWithPanel="True"
-			SelectionChanged="OnBottomRightActionSelected" />
 	</RelativePanel>
 </UserControl>

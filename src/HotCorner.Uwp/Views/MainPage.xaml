@@ -10,8 +10,8 @@
 	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 	xmlns:nouac14="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract, 14)"
 	d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	d:DesignHeight="360"
-	d:DesignWidth="480"
+	d:DesignHeight="375"
+	d:DesignWidth="500"
 	muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
 	mc:Ignorable="d">
 
@@ -245,14 +245,14 @@
 		<muxc:DropDownButton Flyout="{StaticResource GeneralFlyout}">
 			<StackPanel Orientation="Horizontal" Spacing="6">
 				<FontIcon FontSize="16" Glyph="&#xE713;" />
-				<TextBlock x:Uid="MainPageGeneral" />
+				<TextBlock x:Uid="MainPageGeneral" d:Text="General" />
 			</StackPanel>
 		</muxc:DropDownButton>
 
 		<muxc:DropDownButton Grid.Column="1" Flyout="{StaticResource AboutFlyout}">
 			<StackPanel Orientation="Horizontal" Spacing="6">
 				<FontIcon FontSize="16" Glyph="&#xE946;" />
-				<TextBlock x:Uid="MainPageAbout" />
+				<TextBlock x:Uid="MainPageAbout" d:Text="About" />
 			</StackPanel>
 		</muxc:DropDownButton>
 
@@ -281,6 +281,7 @@
 				x:Name="MonitorPicker"
 				Grid.Column="1"
 				VerticalAlignment="Stretch"
+				d:PlaceholderText="Default settings"
 				DisplayMemberPath="DisplayName"
 				SelectedIndex="0"
 				SelectionChanged="OnMonitorSelected" />
@@ -309,15 +310,18 @@
 			<Button
 				x:Uid="MainPageOKButton"
 				HorizontalAlignment="Stretch"
+				d:Content="OK"
 				Click="OnOKButtonClick" />
 			<Button
 				x:Uid="MainPageCancelButton"
 				HorizontalAlignment="Stretch"
+				d:Content="Cancel"
 				Click="OnCancelButtonClick" />
 
 			<Button
 				x:Uid="MainPageApplyButton"
 				HorizontalAlignment="Stretch"
+				d:Content="Apply"
 				Click="OnApplyButtonClick"
 				Style="{StaticResource AccentButtonStyle}" />
 		</controls:EvenStackPanel>
