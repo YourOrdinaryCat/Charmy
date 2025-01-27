@@ -20,7 +20,7 @@ namespace winrt::HotCorner::Server {
 	}
 
 	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
-		const auto instanceMutex = CreateMutex(NULL, TRUE, InstanceMutexName.data());
+		CreateMutex(NULL, TRUE, InstanceMutexName.data());
 		if (GetLastError() == ERROR_ALREADY_EXISTS) {
 			return 1;
 		}
