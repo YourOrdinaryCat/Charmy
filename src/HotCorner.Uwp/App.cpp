@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "App.h"
+#include "App.g.cpp"
 #include "Views/MainPage.h"
 #include <AppSettings.h>
 #include <Logging.h>
