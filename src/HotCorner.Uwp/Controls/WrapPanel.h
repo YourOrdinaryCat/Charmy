@@ -3,6 +3,7 @@
 #include <Utils/Xaml.h>
 
 #include "Controls/WrapPanel.g.h"
+#include <winrt/Windows.Foundation.h>
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
 	struct UIElementGroup {
@@ -12,7 +13,9 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 		std::vector<Windows::Foundation::Rect> Children;
 
 		constexpr UIElementGroup(float length, float extent) noexcept :
-			Length(length), Extent(extent) { }
+			Length(length), Extent(extent)
+		{
+		}
 	};
 
 	/**
@@ -22,57 +25,18 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 	 *        the same name.
 	*/
 	struct WrapPanel : WrapPanelT<WrapPanel> {
-	private:
-		static void OnLayoutPropertyChanged(
-			const wux::DependencyObject& sender,
-			const wux::DependencyPropertyChangedEventArgs&)
-		{
-			if (const auto elm = sender.try_as<class_type>()) {
-				elm.InvalidateMeasure();
-				elm.InvalidateArrange();
-			}
-		}
-
-	public:
-		WrapPanel() { }
+		WrapPanel() {}
 
 		Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size);
 		Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size);
 
-		DEPENDENCY_PROPERTY_META(
-			Orientation,
-			wuxc::Orientation,
-			box_value(wuxc::Orientation::Horizontal),
-			OnLayoutPropertyChanged
-		);
+		static void EnsureProperties();
 
-		DEPENDENCY_PROPERTY_META(
-			ItemWidth,
-			double,
-			box_value(std::numeric_limits<double>::quiet_NaN()),
-			OnLayoutPropertyChanged
-		);
-
-		DEPENDENCY_PROPERTY_META(
-			ItemHeight,
-			double,
-			box_value(std::numeric_limits<double>::quiet_NaN()),
-			OnLayoutPropertyChanged
-		);
-
-		DEPENDENCY_PROPERTY_META(
-			HorizontalSpacing,
-			double,
-			box_value(0.0),
-			OnLayoutPropertyChanged
-		);
-
-		DEPENDENCY_PROPERTY_META(
-			VerticalSpacing,
-			double,
-			box_value(0.0),
-			OnLayoutPropertyChanged
-		);
+		DEPENDENCY_PROPERTY_API(Orientation, wuxc::Orientation);
+		DEPENDENCY_PROPERTY_API(ItemWidth, double);
+		DEPENDENCY_PROPERTY_API(ItemHeight, double);
+		DEPENDENCY_PROPERTY_API(HorizontalSpacing, double);
+		DEPENDENCY_PROPERTY_API(VerticalSpacing, double);
 
 	private:
 		std::vector<UIElementGroup> m_groups;

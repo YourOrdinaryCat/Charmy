@@ -9,13 +9,15 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 	 *        horizontally or vertically, giving each element the same size.
 	*/
 	struct EvenStackPanel : EvenStackPanelT<EvenStackPanel> {
-		EvenStackPanel() { }
+		EvenStackPanel() {}
 
 		Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size);
 		Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size) const;
 
-		DEPENDENCY_PROPERTY_META(Orientation, wuxc::Orientation, box_value(wuxc::Orientation::Vertical), nullptr);
-		DEPENDENCY_PROPERTY_META(Spacing, double, box_value(0.0), nullptr);
+		static void EnsureProperties();
+
+		DEPENDENCY_PROPERTY_API(Orientation, wuxc::Orientation);
+		DEPENDENCY_PROPERTY_API(Spacing, double);
 
 	private:
 		Windows::Foundation::Size m_maxSize{};

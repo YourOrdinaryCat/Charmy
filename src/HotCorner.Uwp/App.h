@@ -8,7 +8,9 @@ namespace winrt::HotCorner::Uwp::implementation {
 		/**
 		 * @brief Creates the singleton application object.
 		*/
-		App();
+		App() {}
+
+		void InitializeComponent();
 
 		/**
 		 * @brief Invoked when the application is launched normally by the end user.

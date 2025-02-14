@@ -64,4 +64,11 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 
 		return finalSize;
 	}
+
+	void EvenStackPanel::EnsureProperties() {
+		if (!m_OrientationProperty) {
+			REGISTER_DEPENDENCY_PROPERTY_META(Orientation, wuxc::Orientation, box_value(wuxc::Orientation::Vertical), nullptr);
+			REGISTER_DEPENDENCY_PROPERTY_META(Spacing, double, box_value(0.0), nullptr);
+		}
+	}
 }

@@ -6,6 +6,16 @@
 namespace wf = winrt::Windows::Foundation;
 
 namespace winrt::HotCorner::Uwp::Controls::implementation {
+	static void OnLayoutPropertyChanged(
+		const wux::DependencyObject& sender,
+		const wux::DependencyPropertyChangedEventArgs&)
+	{
+		if (const auto elm = sender.try_as<WrapPanel::class_type>()) {
+			elm.InvalidateMeasure();
+			elm.InvalidateArrange();
+		}
+	}
+
 	static constexpr float GetLength(bool isHorizontal, wf::Size size) noexcept {
 		return isHorizontal ? size.Width : size.Height;
 	}
@@ -70,6 +80,45 @@ namespace winrt::HotCorner::Uwp::Controls::implementation {
 		}
 
 		return finalSize;
+	}
+
+	void WrapPanel::EnsureProperties() {
+		if (!m_OrientationProperty) {
+			REGISTER_DEPENDENCY_PROPERTY_META(
+				Orientation,
+				wuxc::Orientation,
+				box_value(wuxc::Orientation::Horizontal),
+				OnLayoutPropertyChanged
+			);
+
+			REGISTER_DEPENDENCY_PROPERTY_META(
+				ItemWidth,
+				double,
+				box_value(std::numeric_limits<double>::quiet_NaN()),
+				OnLayoutPropertyChanged
+			);
+
+			REGISTER_DEPENDENCY_PROPERTY_META(
+				ItemHeight,
+				double,
+				box_value(std::numeric_limits<double>::quiet_NaN()),
+				OnLayoutPropertyChanged
+			);
+
+			REGISTER_DEPENDENCY_PROPERTY_META(
+				HorizontalSpacing,
+				double,
+				box_value(0.0),
+				OnLayoutPropertyChanged
+			);
+
+			REGISTER_DEPENDENCY_PROPERTY_META(
+				VerticalSpacing,
+				double,
+				box_value(0.0),
+				OnLayoutPropertyChanged
+			);
+		}
 	}
 
 	wf::Size WrapPanel::UpdateGroups(
