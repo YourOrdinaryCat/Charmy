@@ -1,12 +1,14 @@
 namespace HotCorner.Server {
-	[default_interface]
 	runtimeclass LifetimeManager {
-		void ReloadSettings();
+		[default][interface_name("HotCorner.Server.ILifetimeManager", 898F12B7-4BB0-4279-B3B1-126440D7CB7A)]
+		{
+			void ReloadSettings();
 
-		void TrackHotCorners();
-		void StopTracking();
+			void TrackHotCorners();
+			void StopTracking();
 
-		void ShowTrayIcon();
-		void HideTrayIcon();
+			void ShowTrayIcon();
+			void HideTrayIcon();
+		}
 	}
 }

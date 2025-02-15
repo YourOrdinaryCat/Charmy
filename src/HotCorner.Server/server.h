@@ -32,7 +32,9 @@ namespace winrt::server {
 
 	public:
 		constexpr class_factory_with_context(TContext context) noexcept :
-			m_context(context) { }
+			m_context(context)
+		{
+		}
 
 		HRESULT __stdcall CreateInstance(
 			IUnknown* pUnkOuter,
@@ -75,16 +77,16 @@ namespace winrt::server {
 		CLSCTX context = CLSCTX_LOCAL_SERVER,
 		REGCLS flags = REGCLS_MULTIPLEUSE | REGCLS_SUSPENDED)
 	{
+		constexpr guid iid{ winrt::guid_of<TClass>() };
 		DWORD cookie{};
-		const auto result = CoRegisterClassObject(
-			__uuidof(TClass),
+
+		winrt::check_hresult(CoRegisterClassObject(
+			iid,
 			winrt::make<class_factory_with_context<TClass, TContext>>(arg).get(),
 			context,
 			flags,
 			&cookie
-		);
-
-		winrt::check_hresult(result);
+		));
 		return cookie;
 	}
 

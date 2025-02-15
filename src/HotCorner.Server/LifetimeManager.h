@@ -24,10 +24,7 @@ namespace winrt::HotCorner::Server {
 }
 
 namespace winrt::HotCorner::Server::implementation {
-	struct
-		__declspec(uuid("898F12B7-4BB0-4279-B3B1-126440D7CB7A"))
-		LifetimeManager : LifetimeManagerT<LifetimeManager>
-	{
+	struct LifetimeManager : LifetimeManagerT<LifetimeManager> {
 		LifetimeManager(App& app) noexcept;
 
 		void ReloadSettings();
