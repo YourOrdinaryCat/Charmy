@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDescription" xml:space="preserve">
-    <value>A lightweight and user-friendly utility that adds customizable hot corners to your computer</value>
+    <value>Una utilidad simple y liviana que añade esquinas activas personalizables a tu computadora</value>
   </data>
 </root>
