@@ -118,61 +118,61 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConnectionKindInternal" xml:space="preserve">
-    <value>Pantalla interna</value>
+    <value>Internal display</value>
   </data>
   <data name="ConnectionKindVirtual" xml:space="preserve">
-    <value>Pantalla virtual</value>
+    <value>Virtual display</value>
   </data>
   <data name="ConnectionKindWireless" xml:space="preserve">
-    <value>Pantalla inalámbrica</value>
+    <value>Wireless display</value>
   </data>
   <data name="CornerActionGoToDesktop" xml:space="preserve">
-    <value>Mostrar el escritorio</value>
+    <value>Go to desktop</value>
   </data>
   <data name="CornerActionNone" xml:space="preserve">
-    <value>Ninguna</value>
+    <value>None</value>
   </data>
   <data name="CornerActionQuickSettings" xml:space="preserve">
-    <value>Abrir configuración rápida</value>
+    <value>Open quick settings</value>
   </data>
   <data name="CornerActionSearch" xml:space="preserve">
-    <value>Abrir búsqueda</value>
+    <value>Open search</value>
   </data>
   <data name="CornerActionStart" xml:space="preserve">
-    <value>Abrir Inicio</value>
+    <value>Open Start</value>
   </data>
   <data name="CornerActionTaskView" xml:space="preserve">
-    <value>Abrir Vista de tareas</value>
+    <value>Open Task view</value>
   </data>
   <data name="DefaultSettings" xml:space="preserve">
-    <value>Ajustes por defecto</value>
+    <value>Default settings</value>
   </data>
   <data name="GenericDisplay" xml:space="preserve">
-    <value>Monitor genérico</value>
+    <value>Generic display</value>
   </data>
   <data name="MainPageAbout.Text" xml:space="preserve">
-    <value>Acerca de</value>
+    <value>About</value>
   </data>
   <data name="MainPageAddButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Añadir configuración para otro monitor</value>
+    <value>Add dedicated configuration for another monitor</value>
   </data>
   <data name="MainPageApplyButton.Content" xml:space="preserve">
-    <value>Aplicar</value>
+    <value>Apply</value>
   </data>
   <data name="MainPageCancelButton.Content" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancel</value>
   </data>
   <data name="MainPageChangelog.Content" xml:space="preserve">
-    <value>Lista de cambios</value>
+    <value>Changelog</value>
   </data>
   <data name="MainPageCopyVersion.Text" xml:space="preserve">
-    <value>Copiar versión</value>
+    <value>Copy version info</value>
   </data>
   <data name="MainPageCritical.Text" xml:space="preserve">
-    <value>Crítico</value>
+    <value>Critical</value>
   </data>
   <data name="MainPageDebug.Text" xml:space="preserve">
-    <value>Depurar</value>
+    <value>Debug</value>
   </data>
   <data name="MainPageError.Text" xml:space="preserve">
     <value>Error</value>
@@ -181,120 +181,120 @@
     <value>General</value>
   </data>
   <data name="MainPageGeneralTip.Text" xml:space="preserve">
-    <value>Estos ajustes tienen efecto inmediatamente - aún así, tienes que presionar el botón de Aplicar para guardarlos</value>
+    <value>These settings take effect right away - however, you still need to hit the Apply button to save them</value>
   </data>
   <data name="MainPageGlobalCheck.Content" xml:space="preserve">
-    <value>Habilitar Charmy</value>
+    <value>Enable Charmy</value>
   </data>
   <data name="MainPageGPL3.Content" xml:space="preserve">
-    <value>Licencia GPL-v3</value>
+    <value>GPL-v3 License</value>
   </data>
   <data name="MainPageInformation.Text" xml:space="preserve">
-    <value>Información</value>
+    <value>Information</value>
   </data>
   <data name="MainPageLicenses.Text" xml:space="preserve">
-    <value>Licencias</value>
+    <value>Licenses</value>
   </data>
   <data name="MainPageLogsFolder.Text" xml:space="preserve">
-    <value>Abrir carpeta con registros</value>
+    <value>Open logs folder</value>
   </data>
   <data name="MainPageLogVerbosity.Content" xml:space="preserve">
-    <value>Verbosidad de registro</value>
+    <value>Log verbosity</value>
   </data>
   <data name="MainPageManageAutoStartup.Content" xml:space="preserve">
-    <value>Configurar inicio automático</value>
+    <value>Manage auto startup</value>
   </data>
   <data name="MainPageMIT.Content" xml:space="preserve">
-    <value>Licencia MIT</value>
+    <value>MIT License</value>
   </data>
   <data name="MainPageOff.Text" xml:space="preserve">
-    <value>Apagado</value>
+    <value>Off</value>
   </data>
   <data name="MainPageOKButton.Content" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="MainPageThanks.Text" xml:space="preserve">
-    <value>Charmy ha mejorado gracias a los proyectos listados aquí - ¡les doy las gracias! ¡Y gracias a ti por usar Charmy!</value>
+    <value>Charmy has become better thanks to the projects listed above - many thanks to them! And thank YOU for using Charmy!</value>
   </data>
   <data name="MainPageTrace.Text" xml:space="preserve">
-    <value>Rastro</value>
+    <value>Trace</value>
   </data>
   <data name="MainPageTranslations.Text" xml:space="preserve">
-    <value>Traducciones</value>
+    <value>Translations</value>
   </data>
   <data name="MainPageTrayIconCheck.Content" xml:space="preserve">
-    <value>Habilitar icono de notificación</value>
+    <value>Enable tray icon</value>
   </data>
   <data name="MainPageWarning.Text" xml:space="preserve">
-    <value>Advertencia</value>
+    <value>Warning</value>
   </data>
   <data name="MonitorPickerFlyoutNoMonitorsInfo.Title" xml:space="preserve">
-    <value>Para añadir una nueva configuración, conecta un monitor que aún no hayas configurado</value>
+    <value>To add a new configuration, connect a monitor you haven't configured yet</value>
   </data>
   <data name="MonitorSettingsActionBottomLeft.PlaceholderText" xml:space="preserve">
-    <value>Inferior izquierda</value>
+    <value>Bottom left</value>
   </data>
   <data name="MonitorSettingsActionBottomRight.PlaceholderText" xml:space="preserve">
-    <value>Inferior derecha</value>
+    <value>Bottom right</value>
   </data>
   <data name="MonitorSettingsActionTopLeft.PlaceholderText" xml:space="preserve">
-    <value>Superior izquierda</value>
+    <value>Top left</value>
   </data>
   <data name="MonitorSettingsActionTopRight.PlaceholderText" xml:space="preserve">
-    <value>Superior derecha</value>
+    <value>Top right</value>
   </data>
   <data name="MonitorSettingsConfigureButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Configurar</value>
+    <value>Configure</value>
   </data>
   <data name="MonitorSettingsDelayBottomLeft.Header" xml:space="preserve">
-    <value>Inferior izquierda</value>
+    <value>Bottom left</value>
   </data>
   <data name="MonitorSettingsDelayBottomRight.Header" xml:space="preserve">
-    <value>Inferior derecha</value>
+    <value>Bottom right</value>
   </data>
   <data name="MonitorSettingsDelayCheck.Content" xml:space="preserve">
-    <value>Retrasar acción</value>
+    <value>Delayed response</value>
   </data>
   <data name="MonitorSettingsDelayInfo.Text" xml:space="preserve">
-    <value>Estos retrasos son en milisegundos (ms) - esto es, 1 segundo cada 1000ms</value>
+    <value>These delays are all in milliseconds (ms) - that is, 1 second every 1000ms</value>
   </data>
   <data name="MonitorSettingsDelayTopLeft.Header" xml:space="preserve">
-    <value>Superior izquierda</value>
+    <value>Top left</value>
   </data>
   <data name="MonitorSettingsDelayTopRight.Header" xml:space="preserve">
-    <value>Superior derecha</value>
+    <value>Top right</value>
   </data>
   <data name="MonitorSettingsGlobalCheck.Content" xml:space="preserve">
-    <value>Habilitar Charmy en este monitor</value>
+    <value>Enable Charmy on this monitor</value>
   </data>
   <data name="MonitorSettingsRemoveConfig.Text" xml:space="preserve">
-    <value>Eliminar esta configuración</value>
+    <value>Remove this configuration</value>
   </data>
   <data name="PhysicalConnectorAnalogTV" xml:space="preserve">
-    <value>Monitor vídeo componente</value>
+    <value>Component video display</value>
   </data>
   <data name="PhysicalConnectorDisplayPort" xml:space="preserve">
-    <value>Monitor DisplayPort</value>
+    <value>DisplayPort display</value>
   </data>
   <data name="PhysicalConnectorDvi" xml:space="preserve">
-    <value>Monitor DVI</value>
+    <value>DVI display</value>
   </data>
   <data name="PhysicalConnectorHD15" xml:space="preserve">
-    <value>Monitor VGA</value>
+    <value>VGA display</value>
   </data>
   <data name="PhysicalConnectorHdmi" xml:space="preserve">
-    <value>Monitor HDMI</value>
+    <value>HDMI display</value>
   </data>
   <data name="PhysicalConnectorLvds" xml:space="preserve">
-    <value>Monitor LVDS</value>
+    <value>LVDS display</value>
   </data>
   <data name="PhysicalConnectorSdi" xml:space="preserve">
-    <value>Monitor SDI</value>
+    <value>SDI display</value>
   </data>
   <data name="CornerActionPreviousVirtualDesktop" xml:space="preserve">
-    <value>Mostrar escritorio anterior</value>
+    <value>Previous desktop</value>
   </data>
   <data name="CornerActionNextVirtualDesktop" xml:space="preserve">
-    <value>Mostrar siguiente escritorio</value>
+    <value>Next desktop</value>
   </data>
 </root>
