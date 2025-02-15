@@ -292,9 +292,9 @@
     <value>Monitor SDI</value>
   </data>
   <data name="CornerActionPreviousVirtualDesktop" xml:space="preserve">
-    <value>Previous desktop</value>
+    <value>Mostrar escritorio anterior</value>
   </data>
   <data name="CornerActionNextVirtualDesktop" xml:space="preserve">
-    <value>Next desktop</value>
+    <value>Mostrar siguiente escritorio</value>
   </data>
 </root>
