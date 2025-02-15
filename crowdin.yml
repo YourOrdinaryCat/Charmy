@@ -1,5 +1,5 @@
 files:
-  - source: /src/HotCorner.Package/Strings/en-US/*resw
+  - source: /src/HotCorner.Package/Strings/en-US/*.resw
     translation: /src/HotCorner.Package/Strings/%locale%/%original_file_name%
   - source: /src/HotCorner.Uwp/Strings/en-US/*.resw
     translation: /src/HotCorner.Uwp/Strings/%locale%/%original_file_name%
