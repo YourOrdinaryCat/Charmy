@@ -8,16 +8,17 @@ namespace wfc = winrt::Windows::Foundation::Collections;
 
 namespace winrt::HotCorner::Uwp::Views::implementation {
 	static wfc::IVectorView<IInspectable> CornerActions() {
-		static const auto m_cornerActions = single_threaded_vector<IInspectable>({
-			box_value(StringLoader().GetString(L"CornerActionNone")),
-			box_value(StringLoader().GetString(L"CornerActionTaskView")),
-			box_value(StringLoader().GetString(L"CornerActionStart")),
-			box_value(StringLoader().GetString(L"CornerActionSearch")),
-			box_value(StringLoader().GetString(L"CornerActionGoToDesktop")),
-			box_value(StringLoader().GetString(L"CornerActionQuickSettings")),
-			box_value(StringLoader().GetString(L"CornerActionPreviousVirtualDesktop")),
-			box_value(StringLoader().GetString(L"CornerActionNextVirtualDesktop"))
-			});
+		const auto& loader = StringLoader();
+		const auto m_cornerActions = single_threaded_vector<IInspectable>({
+			box_value(loader.GetString(L"CornerActionNone")),
+			box_value(loader.GetString(L"CornerActionTaskView")),
+			box_value(loader.GetString(L"CornerActionStart")),
+			box_value(loader.GetString(L"CornerActionSearch")),
+			box_value(loader.GetString(L"CornerActionGoToDesktop")),
+			box_value(loader.GetString(L"CornerActionQuickSettings")),
+			box_value(loader.GetString(L"CornerActionPreviousVirtualDesktop")),
+			box_value(loader.GetString(L"CornerActionNextVirtualDesktop"))
+		});
 		return m_cornerActions.GetView();
 	}
 
