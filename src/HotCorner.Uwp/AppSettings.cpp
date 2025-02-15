@@ -9,7 +9,7 @@ namespace winrt::HotCorner::Uwp {
 	}
 
 	ws::StorageFolder SettingsFolder() {
-		return Windows::Storage::ApplicationData::Current().RoamingFolder();
+		return ws::ApplicationData::Current().RoamingFolder();
 	}
 
 	Settings::SettingsManager m_settings{};
