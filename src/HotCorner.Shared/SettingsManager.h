@@ -26,8 +26,6 @@ namespace winrt::HotCorner::Settings {
 			L"off"
 		};
 
-		const std::filesystem::path m_path;
-
 		void LoadFrom(FILE* file);
 		void SaveTo(FILE* file) const;
 
@@ -41,10 +39,10 @@ namespace winrt::HotCorner::Settings {
 		MonitorSettings DefaultSettings{};
 		std::unordered_map<std::wstring, MonitorSettings, wstring_hash, std::equal_to<>> Monitors{};
 
-		SettingsManager(const std::filesystem::path& folder) noexcept;
+		SettingsManager() {}
 
-		bool Load();
-		bool Save() const;
+		bool Load(const std::filesystem::path& folder);
+		bool Save(const std::filesystem::path& folder) const;
 
 		inline MonitorSettings& GetSettingOrDefaults(std::wstring_view id) {
 			if (auto setting = Monitors.find(id); setting != Monitors.end()) {

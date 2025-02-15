@@ -16,12 +16,9 @@ using SettingsOutputStream = json::EncodedOutputStream<json::UTF16LE<>, json::Fi
 using SettingsWriter = json::PrettyWriter<SettingsOutputStream, json::UTF16LE<>>;
 
 namespace winrt::HotCorner::Settings {
-	SettingsManager::SettingsManager(const std::filesystem::path& folder) noexcept :
-		m_path(folder / SettingsFileName) { }
-
-	bool SettingsManager::Load() {
+	bool SettingsManager::Load(const std::filesystem::path& folder) {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"rbS");
+		const auto err = _wfopen_s(&file, (folder / SettingsFileName).c_str(), L"rbS");
 
 		if (err == 0) {
 			LoadFrom(file);
@@ -34,9 +31,9 @@ namespace winrt::HotCorner::Settings {
 		return err == 0;
 	}
 
-	bool SettingsManager::Save() const {
+	bool SettingsManager::Save(const std::filesystem::path& folder) const {
 		FILE* file = nullptr;
-		const auto err = _wfopen_s(&file, m_path.c_str(), L"wbS");
+		const auto err = _wfopen_s(&file, (folder / SettingsFileName).c_str(), L"wbS");
 
 		if (err == 0) {
 			SaveTo(file);

@@ -41,7 +41,7 @@ namespace winrt::HotCorner::Server {
 		Logging::Start(L"Server", settings);
 
 		App app{ instance, settings };
-		app.Settings().Load();
+		app.LoadSettings();
 
 		Logging::FileSink()->set_level(app.Settings().LogVerbosity);
 		std::atexit(OnExit);

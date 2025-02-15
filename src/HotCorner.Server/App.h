@@ -5,13 +5,15 @@
 
 namespace winrt::HotCorner::Server {
 	class App final {
+		Settings::SettingsManager m_settings{};
+
 		HINSTANCE m_instance;
-		Settings::SettingsManager m_settings;
+		std::filesystem::path m_settingsPath;
 		Tracking::TrayCornerTracker m_tracker;
 
 	public:
 		inline App(HINSTANCE instance, const std::filesystem::path& roamingFolder) noexcept :
-			m_instance(instance), m_settings(roamingFolder), m_tracker(instance, m_settings)
+			m_instance(instance), m_settingsPath(roamingFolder), m_tracker(instance, m_settings)
 		{ }
 
 		constexpr HINSTANCE Module() const noexcept {
@@ -24,6 +26,10 @@ namespace winrt::HotCorner::Server {
 
 		constexpr Tracking::TrayCornerTracker& TrayIcon() noexcept {
 			return m_tracker;
+		}
+
+		inline bool LoadSettings() {
+			return m_settings.Load(m_settingsPath);
 		}
 
 		inline int Run() const noexcept {

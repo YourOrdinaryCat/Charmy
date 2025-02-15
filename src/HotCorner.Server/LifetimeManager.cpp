@@ -46,7 +46,7 @@ namespace winrt::HotCorner::Server::implementation {
 	}
 
 	void LifetimeManager::ReloadSettings() {
-		m_app.Settings().Load();
+		m_app.LoadSettings();
 		Logging::FileSink()->set_level(m_app.Settings().LogVerbosity);
 	}
 

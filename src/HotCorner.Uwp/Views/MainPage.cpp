@@ -150,7 +150,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	}
 
 	void MainPage::Save() const {
-		AppSettings().Save();
+		AppSettings().Save(SettingsPath().c_str());
 		Logging::FileSink()->set_level(AppSettings().LogVerbosity);
 
 		Lifetime::Current().ReloadSettings();
@@ -190,13 +190,14 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 
 		if (const auto sink = Logging::FileSink()) {
 			const wsys::FolderLauncherOptions opt{};
+			const auto folder = SettingsFolder();
 
 			if (sink->state() == opened) {
 				const auto file = sink->file().filename();
-				opt.ItemsToSelect().Append(co_await SettingsFolder.TryGetItemAsync(file.c_str()));
+				opt.ItemsToSelect().Append(co_await folder.TryGetItemAsync(file.c_str()));
 			}
 
-			if (!(co_await wsys::Launcher::LaunchFolderAsync(SettingsFolder, opt))) {
+			if (!(co_await wsys::Launcher::LaunchFolderAsync(folder, opt))) {
 				spdlog::error("Failed to open log folder");
 			}
 		}

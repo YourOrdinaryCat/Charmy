@@ -37,9 +37,10 @@ namespace winrt::HotCorner::Uwp::implementation {
 
 		if (!window.Content()) {
 			// Initialize these only when creating the initial view
-			Logging::Start(L"Settings", SettingsFolder.Path().c_str());
+			const hstring path = SettingsPath();
+			Logging::Start(L"Settings", path.c_str());
 
-			if (!AppSettings().Load()) {
+			if (!AppSettings().Load(path.c_str())) {
 				// Only resize the view if the settings aren't there - in practical
 				// terms, this means it will only be resized on first startup
 				view.TryResizeView(MainViewSize);

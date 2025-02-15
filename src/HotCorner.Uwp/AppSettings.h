@@ -3,11 +3,12 @@
 #include <winrt/Windows.Storage.h>
 
 namespace winrt::HotCorner::Uwp {
-	const Windows::Storage::StorageFolder SettingsFolder =
-		Windows::Storage::ApplicationData::Current().RoamingFolder();
+	hstring SettingsPath();
+
+	Windows::Storage::StorageFolder SettingsFolder();
 
 	/**
 	 * @brief Gets the singleton instance of the app's settings manager.
 	*/
-	Settings::SettingsManager& AppSettings();
+	Settings::SettingsManager& AppSettings() noexcept;
 }
