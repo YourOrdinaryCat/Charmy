@@ -18,8 +18,14 @@
 	<UserControl.Resources>
 		<Flyout x:Key="GeneralFlyout">
 			<StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
-				<CheckBox x:Uid="MainPageGlobalCheck" Loaded="OnGlobalCheckLoaded" />
-				<CheckBox x:Uid="MainPageTrayIconCheck" Loaded="OnTrayIconCheckLoaded" />
+				<CheckBox
+					x:Uid="MainPageGlobalCheck"
+					Click="OnGlobalCheckClick"
+					Loaded="OnGlobalCheckLoaded" />
+				<CheckBox
+					x:Uid="MainPageTrayIconCheck"
+					Click="OnTrayIconCheckClick"
+					Loaded="OnTrayIconCheckLoaded" />
 
 				<HyperlinkButton x:Uid="MainPageManageAutoStartup" NavigateUri="ms-settings:startupapps" />
 

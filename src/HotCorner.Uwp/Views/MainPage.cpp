@@ -39,14 +39,29 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		MonitorPicker().ItemsSource(connected);
 		m_watcher.Start();
 
-		// Start up the server in the background - it will automatically start/stop
-		// tracking according to user preferences
 		co_await winrt::resume_background();
-		std::ignore = Lifetime::Current();
+		if (AppSettings().TrackingEnabled) {
+			co_await Lifetime::Current().BeginTrackingAsync();
+		}
+
+		if (AppSettings().TrayIconEnabled) {
+			Lifetime::Current().ShowTrayIcon();
+		}
 	}
 
-	static winrt::fire_and_forget SwitchTracking(bool track) {
-		if (track) {
+	void MainPage::OnGlobalCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		sender.as<wuxc::CheckBox>().IsChecked(AppSettings().TrackingEnabled);
+	}
+
+	void MainPage::OnTrayIconCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		sender.as<wuxc::CheckBox>().IsChecked(AppSettings().TrayIconEnabled);
+	}
+
+	winrt::fire_and_forget MainPage::OnGlobalCheckClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const bool checked = sender.as<wuxc::CheckBox>().IsChecked().GetBoolean();
+		AppSettings().TrackingEnabled = checked;
+
+		if (checked) {
 			co_await Lifetime::Current().BeginTrackingAsync();
 		}
 		else {
@@ -54,47 +69,16 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		}
 	}
 
-	static void SwitchTrayIcon(bool show) {
-		if (show) {
+	void MainPage::OnTrayIconCheckClick(const IInspectable& sender, const wux::RoutedEventArgs&) {
+		const bool checked = sender.as<wuxc::CheckBox>().IsChecked().GetBoolean();
+		AppSettings().TrayIconEnabled = checked;
+
+		if (checked) {
 			Lifetime::Current().ShowTrayIcon();
 		}
 		else {
 			Lifetime::Current().HideTrayIcon();
 		}
-	}
-
-	static void OnGlobalCheckUpdated(bool checked) {
-		AppSettings().TrackingEnabled = checked;
-		SwitchTracking(checked);
-	}
-
-	static void OnTrayIconCheckUpdated(bool checked) {
-		AppSettings().TrayIconEnabled = checked;
-		SwitchTrayIcon(checked);
-	}
-
-	void MainPage::OnGlobalCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
-		const auto gc = sender.as<wuxc::CheckBox>();
-		gc.IsChecked(AppSettings().TrackingEnabled);
-
-		gc.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
-			{ OnGlobalCheckUpdated(true); }
-		);
-		gc.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
-			{ OnGlobalCheckUpdated(false); }
-		);
-	}
-
-	void MainPage::OnTrayIconCheckLoaded(const IInspectable& sender, const wux::RoutedEventArgs&) {
-		const auto tic = sender.as<wuxc::CheckBox>();
-		tic.IsChecked(AppSettings().TrayIconEnabled);
-
-		tic.Checked([](const IInspectable&, const wux::RoutedEventArgs&)
-			{ OnTrayIconCheckUpdated(true); }
-		);
-		tic.Unchecked([](const IInspectable&, const wux::RoutedEventArgs&)
-			{ OnTrayIconCheckUpdated(false); }
-		);
 	}
 
 	winrt::fire_and_forget MainPage::OnAddButtonClick(const IInspectable& sender, const wux::RoutedEventArgs&) {

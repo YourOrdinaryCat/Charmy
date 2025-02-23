@@ -24,6 +24,9 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		void OnGlobalCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
 		void OnTrayIconCheckLoaded(const IInspectable&, const wux::RoutedEventArgs&);
 
+		winrt::fire_and_forget OnGlobalCheckClick(const IInspectable&, const wux::RoutedEventArgs&);
+		void OnTrayIconCheckClick(const IInspectable&, const wux::RoutedEventArgs&);
+
 		winrt::fire_and_forget OnAddButtonClick(const IInspectable&, const wux::RoutedEventArgs&);
 		void OnMonitorClick(const IInspectable&, const wux::RoutedEventArgs&);
 		void OnSettingRemoved(const hstring&);
