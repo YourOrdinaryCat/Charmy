@@ -7,9 +7,7 @@ namespace winrt::HotCorner::Server {
 	/**
 	 * @brief A light wrapper for a Win32 notification icon.
 	*/
-	class TrayIcon : public WindowBase<TrayIcon> {
-		friend class WindowBase<TrayIcon>;
-
+	class TrayIcon : public WindowBase {
 		const guid m_id;
 		NOTIFYICONDATAW m_data;
 

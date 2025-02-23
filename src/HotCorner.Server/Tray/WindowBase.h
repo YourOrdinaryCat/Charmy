@@ -6,7 +6,6 @@ namespace winrt::HotCorner::Server {
 	/**
 	 * @brief A light wrapper for a Win32 window with a message handler.
 	*/
-	template<typename Derived>
 	class WindowBase {
 		static LRESULT CALLBACK BaseProtocol(
 			HWND hwnd,
@@ -14,14 +13,14 @@ namespace winrt::HotCorner::Server {
 			WPARAM wParam,
 			LPARAM lParam) noexcept
 		{
-			Derived* pThis = NULL;
+			WindowBase* pThis = nullptr;
 
 			if (message != WM_NCCREATE) {
-				pThis = reinterpret_cast<Derived*>(GetWindowLongPtr(hwnd, 0));
+				pThis = reinterpret_cast<WindowBase*>(GetWindowLongPtr(hwnd, 0));
 			}
 			else {
 				const auto pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-				pThis = static_cast<Derived*>(pCreate->lpCreateParams);
+				pThis = static_cast<WindowBase*>(pCreate->lpCreateParams);
 
 				SetWindowLongPtr(hwnd, 0, reinterpret_cast<LONG_PTR>(pThis));
 				pThis->m_window = hwnd;
