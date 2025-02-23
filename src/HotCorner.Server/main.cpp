@@ -39,25 +39,25 @@ namespace winrt::HotCorner::Server {
 
 		const auto settings = AppData::Roaming();
 		Logging::Start(L"Server", settings);
+		std::atexit(OnExit);
 
 		App app{ instance, settings };
 		app.LoadSettings();
 
 		Logging::FileSink()->set_level(app.Settings().LogVerbosity);
-		std::atexit(OnExit);
 
-		const auto cookie = server::register_class<impl::LifetimeManager, App&>(app);
+		const DWORD cookie = server::register_class<impl::LifetimeManager, App&>(app);
 		server::resume_class_objects();
 
 		if (app.Settings().TrackingEnabled) {
-			TrackHotCorners(app.TrayIcon());
+			app.TrayIcon().BeginTracking();
 		}
 
 		if (app.Settings().TrayIconEnabled) {
 			ShowTrayIcon(app.TrayIcon());
 		}
 
-		const auto result = app.Run();
+		const int result = app.Run();
 		server::unregister_class(cookie);
 
 		return result;

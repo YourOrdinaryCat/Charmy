@@ -1,5 +1,6 @@
 #pragma once
 #include "CornerTracker.h"
+#include <async/task.h>
 #include <SettingsManager.h>
 #include <Tray/TrayIcon.h>
 
@@ -11,6 +12,9 @@ namespace winrt::HotCorner::Server::Tracking {
 
 		CornerTracker m_tracker;
 
+		void HandleTrackingStartResult(StartupResult result) noexcept;
+		void HandleTrackingStopResult(StopResult result) noexcept;
+
 	protected:
 		LRESULT HandleMessage(
 			UINT message,
@@ -21,9 +25,11 @@ namespace winrt::HotCorner::Server::Tracking {
 
 	public:
 		TrayCornerTracker(HINSTANCE instance, Settings::SettingsManager& settings) noexcept;
-		~TrayCornerTracker() noexcept;
 
-		StartupResult BeginTracking() const noexcept;
-		StopResult StopTracking() const noexcept;
+		StartupResult BeginTracking() noexcept;
+		StopResult StopTracking() noexcept;
+
+		async::task<StartupResult> BeginTrackingAsync();
+		async::task<StopResult> StopTrackingAsync();
 	};
 }

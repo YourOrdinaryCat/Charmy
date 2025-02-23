@@ -4,8 +4,11 @@ namespace HotCorner.Server {
 		{
 			void ReloadSettings();
 
-			void TrackHotCorners();
-			void StopTracking();
+			[remote_async]
+			Windows.Foundation.IAsyncAction BeginTrackingAsync();
+
+			[remote_async]
+			Windows.Foundation.IAsyncAction StopTrackingAsync();
 
 			void ShowTrayIcon();
 			void HideTrayIcon();

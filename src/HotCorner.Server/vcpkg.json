@@ -1,8 +1,9 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "dependencies": [
-    "wil",
-    "rapidjson",
-    "spdlog"
-  ]
+	"$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+	"dependencies": [
+		"cpp-async",
+		"rapidjson",
+		"spdlog",
+		"wil"
+	]
 }

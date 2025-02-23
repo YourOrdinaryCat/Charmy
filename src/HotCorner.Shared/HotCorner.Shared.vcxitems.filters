@@ -20,6 +20,7 @@
       <Filter>Logging</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Unicode.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coro.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Settings">

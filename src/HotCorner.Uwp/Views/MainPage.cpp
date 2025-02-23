@@ -45,12 +45,12 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 		std::ignore = Lifetime::Current();
 	}
 
-	static void SwitchTracking(bool track) {
+	static winrt::fire_and_forget SwitchTracking(bool track) {
 		if (track) {
-			Lifetime::Current().TrackHotCorners();
+			co_await Lifetime::Current().BeginTrackingAsync();
 		}
 		else {
-			Lifetime::Current().StopTracking();
+			co_await Lifetime::Current().StopTrackingAsync();
 		}
 	}
 

@@ -6,9 +6,6 @@
 // Implementation outside of the LifetimeManager, to allow usage within the
 // server itself
 namespace winrt::HotCorner::Server {
-	void TrackHotCorners(const Tracking::TrayCornerTracker&) noexcept;
-	void StopTracking(Tracking::TrayCornerTracker&) noexcept;
-
 	void ShowTrayIcon(Tracking::TrayCornerTracker&) noexcept;
 	void HideTrayIcon(Tracking::TrayCornerTracker&) noexcept;
 
@@ -29,8 +26,8 @@ namespace winrt::HotCorner::Server::implementation {
 
 		void ReloadSettings();
 
-		void TrackHotCorners() const noexcept;
-		void StopTracking() const noexcept;
+		Windows::Foundation::IAsyncAction BeginTrackingAsync() const;
+		Windows::Foundation::IAsyncAction StopTrackingAsync() const;
 
 		void ShowTrayIcon() const noexcept;
 		void HideTrayIcon() const noexcept;

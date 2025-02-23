@@ -2,29 +2,9 @@
 #include "LifetimeManager.h"
 #include <Logging.h>
 
+namespace wf = winrt::Windows::Foundation;
+
 namespace winrt::HotCorner::Server {
-	void TrackHotCorners(const Tracking::TrayCornerTracker& tct) noexcept {
-		const auto result = tct.BeginTracking();
-
-		if (result == StartupResult::Started) {
-			BumpServer();
-		}
-		else if (result == StartupResult::Failed) {
-			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to start corner tracking");
-		}
-	}
-
-	void StopTracking(Tracking::TrayCornerTracker& tct) noexcept {
-		const auto result = tct.StopTracking();
-
-		if (result == StopResult::Stopped) {
-			ReleaseServer(tct);
-		}
-		else if (result == StopResult::Failed) {
-			SPDLOG_LAST_ERROR(spdlog::level::err, "Failed to stop corner tracking");
-		}
-	}
-
 	void ShowTrayIcon(Tracking::TrayCornerTracker& tct) noexcept {
 		if (!tct.Visible()) {
 			tct.Show();
@@ -50,12 +30,13 @@ namespace winrt::HotCorner::Server::implementation {
 		Logging::FileSink()->set_level(m_app.Settings().LogVerbosity);
 	}
 
-	void LifetimeManager::TrackHotCorners() const noexcept {
-		Server::TrackHotCorners(m_app.TrayIcon());
+	wf::IAsyncAction LifetimeManager::BeginTrackingAsync() const {
+		co_await m_app.TrayIcon().BeginTrackingAsync();
 	}
-	void LifetimeManager::StopTracking() const noexcept {
-		Server::StopTracking(m_app.TrayIcon());
+	wf::IAsyncAction LifetimeManager::StopTrackingAsync() const {
+		co_await m_app.TrayIcon().StopTrackingAsync();
 	}
+
 	void LifetimeManager::ShowTrayIcon() const noexcept {
 		Server::ShowTrayIcon(m_app.TrayIcon());
 	}

@@ -15,19 +15,17 @@ namespace winrt::HotCorner::Server::Tracking {
 		SetHighContrastIcon(IDI_TRAYICON_HC_DARK, IDI_TRAYICON_HC_LIGHT, false);
 	}
 
-	TrayCornerTracker::~TrayCornerTracker() noexcept {
-		StopTracking();
-	}
-
 	LRESULT TrayCornerTracker::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) noexcept {
 		switch (message) {
 		case TrackMessage:
 			UpdateIcon(IDI_TRAYICON_ON_DARK, IDI_TRAYICON_ON_LIGHT);
-			return static_cast<LRESULT>(m_tracker.Start(m_window));
+			return HandleAsyncMessage(
+				lParam, static_cast<LRESULT>(m_tracker.Start(m_window)));
 
 		case UntrackMessage:
 			UpdateIcon(IDI_TRAYICON_OFF_DARK, IDI_TRAYICON_OFF_LIGHT);
-			return static_cast<LRESULT>(m_tracker.Stop());
+			return HandleAsyncMessage(
+				lParam, static_cast<LRESULT>(m_tracker.Stop()));
 
 		case DisplayChangeMessage:
 			spdlog::debug("Requesting refresh");
@@ -35,8 +33,8 @@ namespace winrt::HotCorner::Server::Tracking {
 			return 0;
 
 		case WM_INPUT: {
-			static constexpr UINT riSize = sizeof(RAWINPUT);
-			static constexpr UINT rihSize = sizeof(RAWINPUTHEADER);
+			constexpr UINT riSize = sizeof(RAWINPUT);
+			constexpr UINT rihSize = sizeof(RAWINPUTHEADER);
 
 			UINT pcbSize = riSize;
 			std::array<BYTE, riSize> lpb{};
@@ -69,7 +67,7 @@ namespace winrt::HotCorner::Server::Tracking {
 
 	static std::wstring GetAumid() {
 		UINT32 length = 0;
-		auto ret = GetCurrentApplicationUserModelId(&length, NULL);
+		LONG ret = GetCurrentApplicationUserModelId(&length, NULL);
 
 		if (ret == ERROR_INSUFFICIENT_BUFFER) {
 			std::wstring aumid(length - 1, '\0');
@@ -108,11 +106,47 @@ namespace winrt::HotCorner::Server::Tracking {
 		return TrayIcon::HandleTrayMessage(wParam, lParam);
 	}
 
-	StartupResult TrayCornerTracker::BeginTracking() const noexcept {
-		return static_cast<StartupResult>(Send(TrackMessage));
+	void TrayCornerTracker::HandleTrackingStartResult(StartupResult result) noexcept {
+		if (result == StartupResult::Started) {
+			CoAddRefServerProcess();
+		}
 	}
 
-	StopResult TrayCornerTracker::StopTracking() const noexcept {
-		return static_cast<StopResult>(Send(UntrackMessage));
+	void TrayCornerTracker::HandleTrackingStopResult(StopResult result) noexcept {
+		if (result == StopResult::Stopped && CoReleaseServerProcess() == 0) {
+			Close();
+		}
+	}
+
+	StartupResult TrayCornerTracker::BeginTracking() noexcept {
+		const auto result = static_cast<StartupResult>(Send(TrackMessage));
+		HandleTrackingStartResult(result);
+		return result;
+	}
+
+	StopResult TrayCornerTracker::StopTracking() noexcept {
+		const auto result = static_cast<StopResult>(Send(UntrackMessage));
+		HandleTrackingStopResult(result);
+		return result;
+	}
+
+	async::task<StartupResult> TrayCornerTracker::BeginTrackingAsync() {
+		const auto result = co_await SendAsync(TrackMessage);
+		if (result.has_value()) {
+			const auto sr = static_cast<StartupResult>(*result);
+			HandleTrackingStartResult(sr);
+			co_return sr;
+		}
+		co_return StartupResult::Failed;
+	}
+
+	async::task<StopResult> TrayCornerTracker::StopTrackingAsync() {
+		const auto result = co_await SendAsync(UntrackMessage);
+		if (result.has_value()) {
+			const auto sr = static_cast<StopResult>(*result);
+			HandleTrackingStopResult(sr);
+			co_return sr;
+		}
+		co_return StopResult::Failed;
 	}
 }

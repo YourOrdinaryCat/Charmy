@@ -1,5 +1,7 @@
 #pragma once
 #include "WindowClass.h"
+#include <async/task_completion_source.h>
+#include <Coro.h>
 #include <Logging.h>
 
 namespace winrt::HotCorner::Server {
@@ -32,6 +34,8 @@ namespace winrt::HotCorner::Server {
 
 			return DefWindowProc(hwnd, message, wParam, lParam);
 		}
+
+		using AsyncMessageCompletionEvent = async::task_completion_source<std::optional<LRESULT>>;
 
 	protected:
 		const WindowClass m_windowClass;
@@ -71,6 +75,19 @@ namespace winrt::HotCorner::Server {
 			}
 
 			return DefWindowProc(m_window, message, wParam, lParam);
+		}
+
+		/**
+		 * @brief A simple helper method that handles messages sent by SendAsync.
+		 *
+		 * @returns The original result that was passed in.
+		*/
+		inline LRESULT HandleAsyncMessage(LPARAM lParam, LRESULT result) noexcept {
+			if (lParam) {
+				auto evt = reinterpret_cast<AsyncMessageCompletionEvent*>(lParam);
+				evt->set_value(result);
+			}
+			return result;
 		}
 
 		WindowBase(HINSTANCE instance, std::wstring_view windowClass, std::wstring_view windowName) noexcept :
@@ -116,6 +133,33 @@ namespace winrt::HotCorner::Server {
 		*/
 		inline LRESULT Send(UINT message, WPARAM wParam = 0, LPARAM lParam = 0) const noexcept {
 			return SendMessage(m_window, message, wParam, lParam);
+		}
+
+		/**
+		 * @brief Sends a message in this window's message queue to be processed
+		 *        asynchronously. This does not use the SendMessageCallback function -
+		 *        SendNotifyMessage is called with the message, and a completion event
+		 *        (pointed to by lParam). Message processing code is expected to call
+		 *        HandleAsyncMessage with the wParam as the first argument, and processing
+		 *        result as the second.
+		 *
+		 * @returns A task that, on completion, returns the result of message processing.
+		*/
+		inline async::tcs_task<std::optional<LRESULT>> SendAsync(UINT message, WPARAM wParam = 0) const {
+			auto tce = std::make_shared<AsyncMessageCompletionEvent>();
+
+			const BOOL result = SendNotifyMessage(
+				m_window, message,
+				wParam,
+				reinterpret_cast<LPARAM>(tce.get())
+			);
+
+			if (!result) {
+				SPDLOG_LAST_ERROR(spdlog::level::err, "Unable to send message");
+				tce->set_value(std::nullopt);
+			}
+
+			return async::tcs_task{ std::move(tce) };
 		}
 
 		/**
