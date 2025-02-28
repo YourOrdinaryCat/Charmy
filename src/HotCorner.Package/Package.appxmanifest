@@ -54,6 +54,7 @@
 				<com:Extension Category="windows.comServer">
 					<com:ComServer>
 						<com:ExeServer
+							Arguments="-srv"
 							Executable="HotCorner.Server\HotCorner.Server.exe"
 							LaunchAndActivationPermission="O:SYG:SYD:(A;;11;;;WD)(A;;11;;;RC)(A;;11;;;AC)(A;;11;;;AN)S:P(ML;;NX;;;S-1-16-0)">
 							<com:Class Id="898F12B7-4BB0-4279-B3B1-126440D7CB7A" />

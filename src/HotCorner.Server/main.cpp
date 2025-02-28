@@ -19,7 +19,7 @@ namespace winrt::HotCorner::Server {
 		spdlog::shutdown();
 	}
 
-	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
+	extern "C" int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR pCmdLine, int) {
 		CreateMutex(NULL, TRUE, InstanceMutexName.data());
 		if (GetLastError() == ERROR_ALREADY_EXISTS) {
 			return 1;
@@ -49,12 +49,16 @@ namespace winrt::HotCorner::Server {
 		const DWORD cookie = server::register_class<impl::LifetimeManager, App&>(app);
 		server::resume_class_objects();
 
-		if (app.Settings().TrackingEnabled) {
-			app.TrayIcon().BeginTracking();
-		}
+		// If auto startup is enabled, we won't get this argument, which means
+		// we have to initialize tracking right away
+		if (wcscmp(pCmdLine, L"-srv") != 0) {
+			if (app.Settings().TrackingEnabled) {
+				app.TrayIcon().BeginTracking();
+			}
 
-		if (app.Settings().TrayIconEnabled) {
-			ShowTrayIcon(app.TrayIcon());
+			if (app.Settings().TrayIconEnabled) {
+				ShowTrayIcon(app.TrayIcon());
+			}
 		}
 
 		const int result = app.Run();
