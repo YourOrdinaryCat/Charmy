@@ -147,6 +147,46 @@
 								VerticalSpacing="8"
 								XYFocusKeyboardNavigation="Enabled">
 								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy" />
+									<HyperlinkButton
+										x:Uid="MainPageGPL3"
+										Padding="0"
+										NavigateUri="https://github.com/YourOrdinaryCat/Charmy/blob/225fa6b63fcf6d3715be1f91bc56bcfaf798e17d/LICENSE.txt" />
+								</StackPanel>
+
+								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="C++/WinRT" />
+									<HyperlinkButton
+										x:Uid="MainPageMIT"
+										Padding="0"
+										NavigateUri="https://github.com/microsoft/cppwinrt/blob/69c78cfc7920367c4ce9cc024cf8c5b8d217fb1b/LICENSE" />
+								</StackPanel>
+
+								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="cpp-async" />
+									<HyperlinkButton
+										x:Uid="MainPageMIT"
+										Padding="0"
+										NavigateUri="https://github.com/microsoft/cpp-async/blob/2bb32e9cb6ddffcf3a5472cf29b5b67c92d81433/LICENSE" />
+								</StackPanel>
+
+								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="RapidJSON" />
+									<HyperlinkButton
+										x:Uid="MainPageMIT"
+										Padding="0"
+										NavigateUri="https://github.com/Tencent/rapidjson/blob/f54b0e47a08782a6131cc3d60f94d038fa6e0a51/license.txt" />
+								</StackPanel>
+
+								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="spdlog" />
+									<HyperlinkButton
+										x:Uid="MainPageMIT"
+										Padding="0"
+										NavigateUri="https://github.com/gabime/spdlog/blob/3335c380a08c5e0f5117a66622df6afdb3d74959/LICENSE" />
+								</StackPanel>
+
+								<StackPanel>
 									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="taviso's hotcorner" />
 									<HyperlinkButton
 										x:Uid="MainPageGPL3"
@@ -171,11 +211,19 @@
 								</StackPanel>
 
 								<StackPanel>
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WIL" />
+									<HyperlinkButton
+										x:Uid="MainPageMIT"
+										Padding="0"
+										NavigateUri="https://github.com/microsoft/wil/blob/5af3cda039c4874a4b1ea68f1daa4451e0020723/LICENSE" />
+								</StackPanel>
+
+								<StackPanel>
 									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="WinUI" />
 									<HyperlinkButton
 										x:Uid="MainPageMIT"
 										Padding="0"
-										NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/ca3626124ede563608b691e00c9b06873ef20e3e/LICENSE" />
+										NavigateUri="https://github.com/microsoft/microsoft-ui-xaml/blob/232a16e5ddfc22c9a1b79a2c51abeb9a39a94494/LICENSE" />
 								</StackPanel>
 							</controls:WrapPanel>
 
