@@ -1,0 +1,5 @@
+title: "Charmy: Hot Corners for Windows"
+author: "YourOrdinaryCat"
+baseurl: /charmy
+sass:
+  style: compressed

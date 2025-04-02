@@ -1,0 +1,60 @@
+---
+layout: compress
+---
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en-US' }}">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>{{ site.title }}</title>
+  <meta name="author" content="{{ site.author }}">
+  <meta name="description" content="Hot Corners for Windows.">
+  <link href="{{ '/assets/css/home.jekyll.css' | relative_url }}" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ '/favicon-96x96.png' | relative_url }}" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="{{ '/favicon.svg' | relative_url }}" />
+  <link rel="shortcut icon" href="{{ '/favicon.ico' | relative_url }}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | relative_url }}" />
+  <meta name="apple-mobile-web-app-title" content="Charmy" />
+  <link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}" />
+</head>
+
+<body>
+  <main>
+    <article>
+      <ul class="tcg bp-880" style="min-height: 50vh;">
+        <li middlealign leftalign text-leftalign bp-880>
+          <img leftalign bp-880 loading="lazy" src="{{ '/assets/logo-44.png' | relative_url }}">
+
+          <h1>Charmy</h1>
+          <p>Hot Corners for Windows</p>
+
+          <a href="https://apps.microsoft.com/detail/9p5pk6tvqxf7?cid=CharmyWebsite&mode=direct">
+            <img loading="lazy" src="https://get.microsoft.com/images/en-us%20dark.svg" width="200">
+          </a>
+        </li>
+
+        <li middlealign rightalign bp-880>
+          <img cover window src="{{ '/assets/ss-light.jpg' | relative_url }}">
+        </li>
+      </ul>
+
+      <br>
+
+      {{ content }}
+    </article>
+  </main>
+
+  <footer>
+    <br>
+    <hr>
+    <br>
+
+    <p class="secondary" text-centeralign>
+      Trans rights!
+    </p>
+  </footer>
+</body>
+
+</html>

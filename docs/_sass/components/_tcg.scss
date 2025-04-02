@@ -1,0 +1,24 @@
+.tcg {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 12px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.tcg-description {
+  margin: 8px 0 0 0;
+}
+
+.tcg-caption {
+  color: rgba(0, 0, 0, 0.6);
+  color: var(--secondary-foreground);
+  font-size: 9pt;
+  margin: 4px 0 0 0;
+}
+
+@media screen and (max-width: 880px) {
+  .tcg.bp-880 {
+    grid-template-columns: 100%;
+  }
+}

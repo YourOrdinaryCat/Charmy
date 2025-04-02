@@ -1,0 +1,6 @@
+@use "base";
+@use "components/tcg";
+
+img[window] {
+  content: var(--window);
+}

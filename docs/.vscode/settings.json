@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "*.jekyll.scss": "jekyll-scss"
+  },
+  "[jekyll-scss]": {
+    "editor.formatOnSave": false
+  },
+  "[html]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[scss]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.css-language-features"
+  }
+}
