@@ -84,6 +84,28 @@
 										TextAlignment="Center"
 										TextWrapping="WrapWholeWords" />
 								</HyperlinkButton>
+
+								<HyperlinkButton
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									NavigateUri="https://yourordinarycat.com/charmy#privacy">
+									<TextBlock
+										x:Uid="MainPagePrivacy"
+										nouac14:TextDecorations="Underline"
+										TextAlignment="Center"
+										TextWrapping="WrapWholeWords" />
+								</HyperlinkButton>
+
+								<HyperlinkButton
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch"
+									NavigateUri="mailto:support@yourordinarycat.com">
+									<TextBlock
+										x:Uid="MainPageSupport"
+										nouac14:TextDecorations="Underline"
+										TextAlignment="Center"
+										TextWrapping="WrapWholeWords" />
+								</HyperlinkButton>
 							</controls:WrapPanel>
 
 							<muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
