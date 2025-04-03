@@ -88,7 +88,7 @@
 								<HyperlinkButton
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch"
-									NavigateUri="https://yourordinarycat.com/charmy#privacy">
+									NavigateUri="https://yourordinarycat.com/Charmy#privacy">
 									<TextBlock
 										x:Uid="MainPagePrivacy"
 										nouac14:TextDecorations="Underline"
