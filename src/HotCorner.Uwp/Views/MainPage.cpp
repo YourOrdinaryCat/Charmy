@@ -163,7 +163,7 @@ namespace winrt::HotCorner::Uwp::Views::implementation {
 	void MainPage::OnCopyVersionClick(const IInspectable&, const wux::RoutedEventArgs&) {
 		const wamdt::DataPackage dp{};
 		dp.RequestedOperation(wamdt::DataPackageOperation::Copy);
-		dp.SetText(L"Charmy - UAP v1.0.0");
+		dp.SetText(L"Charmy - UAP v1.1.0");
 
 		wamdt::Clipboard::SetContent(dp);
 	}

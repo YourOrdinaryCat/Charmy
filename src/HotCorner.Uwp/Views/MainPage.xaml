@@ -58,7 +58,7 @@
 							Margin="0,0,0,17"
 							Spacing="6"
 							XYFocusKeyboardNavigation="Enabled">
-							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.0.0" />
+							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.1.0" />
 
 							<controls:WrapPanel
 								HorizontalSpacing="8"
