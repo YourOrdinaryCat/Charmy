@@ -297,4 +297,10 @@
   <data name="CornerActionNextVirtualDesktop" xml:space="preserve">
     <value>Mostrar siguiente escritorio</value>
   </data>
+  <data name="MainPagePrivacy.Text" xml:space="preserve">
+    <value>Privacidad</value>
+  </data>
+  <data name="MainPageSupport.Text" xml:space="preserve">
+    <value>Soporte</value>
+  </data>
 </root>
