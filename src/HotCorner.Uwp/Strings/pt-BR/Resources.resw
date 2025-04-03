@@ -292,10 +292,10 @@
     <value>Monitor SDI</value>
   </data>
   <data name="CornerActionPreviousVirtualDesktop" xml:space="preserve">
-    <value>Previous desktop</value>
+    <value>Área de trabalho anterior</value>
   </data>
   <data name="CornerActionNextVirtualDesktop" xml:space="preserve">
-    <value>Next desktop</value>
+    <value>Próxima Área de trabalho</value>
   </data>
   <data name="MainPagePrivacy.Text" xml:space="preserve">
     <value>Privacidade</value>
