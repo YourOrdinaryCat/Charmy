@@ -56,7 +56,7 @@
 						<com:ExeServer
 							Arguments="-srv"
 							Executable="HotCorner.Server\HotCorner.Server.exe"
-							LaunchAndActivationPermission="O:SYG:SYD:(A;;11;;;WD)(A;;11;;;RC)(A;;11;;;AC)(A;;11;;;AN)S:P(ML;;NX;;;S-1-16-0)">
+							LaunchAndActivationPermission="O:SYG:SYD:(A;;11;;;WD)(A;;11;;;RC)(A;;11;;;AC)(A;;11;;;AN)(A;;11;;;S-1-15-2-2713733867-3965126987-1241917971-1200521022-771755731-414354104-1137487667)S:P(ML;;NX;;;S-1-16-0)">
 							<com:Class Id="898F12B7-4BB0-4279-B3B1-126440D7CB7A" />
 						</com:ExeServer>
 					</com:ComServer>
