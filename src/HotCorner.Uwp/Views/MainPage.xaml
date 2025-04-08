@@ -58,7 +58,7 @@
 							Margin="0,0,0,17"
 							Spacing="6"
 							XYFocusKeyboardNavigation="Enabled">
-							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.1.0" />
+							<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Charmy - UAP v1.1.1" />
 
 							<controls:WrapPanel
 								HorizontalSpacing="8"
@@ -67,6 +67,7 @@
 								<Button
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch"
+									Click="OnCopyVersionClick"
 									Style="{StaticResource AccentButtonStyle}">
 									<TextBlock
 										x:Uid="MainPageCopyVersion"
