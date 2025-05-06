@@ -4,7 +4,7 @@ layout: home
 
 ## Overview
 
-A lightweight and user-friendly utility that adds customizable hot corners to your computer. Among other things, Charmy features a modern design, allows per-monitor configuration, and supports delayed triggers - that is, triggering a hot corner only if the cursor has sat there for the specified duration.
+A lightweight, user-friendly utility that adds customizable hot corners to your computer. Among other things, Charmy features a modern design, allows per-monitor configuration, and supports delayed triggers - that is, triggering a hot corner only if the cursor has sat there for the specified duration. All free of cost.
 
 ## Available Actions
 
