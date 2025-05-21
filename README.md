@@ -34,7 +34,7 @@ Charmy (listed in the Microsoft Store as "Charmy: Hot Corners for Windows") won'
 
 You may disable those log files by opening the app, going to "About > Log verbosity", and picking "Off". This will not delete previously generated logs - you may visit the folder storing them by opening the app, clicking on "About", and clicking the "Open logs folder" button.
 
-Additionally, if Charmy crashes, and was installed from the Microsoft Store, the developer ({{ site.author }}) might get anonymized information that may include:
+Additionally, if Charmy crashes, and was installed from the Microsoft Store, the developer (YourOrdinaryCat) might get anonymized information that may include:
 
 - Stack trace
 - System specs
