@@ -16,6 +16,47 @@
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
+		<MenuFlyout x:Key="LogVerbosityFlyout" Opening="OnLogVerbosityFlyoutOpening">
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>0</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>1</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>2</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>3</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>4</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>5</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+
+			<MenuFlyoutSeparator />
+
+			<muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
+				<muxc:RadioMenuFlyoutItem.Tag>
+					<x:Int32>6</x:Int32>
+				</muxc:RadioMenuFlyoutItem.Tag>
+			</muxc:RadioMenuFlyoutItem>
+		</MenuFlyout>
+
 		<Flyout x:Key="GeneralFlyout">
 			<StackPanel Width="300" XYFocusKeyboardNavigation="Enabled">
 				<CheckBox
@@ -109,50 +150,10 @@
 								</HyperlinkButton>
 							</controls:WrapPanel>
 
-							<muxc:DropDownButton x:Uid="MainPageLogVerbosity" HorizontalAlignment="Stretch">
-								<muxc:DropDownButton.Flyout>
-									<MenuFlyout Opening="OnLogVerbosityFlyoutOpening">
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageTrace" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>0</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageDebug" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>1</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageInformation" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>2</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageWarning" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>3</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageError" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>4</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageCritical" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>5</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-
-										<MenuFlyoutSeparator />
-
-										<muxc:RadioMenuFlyoutItem x:Uid="MainPageOff" Click="OnLogLevelClick">
-											<muxc:RadioMenuFlyoutItem.Tag>
-												<x:Int32>6</x:Int32>
-											</muxc:RadioMenuFlyoutItem.Tag>
-										</muxc:RadioMenuFlyoutItem>
-									</MenuFlyout>
-								</muxc:DropDownButton.Flyout>
-							</muxc:DropDownButton>
+							<muxc:DropDownButton
+								x:Uid="MainPageLogVerbosity"
+								HorizontalAlignment="Stretch"
+								Flyout="{StaticResource LogVerbosityFlyout}" />
 						</StackPanel>
 					</ScrollViewer>
 				</PivotItem>
